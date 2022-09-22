@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-sm-6 text-black">
 
-        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n2">
+        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n2 ">
 
           <form style="width: 23rem;">
 
