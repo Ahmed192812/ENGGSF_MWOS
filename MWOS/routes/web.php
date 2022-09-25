@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\http\Controllers\AdminController;
+use App\http\Controllers\UserController;
+use App\http\Controllers\CarpenterController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +22,26 @@ Route::get('/', function () {
 });
 Route::get('/login', function () {
     return view('login');
+});
+Route::middleware(['middleware'=>'PreventBack'])->group(function(){
+ Auth::routes();
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+route::group(['prefix'=>'admin','middleware'=>['isAdmin','auth','PreventBack']],function(){
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    // Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
+    
+});
+
+route::group(['prefix'=>'carpenter','middleware'=>['isCarpenter','auth','PreventBack']],function(){
+    Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
+    // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
+    
+});
+
+
+route::group(['prefix'=>'user','middleware'=>['isUser','auth','PreventBack']],function(){
+    Route::get('dashboard',[UserController::class, 'dashboard'])->name('user.dashboard');
+    // Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
 });
