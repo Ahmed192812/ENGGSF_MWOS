@@ -15,13 +15,22 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Register To MOWS') }}</h3>
             
             <div class="form-outline mb-4">
-              <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus />
-                                @error('name')
+              <input id="name" type="text" class="form-control @error('Fname') is-invalid @enderror" name="Fname" value="{{ old('Fname') }}" required autocomplete="first name" autofocus />
+                                @error('Fname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-              <label class="form-label" for="form2Example18">Full Name</label>
+              <label class="form-label" for="form2Example18">First Name</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input id="name" type="text" class="form-control @error('Lname') is-invalid @enderror" name="Lname" value="{{ old('Lname') }}" required autocomplete="last name" autofocus />
+                                @error('Lname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+              <label class="form-label" for="form2Example18">Last Name</label>
             </div>
 
             <div class="form-outline mb-4">
