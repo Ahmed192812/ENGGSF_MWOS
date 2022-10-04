@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\http\Controllers\AdminController;
 use App\http\Controllers\UserController;
 use App\http\Controllers\CarpenterController;
+use App\http\Controllers\mangeUsersController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -31,6 +32,8 @@ Route::middleware(['middleware' => 'PreventBack'])->group(function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventBack']], function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('mangeUsers', [mangeUsersController::class, 'index'])->name('admin.mangeUsers');
+    Route::get('mangeUsersSearch', [mangeUsersController::class, 'index'])->name('admin.usersSearch');
     // Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
 
 });

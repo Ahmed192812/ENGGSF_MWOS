@@ -41,6 +41,9 @@
           <a class="nav-link" href="#">Product</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.mangeUsers')}}">Mange Users</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="#">archives</a>
         </li>
         <li class="nav-item">
