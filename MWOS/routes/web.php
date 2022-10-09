@@ -25,13 +25,20 @@ Route::get('/login', function () {
     return view('login');
 });
 
+
+
+// PRODUCTS CATEGORY ROUTE - LEANDRY
 Route::get('/productCategory', function () {
     return view('productCategory');
 });
 
+// MATERIAL CATEGORY ROUTE - LEANDRY
 Route::get('/materialCategory', function () {
     return view('materialCategory');
 });
+
+
+
 
 //prevent Back to login after registration
 Route::middleware(['middleware' => 'PreventBack'])->group(function () {
