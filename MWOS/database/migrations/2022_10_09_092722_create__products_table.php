@@ -26,6 +26,8 @@ class CreateProductsTable extends Migration
             $table->foreign('material_ID')->references('id')->on('materials')->onDelete('cascade');
             $table->string('description');
             $table->tinyInteger('rating')->nullable();
+            $table->timestamps();
+
 
 
 

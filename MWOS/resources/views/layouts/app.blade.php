@@ -38,7 +38,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Product</a>
+          <a class="nav-link" href="{{ route('admin.productCategory')}}">Product Category</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.mangeUsers')}}">Mange Users</a>

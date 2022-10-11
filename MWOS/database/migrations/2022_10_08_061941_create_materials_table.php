@@ -20,6 +20,7 @@ class CreateMaterialsTable extends Migration
             $table->unsignedBigInteger('matCategory_ID');
             $table->foreign('matCategory_ID')->references('id')->on('material_categories')->onDelete('cascade');
             $table->float('costPerUnit');
+            $table->timestamps();
 
         });
     }
