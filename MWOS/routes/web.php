@@ -32,6 +32,10 @@ Route::get('/productCategory', function () {
     return view('productCategory');
 });
 
+Route::get('/products', function () {
+    return view('products');
+});
+
 // MATERIAL CATEGORY ROUTE - LEANDRY
 Route::get('/materialCategory', function () {
     return view('materialCategory');
