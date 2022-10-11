@@ -104,7 +104,7 @@
                                     <button type="button" class="btn btn-sm btn-danger">Delete</button>
                                 </div>
                             </div>
-                            <p class="text-muted fst-italic">Wooden Sofa Bed | Chair</p>
+                            <p class="text-muted fst-italic">Wooden Sofa Bed</p>
                             <p>Height: | Width: | </p>
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus ipsum vitae quam feugiat, vel dapibus ex lobortis. Maecenas ornare risus sit amet neque egestas, quis auctor mi blandit. Ut volutpat nibh id aliquet cursus. Aliquam mattis dapibus magna eget sollicitudin. Nulla id quam eget odio fringilla pretium. Duis volutpat ullamcorper mauris a semper. Aenean malesuada felis ligula, eget condimentum lacus iaculis non.
