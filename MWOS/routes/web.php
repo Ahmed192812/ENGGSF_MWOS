@@ -5,6 +5,7 @@ use App\http\Controllers\AdminController;
 use App\http\Controllers\UserController;
 use App\http\Controllers\CarpenterController;
 use App\http\Controllers\mangeUsersController;
+use App\http\Controllers\ProductCategoryController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -28,9 +29,9 @@ Route::get('/login', function () {
 
 
 // PRODUCTS CATEGORY ROUTE - LEANDRY
-Route::get('/productCategory', function () {
-    return view('productCategory');
-});
+// Route::get('/productCategory', function () {
+//     return view('productCategory');
+// });
 
 // MATERIAL CATEGORY ROUTE - LEANDRY
 Route::get('/materialCategory', function () {
@@ -50,7 +51,11 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('mangeUsers', [mangeUsersController::class, 'index'])->name('admin.mangeUsers');
     Route::get('mangeUsersSearch', [mangeUsersController::class, 'index'])->name('admin.usersSearch');
-    // Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::get('productCategory', [ProductCategoryController::class, 'index'])->name('admin.productCategory');
+    Route::get('productCategorySearch', [ProductCategoryController::class, 'index'])->name('admin.productCategorySearch');
+    Route::post('add-update-productCategory', [ProductCategoryController::class, 'store'])->name('admin.add-update-productCategory');
+    Route::post('edit-productCategory', [ProductCategoryController::class, 'edit'])->name('admin.edit-productCategory');
+    Route::post('delete-productCategory', [ProductCategoryController::class, 'destroy'])->name('admin.delete-productCategory');
 
 });
 //Routes for Carpenter

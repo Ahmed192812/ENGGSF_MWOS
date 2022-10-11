@@ -4,18 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductCategoryTable extends Migration
+class CreateProductCategorysTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
+
     public function up()
-    {
-        Schema::create('product_category', function (Blueprint $table) {
+    { 
+        Schema::create('product_categorys', function (Blueprint $table) {
             $table->id();
             $table->string('prodCategory');
+            $table->timestamps();
+
         });
     }
 
