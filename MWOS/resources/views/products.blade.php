@@ -3,14 +3,24 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-3">
+        <div class="col-4">
         </div>
-        <div class="col-3">
+        <div class="col-4">
         </div>
-        <div class="col-3">
+        <div class="col-2 text-end">
+            <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="col-3 text-end">
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">+ Add Product</button>
+        <div class="col-2 text-end">
+            <button type="button" class="btn btn-sm btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addModal">+ Add Product</button>
         </div>
     </div>
 
@@ -23,11 +33,52 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Image</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Category</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Siza</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Downpayment</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Material</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -75,11 +126,52 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Product Category</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Siza</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Downpayment</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Material</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rating</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
