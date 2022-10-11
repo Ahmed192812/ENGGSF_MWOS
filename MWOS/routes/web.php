@@ -38,8 +38,8 @@ Route::get('/products', function () {
 });
 
 // MATERIAL CATEGORY ROUTE - LEANDRY
-Route::get('/materialCategory', function () {
-    return view('materialCategory');
+Route::get('/material', function () {
+    return view('material');
 });
 
 
