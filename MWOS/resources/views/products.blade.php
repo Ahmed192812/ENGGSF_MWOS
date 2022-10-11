@@ -23,7 +23,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+                    ...
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -40,36 +40,6 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 text-center align-bottom">
-                            <img src="{{asset('imgs/products/p_stand.png')}}" style="width: 250px;">
-                        </div>
-                        <div class="col-sm-12 col-md-8">
-                            <div class="row">
-                                <div class="col">
-                                    <h2>MARK</h2>
-                                </div>
-                                <div class="col text-end">
-                                    <button type="button" class="btn btn-sm btn-info">Edit</button>
-                                    <button type="button" class="btn btn-sm btn-danger">Delete</button>
-                                </div>
-                            </div>
-                            <p class="text-muted fst-italic">Plywood TV Stand | Table</p>
-                            <p>Height: | Width: | </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent cursus ipsum vitae quam feugiat, vel dapibus ex lobortis. Maecenas ornare risus sit amet neque egestas, quis auctor mi blandit. Ut volutpat nibh id aliquet cursus. Aliquam mattis dapibus magna eget sollicitudin. Nulla id quam eget odio fringilla pretium. Duis volutpat ullamcorper mauris a semper. Aenean malesuada felis ligula, eget condimentum lacus iaculis non.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
                         <div class="col-4 text-center align-middle">
                             <img src="{{asset('imgs/products/sofa_bed.png')}}" style="width: 250px;">
                         </div>
@@ -79,7 +49,7 @@
                                     <h2>SHANE</h2>
                                 </div>
                                 <div class="col text-end">
-                                    <button type="button" class="btn btn-sm btn-info">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
                                     <button type="button" class="btn btn-sm btn-danger">Delete</button>
                                 </div>
                             </div>
@@ -96,6 +66,23 @@
     </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- <table class="table table-striped m-0 align-middle border">
