@@ -19,7 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('prodCategory_ID');
             $table->foreign('prodCategory_ID')->references('id')->on('product_category')->onDelete('cascade');
-            $table->string('size');
+            $table->integer('tall');
+            $table->integer('hight');
+            $table->integer('width');
             $table->string('priceFull');
             $table->string('priceDp');
             $table->unsignedBigInteger('material_ID');

@@ -6,6 +6,9 @@ use App\http\Controllers\UserController;
 use App\http\Controllers\CarpenterController;
 use App\http\Controllers\mangeUsersController;
 use App\http\Controllers\ProductCategoryController;
+use App\http\Controllers\MaterialsController;
+use App\http\Controllers\ProductsController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -38,9 +41,9 @@ Route::get('/products', function () {
 });
 
 // MATERIAL CATEGORY ROUTE - LEANDRY
-Route::get('/material', function () {
-    return view('material');
-});
+// Route::get('/material', function () {
+//     return view('material');
+// });
 
 
 
@@ -60,7 +63,16 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('add-update-productCategory', [ProductCategoryController::class, 'store'])->name('admin.add-update-productCategory');
     Route::post('edit-productCategory', [ProductCategoryController::class, 'edit'])->name('admin.edit-productCategory');
     Route::post('delete-productCategory', [ProductCategoryController::class, 'destroy'])->name('admin.delete-productCategory');
-
+    Route::get('material', [MaterialsController::class, 'index'])->name('admin.material');
+    Route::get('materialSearch', [MaterialsController::class, 'index'])->name('admin.materialSearch');
+    Route::post('add-update-material', [MaterialsController::class, 'store'])->name('admin.add-update-material');
+    Route::post('edit-material', [MaterialsController::class, 'edit'])->name('admin.edit-material');
+    Route::post('delete-material', [MaterialsController::class, 'destroy'])->name('admin.delete-material');
+    Route::get('products', [ProductsController::class, 'index'])->name('admin.products');
+    Route::get('productsSearch', [ProductsController::class, 'index'])->name('admin.productsSearch');
+    Route::post('add-update-products', [ProductsController::class, 'store'])->name('admin.add-update-products');
+    Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
+    Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
 });
 //Routes for Carpenter
 

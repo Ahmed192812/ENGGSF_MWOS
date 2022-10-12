@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Materials extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'image',
+        'name',
+        'costPerUnit',
+    ];
 }

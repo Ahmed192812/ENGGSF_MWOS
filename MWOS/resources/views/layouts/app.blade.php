@@ -37,11 +37,18 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
+       
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.mangeUsers')}}">Mange Users</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.productCategory')}}">Product Category</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin.mangeUsers')}}">Mange Users</a>
+          <a class="nav-link" href="{{ route('admin.material')}}">Materials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('admin.products')}}">Products</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">archives</a>
