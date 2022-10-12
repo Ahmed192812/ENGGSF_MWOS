@@ -46,6 +46,7 @@ Route::get('/products', function () {
 // });
 
 
+// comment
 
 
 //prevent Back to login after registration
