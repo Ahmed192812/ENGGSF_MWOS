@@ -42,7 +42,7 @@
                 <div class="modal-body">
                     <form action="javascript:void(0)" id="addEditBookForm" name="addEditBookForm" method="POST" enctype="multipart/form-data">
                     <span id="message" class="invalid-feedback" role="alert" red></span>
-                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id" id="id" >
 
                         <div class="mb-3">
                             <label class="form-label">Image</label>
@@ -55,9 +55,9 @@
                         <div class="mb-3">
                             <label class="form-label">Product Category</label>
                             <select name="prodCategory_ID" id="prodCategory_ID" class="form-control">
-                                <option selected>select product category</option>
+                                <option value="" selected>select product category</option>
                                 @foreach ($productCategory as $oneProductCategory)
-                                <option value="{{$oneProductCategory->id}}">{{$oneProductCategory->prodCategory}}</option>
+                                <option value="{{$oneProductCategory->productCategoryId}}">{{$oneProductCategory->prodCategory}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -81,9 +81,9 @@
                         <div class="mb-3">
                             <label class="form-label">Material</label>
                             <select name="material_ID" id="material_ID" class="form-control">
-                                <option selected>select Material</option>
+                                <option value="" selected>select Material</option>
                                 @foreach ($Materials as $Material)
-                                <option value="{{$Material->id}}">{{$Material->name}}</option>
+                                <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                                 @endforeach
 
                             </select>
@@ -291,7 +291,7 @@
  
     $('body').on('click', '.edit', function () {
         var id = $(this).data('id');
-         
+         alert(id);
         // ajax
         $.ajax({
             type:"POST",
@@ -360,7 +360,7 @@
             let dataForm = new FormData(myForm);
           $("#btn-save").html('Please Wait...');
           $("#btn-save"). attr("disabled", true);
-         
+         alert(res.dataForm);
         // ajax
        
         $.ajax({

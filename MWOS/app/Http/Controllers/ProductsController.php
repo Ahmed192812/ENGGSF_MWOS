@@ -19,8 +19,8 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        $productCategory  = productCategory::all(); 
-        $Materials  = Materials::all();
+        $productCategory  =DB::table('product_categorys')->select('id as productCategoryId','prodCategory')->get(); 
+        $Materials  = DB::table('Materials')->select('id as MaterialsId','name')->get();
         $search = $request->get('search');
                 if($search!=""){
             //         $Products =  DB::table('Products')
@@ -42,7 +42,7 @@ class ProductsController extends Controller
             $Products = DB::table('Products')
             ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
             ->join('materials', 'Products.material_ID', '=', 'materials.id')
-            ->select('Products.*', 'materials.name as materialName','prodCategory',)->paginate(4);
+            ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.hight','Products.priceFull','Products.priceDp','Products.description','materials.name as materialName','prodCategory',)->paginate(7);
             return view('admin.Products',compact('productCategory','Products','Materials'));
         }
 
