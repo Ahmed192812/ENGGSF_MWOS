@@ -360,7 +360,7 @@
             let dataForm = new FormData(myForm);
           $("#btn-save").html('Please Wait...');
           $("#btn-save"). attr("disabled", true);
-         alert(res.dataForm);
+        //   alert("hello");
         // ajax
        
         $.ajax({
