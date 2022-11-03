@@ -30,7 +30,6 @@ class UserController extends Controller
             'PHnumber' => [ 'string', 'max:15'],
             'Address' => [ 'string','max:255',],
         ]);
-        $oldEmail = auth()->user()->email;
         $user = User::find($request->id);
         // Getting values from the blade template form
         $user->Fname =  $request->Fname;
@@ -41,13 +40,7 @@ class UserController extends Controller
 
 
         $user->save();
-        if ($oldEmail != $request->email) {
-            auth()->user()->update([
-                'email_verified_at' => null
-            ]);
-            auth()->user()->sendEmailVerificationNotification();
-
-        }
+ 
         return back()->with('message','Profile Updated');
     }
     
