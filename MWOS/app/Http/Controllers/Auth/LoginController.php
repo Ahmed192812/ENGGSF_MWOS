@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -27,6 +29,9 @@ class LoginController extends Controller
      *
      * @var string
      */
+
+
+     
     protected $redirectTo = RouteServiceProvider::HOME;
     protected function redirectTo(){
         if(Auth()->user()->role ==1){
@@ -54,9 +59,13 @@ class LoginController extends Controller
     {
         $input = $request->all();
         $this->validate($request,[
-            'email'=>'required|email',
-            'password'=>'required'
-        ]);
+            'email' => 'required|exists:users',
+            'password' => 'required|',
+           
+        ],
+        [ 'email.exists' => "We could not find your account.",
+        ],
+    );
 
         if (auth()->attempt(array('email'=>$input['email'],'password'=>$input['password']))) {
 
@@ -73,9 +82,18 @@ class LoginController extends Controller
            
         }
         else{
-            // return redirect()->back()->with('error','Email or Password are Wrong');
-            return redirect()->route('login')->with('error','Email or Password is Wrong');
-
-        }
-    }
+       
+                $errors = ['password' => 'Wrong password'];
+            
+        
+            if ($request->expectsJson()) {
+                return response()->json($errors, 422);
+            }
+            return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors($errors);
+            
+       
+    };
+}
 }
