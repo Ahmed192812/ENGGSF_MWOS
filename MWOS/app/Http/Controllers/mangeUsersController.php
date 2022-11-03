@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class mangeUsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth','verified']);
+    }
     public function index(Request $request)
     {
         $search = $request->get('search');
