@@ -51,7 +51,7 @@ Route::get('/products', function () {
 
 //prevent Back to login after registration
 Route::middleware(['middleware' => 'PreventBack'])->group(function () {
-    Auth::routes(['verify'=>true]);
+    Auth::routes();
 });
 //Routes for Admin
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
