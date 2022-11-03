@@ -10,31 +10,30 @@
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n2 ">
 
           <form method="POST" action="{{ route('login') }}" style="width: 23rem;">
-          @if(Session::get('error'))
-                        <div class="alert alert-danger">
-                            {{Session::get('error')}}
-                        </div>
-                @endif
+          
                 @csrf
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Login') }}</h3>
 
             <div class="form-outline mb-4">
               <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </br>
               <label class="form-label" for="form2Example18">Email address</label>
             </div>
 
             <div class="form-outline mb-4">
-              <input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" />
+              <input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" />
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                </br>
+
               <label class="form-label" for="form2Example28">Password</label>
             </div>
 
