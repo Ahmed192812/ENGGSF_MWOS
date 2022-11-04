@@ -32,6 +32,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
+      @if(Auth::check() && Auth::user()->role == 1) 
         <li class="nav-item">
           <a class="nav-link" href="#">Dashboard
             <span class="visually-hidden">(current)</span>
@@ -66,6 +67,55 @@
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
         </li>
+        @elseif(Auth::check() && Auth::user()->role == 2) 
+        <li class="nav-item">
+          <a class="nav-link" href="#">Dashboard
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link" href="#">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">something</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">contact us</a>
+        </li>
+        @else 
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link" href="#">about us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">glary</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Our services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Our products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Customer evaluation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">contact us</a>
+        </li>
+        @endif
       </ul>
       <!--right side -->
       <ul class="navbar-nav ms-auto">
