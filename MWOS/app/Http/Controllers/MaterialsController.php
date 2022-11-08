@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\Materials;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
@@ -55,14 +55,13 @@ else{
    
     public function store(Request $request)
     {
-        $request->validate([
+        $validator= Validator::make($request->all(),[
+            'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
             'name' => ['required', 'string', 'max:255'],
             'costPerUnit' => ['required', 'numeric'],
-            'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
 
         ]);
-        $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
-        $request->image->move(public_path('imgs\materials'),$newImgName);
+       
         if($request->id)
         {
         $Materials  =  Materials::find($request->id);
@@ -70,19 +69,22 @@ else{
         else{
         $Materials = new Materials();
         }
-       
-               $Materials->name = $request->name;
-               $Materials->costPerUnit= $request->costPerUnit;
-               $Materials->image = $newImgName;
+        if (!$validator->passes()) {
+            return response()->json(['status'=>0,'error'=>$validator->errors()->toArray()]);
+        }
+        else{
+            $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
+            $request->image->move(public_path('imgs\materials'),$newImgName);
 
-                $Materials->save();
+            $Materials->name = $request->name;
+            $Materials->costPerUnit= $request->costPerUnit;
+            $Materials->image = $newImgName;
+
+             $Materials->save();
+             return response()->json(['status'=>1,'msg'=>'saved successfully']);
+        }
+       
                   
-    
-                 return response()->json(['success' => true]);
-                 if ($Materials->fails())
-                    {
-                        return response()->json(['error' => true]);
-                    }
     }
     
     
@@ -96,8 +98,9 @@ else{
     {   
         $where = array('id' => $request->id);
         $Materials  = Materials::where($where)->first();
- 
+        
         return response()->json($Materials);
+        
     }
  
    

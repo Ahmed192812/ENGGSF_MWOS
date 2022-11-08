@@ -13,6 +13,7 @@
 @section('content')
 <br>
 <div class="container">
+                           
     <div class="row">
         <div class="col-3">
         <form action="{{ route('admin.productCategorySearch') }}" method="GET">
@@ -29,7 +30,13 @@
         <div class="col-1">
      
         </div>
-        <div class="col-5">
+        <div class="col-4">
+        @if ($message = Session::get('success'))
+<div class="alert alert-success alert-block">
+    <button type="button" class="close" data-dismiss="alert">×</button>    
+    <strong>{{ $message }}</strong>
+</div>
+@endif
         @if(isset($NoFound))
 <div class="alert alert-danger ml-5 mr-5">
         {{ $NoFound }}
@@ -39,17 +46,36 @@
        {{$found}}
     </div>
     @endif
+    @error('prodCategory')
+                                    <span class="text-danger " style="margin-left: 20%;">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror                    
         </div>
         
-        <div class="col-3 text-end">
-            <button id="addNewBook" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Product Type</button>
+        <div class="col-4 text-end">
+        <form action="{{ route('admin.add-update-productCategory') }}" method="POST">
+        @csrf
+                <div class="row" style="margin: 0px; width: 450px; padding-right: 20px;">
+                    <div class="col-7">
+                    <input type="text" name="prodCategory" class="form-control col-8" placeholder="Add New Category" >
+                              
+                    </div>
+                    <div class="col-5">
+                    <button class="btn btn-primary" type="submit">+ Add Category</button>
+                    </div>
+                </div>
+                </form>
+            <!-- <button id="addNewBook" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Product Type</button> -->
         </div>
     </div>
-
+ 
     <br>
-
+   
     <div class="row mb-2 text-center">
+  
         <div class="col">
+        
             <table class="table table-striped m-0 align-bottom border">
                 <thead>
                     <tr>
@@ -63,9 +89,14 @@
                 @foreach ($product_category as $oneProductCategory)
                     <tr>
                         <td class="col-2">{{ $oneProductCategory->id}}</th>
-                        <td class="col-6">{{ $oneProductCategory->prodCategory}}</td>
+                        <form action="{{ route('admin.add-update-productCategory')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$oneProductCategory->id}}">
+                        <td class="col-6"> <input type="text" class="form-control " name="prodCategory" value="{{ $oneProductCategory->prodCategory}}"></td>
                         <td class="col-4">
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 edit" data-id="{{ $oneProductCategory->id }}">Edit</a>
+                                <button type="submit" class="btn btn-sm btn-secondary rounded-pill px-3 edit" >Edit</button>
+                            </form>
+                            
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $oneProductCategory->id }}">Delete</a>
                         </td>
                     </tr>
@@ -81,13 +112,17 @@
                     
                 </tbody>
             </table>
+            <div style="margin-left: 41%; padding-top: 12px;">
+                {!! $product_category->links() !!}
+            </div>
+
         </div>
     </div>
 </div>
 
 
 
-<div class="modal fade" id="ajax-book-model" aria-hidden="true">
+<!-- <div class="modal fade" id="ajax-book-model" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -104,12 +139,12 @@
               <div class="form-group">
                 <label for="productCategory" class="col-sm-4 control-label">product Category</label>
                 <div class="col-sm-12 mt-2">
-                  <input id="prodCategory" name="prodCategory" type="text" class="form-control form-control-lg @error('productCategory') is-invalid @enderror" value="">
-                  @error('productCategory')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>error</strong>
+                  <input id="prodCategory" name="prodCategory" type="text" class="form-control form-control-lg " value="">
+                  @error('prodCategory')
+                                    <span class="text-danger">
+                                        <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
+                                @enderror 
                 </div>
               </div>  
               <div class="col-sm-offset-2 col-sm-10 mt-2">
@@ -123,10 +158,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
-
+   
 
     
     <script type="text/javascript">
@@ -136,161 +171,42 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#addNewBook').click(function () {
-       $('#addEditBookForm').trigger("reset");
-       $('#ajaxBookModel').html("Add product Category");
-       $('#ajax-book-model').modal('show');
-    });
- 
-    $('body').on('click', '.edit', function () {
-        var id = $(this).data('id');
-         console.log(id);
-        // ajax
-        $.ajax({
-            type:"POST",
-            url: "{{ route('admin.edit-productCategory') }}",
-            data: { id:id },
-            dataType: 'json',
-            success: function(res){
-              $('#ajaxBookModel').html("Edit product Category");
-              $('#ajax-book-model').modal('show');
-              $('#id').val(res.id);
-              $('#prodCategory').val(res.prodCategory);
-             
-           }
-              
-        });
-          
-
-    });
     $('body').on('click', '.delete', function () {
 
 
-                    Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-            if (result.isConfirmed) {
-                var id = $(this).data('id');
-                    // ajax
-                    $.ajax({
-                        type:"POST",
-                        url: "{{ route('admin.delete-productCategory') }}",
-                        data: { id: id },
-                        dataType: 'json',
-                        success: function(res){
-                        window.location.reload();
-                        }
-                    });
-                Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-                )
-            }
-            })
+Swal.fire({
+title: 'Are you sure?',
+text: "You won't be able to revert this!",
+icon: 'warning',
+showCancelButton: true,
+confirmButtonColor: '#3085d6',
+cancelButtonColor: '#d33',
+confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+if (result.isConfirmed) {
+var id = $(this).data('id');
+// ajax
+$.ajax({
+    type:"POST",
+    url: "{{ url('admin/delete-productCategory') }}",
+    data: { id: id },
+    dataType: 'json',
+    success: function(res){
+    window.location.reload();
+    }
+});
+Swal.fire(
+'Deleted!',
+'YRecord has been deleted.',
+'success'
+)
+}
+})
 
-    });
-
-//1st one
-
-// $('body').on('click', '#btn-save', function (e) {
-//            e.preventDefault()
-//             var url = "{{route('admin.add-update-productCategory')}}";
-//             let myForm = document.getElementById('addEditBookForm');
-//             let dataForm = new FormData(myForm);
-//           $("#btn-save").html('Please Wait...');
-//           $("#btn-save"). attr("disabled", true);
-//         // ajax
-       
-//         $.ajax({
-//             type:"POST",
-//             url:url,
-//             data:dataForm,
-//             contentType: false,
-//             processData:false,
-//             cache: false,
-//             dataType: 'json',
-
-//             success: function(res){
-//             $("#btn-save").html('Submit');
-//             $("#btn-save"). attr("disabled", false);
-//             window.location.reload();
-//             Swal.fire(
-//             'Saved',
-//             'airline information have been saved successfully',
-//             'success'
-//             )
-//            },
-           
-//            error: function(res){
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Save failed',
-//                 text: 'All fields are required',
-//               })   
-//               $("#btn-save").html('Save');
-//              $("#btn-save"). attr("disabled", false);
-     
-//              }
-        
-//         });
-      
-//     });
-    
+});
+});
 
 
+</script> 
 
-
-//2ed one 
-
-    $('body').on('click', '#btn-save', function (event) {
-          var id = $("#id").val();
-          var prodCategory = $("#prodCategory").val();
-          $("#btn-save").html('Please Wait...');
-          $("#btn-save").attr("disabled", true);
-            alert(prodCategory);
-        // ajax
-       
-        $.ajax({
-            type:"POST",
-            url: "{{ route('admin.add-update-productCategory') }}",
-            data:{
-              id:id,
-              prodCategory:prodCategory,
-            },
-            dataType: 'json',
-            success: function(res){
-             window.location.reload();
-            $("#btn-save").html('Submit');
-            $("#btn-save").attr("disabled", false);
-            Swal.fire(
-            'Saved successfully',
-            'product Category information saved',
-            'success'
-            )
-           },
-           error: function(res){
-            Swal.fire({
-                icon: 'error',
-                title: 'Save failed',
-                text: 'All fields are required',
-              })   
-              $("#btn-save").html('Save');
-             $("#btn-save"). attr("disabled", false);
-     
-             }
-        
-        });
-      
-    });
-      
-    });
-
-</script>
 @endsection

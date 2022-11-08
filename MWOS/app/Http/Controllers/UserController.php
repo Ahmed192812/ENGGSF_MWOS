@@ -7,10 +7,7 @@ use App\Http\Controllers\Auth;
 use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth','verified']);
-    }
+
     public function dashboard()
     {  
         return view('user.dashboardUser');
@@ -30,8 +27,8 @@ class UserController extends Controller
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'PHnumber' => [ 'string', 'max:15'],
-            'Address' => [ 'string','max:255',],
+            'PHnumber' => ['max:15'],
+            'Address' => [ 'max:255',],
         ]);
         $oldEmail = auth()->user()->email;
         $user = User::find($request->id);

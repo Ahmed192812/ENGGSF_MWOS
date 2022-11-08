@@ -57,28 +57,43 @@ class ProductCategoryController extends Controller
    
     public function store(Request $request)
     {
-
-        $request->validate([
-            'prodCategory' => ['required', 'string', 'max:255'],
-        ]);
+     
         
         if($request->id)
         {
-
+            // $where = $request->id;
+            
+            // $Selectprodcatecory =  DB::table('product_categorys')->where('id',$where)->first('prodCategory');
+            $vlidateData=$request->validate([
+                'prodCategory' => 'required|string|max:255|unique:product_categorys',       
+            ],
+            [ 'prodCategory.unique' => "this category is exist !",
+            ],
+            [ 'prodCategory.!$Selectprodcatecory' => "it is the same category name !",
+        ],
+        );
         $ProductCategory = ProductCategory::find($request->id);
         }
         else {
+            
+        $vlidateData=$request->validate([
+            'prodCategory' => 'required|string|max:255|unique:product_categorys',       
+        ],
+        [ 'prodCategory.unique' => "this category is exist !",
+        ],
+    );
         $ProductCategory = new ProductCategory();
         }
                 $ProductCategory->prodCategory = $request->prodCategory;
             
                 $ProductCategory->save();
-                return response()->json(['success' => true]);
-
-                if ($ProductCategory->fails())
-                   {
-                       return response()->json(['error' => true]);
-                   }
+                
+                if (isset($request->id)) {
+                 return redirect()->back()->with('success','Product Has Been Updated Successfully');
+                }
+                else {
+                    return redirect()->back()->with('success','Product Created Successfully');
+                }
                    
     }
     
@@ -93,7 +108,8 @@ class ProductCategoryController extends Controller
     {   
         $where = array('id' => $request->id);
         $productCategory  = ProductCategory::where($where)->first();
-        return response()->json($productCategory);
+        return redirect()->back()->with($productCategory);
+
     }
  
    
@@ -105,6 +121,7 @@ class ProductCategoryController extends Controller
      */
     public function destroy(Request $request)
     {
+
         $product_category = productCategory::where('id',$request->id)->delete();
         return response()->json(['success' => true]);
     }

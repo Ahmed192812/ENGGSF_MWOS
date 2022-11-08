@@ -57,14 +57,18 @@
                         <div class="mb-3">
                             <label class="form-label">Image</label>
                             <input id="image" name="image" type="file" class="form-control" value="" required>
+                            <span class="text-danger error-text image_error"></span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Name</label>
                             <input id="name" name="name" type="text" class="form-control" value="" required>
+                            <span class="text-danger error-text name_error"></span>
+
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Cost Per Unit</label>
                             <input id="costPerUnit" name="costPerUnit" type="number" class="form-control" value="" required>
+                            <span class="text-danger error-text costPerUnit_error"></span>
                         </div>
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -119,6 +123,8 @@
                         @endif
                 </tbody>
             </table>
+            {!! $Materials->links() !!}
+
         </div>
     </div>
 </div>
@@ -153,7 +159,10 @@
               $('#id').val(res.id);
               $('#name').val(res.name);
               $('#costPerUnit').val(res.costPerUnit);
+              
               $('#image').val(res.image);
+            //   console.log(image);
+
            }
               
         });
@@ -199,8 +208,7 @@
             var url = "{{ url('admin/add-update-material') }}";
             let myForm = document.getElementById('addEditBookForm');
             let dataForm = new FormData(myForm);
-          $("#btn-save").html('Please Wait...');
-          $("#btn-save"). attr("disabled", true);
+          
          
         // ajax
        
@@ -212,27 +220,31 @@
             processData:false,
             cache: false,
             dataType: 'json',
-            success: function(res){
-            $("#btn-save").html('Submit');
-            $("#btn-save"). attr("disabled", false);
-            window.location.reload();
-            Swal.fire(
-            'Saved',
-            'Material information have been saved successfully',
-            'success'
-            )
+            beforeSend:function(){
+                $(document).find('span.error-text').text('');
+            },
+            success: function(data){
+                if (data.status == 0) {
+                    $.each(data.error, function(prefix,val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+                }
+                else{
+                    window.location.reload();
+                    Swal.fire(
+                    'Saved',
+                    data.msg,
+                    'success'
+                    )
+
+                }
+            // $("#btn-save").html('Submit');
+            // $("#btn-save"). attr("disabled", false);
+            // window.location.reload();
+            
            
            },
-           error: function(res){
-            Swal.fire({
-                icon: 'error',
-                title: 'Save failed',
-                text: 'All fields are required',
-              })   
-              $("#btn-save").html('Save');
-             $("#btn-save"). attr("disabled", false);
-     
-             }
+         
         
         });
       

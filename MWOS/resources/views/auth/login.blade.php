@@ -8,6 +8,12 @@
       <div class="col-sm-6 text-black">
 
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n2 ">
+       
+                                @error('attempt')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
 
           <form method="POST" action="{{ route('login') }}" style="width: 23rem;">
           

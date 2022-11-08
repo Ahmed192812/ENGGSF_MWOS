@@ -52,6 +52,7 @@ Route::get('/products', function () {
 //prevent Back to login after registration
 Route::middleware(['middleware' => 'PreventBack'])->group(function () {
     Auth::routes(['verify'=>true]);
+//    Route::get('auth.login','LoginController@formLogin');
 });
 //Routes for Admin
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -59,6 +60,11 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('mangeUsers', [mangeUsersController::class, 'index'])->name('admin.mangeUsers');
     Route::get('mangeUsersSearch', [mangeUsersController::class, 'index'])->name('admin.usersSearch');
+    Route::get('mangeUsersFilter', [mangeUsersController::class, 'index'])->name('admin.mangeUsersFilter');
+    Route::post('add-update-mangeUsers', [mangeUsersController::class, 'store'])->name('admin.add-update-mangeUsers');
+    Route::post('edit-mangeUsers', [mangeUsersController::class, 'edit'])->name('admin.edit-mangeUsers');
+    Route::post('delete-mangeUsers', [mangeUsersController::class, 'destroy'])->name('admin.delete-mangeUsers');
+
     Route::get('productCategory', [ProductCategoryController::class, 'index'])->name('admin.productCategory');
     Route::get('productCategorySearch', [ProductCategoryController::class, 'index'])->name('admin.productCategorySearch');
     Route::post('add-update-productCategory', [ProductCategoryController::class, 'store'])->name('admin.add-update-productCategory');
