@@ -77,6 +77,7 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('delete-material', [MaterialsController::class, 'destroy'])->name('admin.delete-material');
     Route::get('products', [ProductsController::class, 'index'])->name('admin.products');
     Route::get('productsSearch', [ProductsController::class, 'index'])->name('admin.productsSearch');
+    Route::get('productsFilter', [ProductsController::class, 'index'])->name('admin.productsFilter');
     Route::post('add-update-products', [ProductsController::class, 'store'])->name('admin.add-update-products');
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');

@@ -78,7 +78,7 @@ tbody td {
                     Filter
                 </button>
                 <ul class="dropdown-menu">
-                @php $admin = 1; $customer = 2;$carpenter = 3 @endphp
+                <!-- @php $admin = 1; $customer = 2;$carpenter = 3 @endphp -->
                     <li>
                       <form action="{{ route('admin.mangeUsersFilter') }}" method="GET">
                         <input type="hidden" name="filter" value="1">

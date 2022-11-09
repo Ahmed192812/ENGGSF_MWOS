@@ -52,23 +52,23 @@
                 </div>
                 <div class="modal-body">
                      <form action="javascript:void(0)" id="addEditBookForm" name="addEditBookForm" method="POST" enctype="multipart/form-data" >
-                     <span id="message" class="invalid-feedback" role="alert" red></span>
+                     <span  class="invalid-feedback errorSpan" role="alert" red></span>
                       <input type="hidden" name="id" id="id">
                         <div class="mb-3">
                             <label class="form-label">Image</label>
-                            <input id="image" name="image" type="file" class="form-control" value="" required>
-                            <span class="text-danger error-text image_error"></span>
+                            <input id="image" name="image" type="file" class="form-control" value="" >
+                            <span  class="text-danger error-text image_error errorSpan"></span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Name</label>
                             <input id="name" name="name" type="text" class="form-control" value="" required>
-                            <span class="text-danger error-text name_error"></span>
+                            <span class="text-danger error-text name_error errorSpan"></span>
 
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Cost Per Unit</label>
                             <input id="costPerUnit" name="costPerUnit" type="number" class="form-control" value="" required>
-                            <span class="text-danger error-text costPerUnit_error"></span>
+                            <span class="text-danger error-text costPerUnit_error errorSpan"></span>
                         </div>
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -132,6 +132,7 @@
 <!-- ajax amd Js code -->
 
 <script type="text/javascript">
+      
  $(document).ready(function($){
     $.ajaxSetup({
         headers: {

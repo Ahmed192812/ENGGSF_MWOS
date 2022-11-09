@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Products;
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\productCategory;
 use App\Models\Materials;
 
@@ -25,6 +27,7 @@ class ProductsController extends Controller
     {
         $productCategory  =DB::table('product_categorys')->select('id as productCategoryId','prodCategory')->get(); 
         $Materials  = DB::table('Materials')->select('id as MaterialsId','name')->get();
+        $filter = $request->get('filter');
         $search = $request->get('search');
                 if($search!=""){
             //         $Products =  DB::table('Products')
@@ -42,11 +45,35 @@ class ProductsController extends Controller
 
             
         }
+        elseif ($filter!="") {
+           
+                $Products =  DB::table('Products')
+                ->where('prodCategory_ID',$filter)
+                ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
+                ->join('materials', 'Products.material_ID', '=', 'materials.id')
+                ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.hight','Products.priceFull','Products.priceDp','Products.description','materials.name as materialName','prodCategory',)
+                ->paginate(4);
+                $count = $Products->total(); 
+                if ($count == 0) {
+                    $Products = DB::table('Products')
+                    ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
+                    ->join('materials', 'Products.material_ID', '=', 'materials.id')
+                    ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.hight','Products.priceFull','Products.priceDp','Products.description','materials.name as materialName','prodCategory',)->paginate(4);
+                    return view('admin.Products',compact('productCategory','Products','Materials'))->with('error','this category has no product !');
+                }
+                else{
+                    return view('admin.Products',compact('productCategory','Products','Materials'));
+
+                }
+            
+           
+           
+        }
         else{
             $Products = DB::table('Products')
             ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
             ->join('materials', 'Products.material_ID', '=', 'materials.id')
-            ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.hight','Products.priceFull','Products.priceDp','Products.description','materials.name as materialName','prodCategory',)->paginate(7);
+            ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.hight','Products.priceFull','Products.priceDp','Products.description','materials.name as materialName','prodCategory',)->paginate(4);
             return view('admin.Products',compact('productCategory','Products','Materials'));
         }
 
@@ -63,8 +90,8 @@ class ProductsController extends Controller
    
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+        $validator= Validator::make($request->all(),[
+            'image' => ['image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
             'name' => ['required', 'string', 'max:255'],
             'prodCategory_ID' => ['required'],
             'tall' => ['required'],
@@ -74,20 +101,48 @@ class ProductsController extends Controller
             'priceDp' => ['required'],
             'material_ID' => ['required'],
             'description' => ['required'],
-
-
-
         ]);
-        $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
-        $request->image->move(public_path('imgs\products'),$newImgName);
+      
         if($request->id)
         {
+            $validator= Validator::make($request->all(),[
+                'image' => ['image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:255'],
+                'prodCategory_ID' => ['required'],
+                'tall' => ['required'],
+                'width' => ['required'],
+                'hight' => ['required'],
+                'priceFull' => ['required'],
+                'priceDp' => ['required'],
+                'material_ID' => ['required'],
+                'description' => ['required'],
+            ]);
         $Products = Products::find($request->id);
         }
         else {
+            $validator= Validator::make($request->all(),[
+                'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:255'],
+                'prodCategory_ID' => ['required'],
+                'tall' => ['required'],
+                'width' => ['required'],
+                'hight' => ['required'],
+                'priceFull' => ['required'],
+                'priceDp' => ['required'],
+                'material_ID' => ['required'],
+                'description' => ['required'],
+            ]);
         $Products = new Products();
         }
+        if (!$validator->passes()) {
+            return response()->json(['status'=>0,'error'=>$validator->errors()->toArray()]);
+        }
+        else{
+            if ($request->image) {
+                $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
+                $request->image->move(public_path('imgs\products'),$newImgName);
                 $Products->image = $newImgName;
+            }
                 $Products->name= $request->name;
                 $Products->prodCategory_ID= $request->prodCategory_ID;
                 $Products->tall= $request->tall;
@@ -99,12 +154,9 @@ class ProductsController extends Controller
                 $Products->description= $request->description;
 
                 $Products->save();
-                return response()->json(['success' => true]);
-
-                if ($Products->fails())
-                   {
-                       return response()->json(['error' => true]);
-                   }
+                return response()->json(['status'=>1,'msg'=>'saved successfully']);
+                
+                }
                    
     }
     

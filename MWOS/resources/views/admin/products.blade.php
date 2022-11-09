@@ -13,110 +13,87 @@
         <div class="col-4">
         </div>
         <div class="col-4">
+        @if(isset($error))
+        <span class="text-danger">{{ $error }}</span>        
+    @endif
         </div>
         <div class="col-2 text-end">
             <div class="dropdown">
                 <button class="btn btn-sm btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter
+                    Filter By
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                @if($Products->isNotEmpty())
+             @foreach ($productCategory as $oneProductCategory)
+             <li>
+                 <form action="{{ route('admin.productsFilter') }}" method="GET">
+                     <input type="hidden" name="filter" value="{{$oneProductCategory->productCategoryId}}">
+                     <button class="dropdown-item" type="submit">{{$oneProductCategory->prodCategory}}</button></li>
+                  </form>
+            </li>
+             @endforeach
+             @else
+                    <li>the is no category</li>
+                    @endif
+                    <li>
+                        <a class="dropdown-item" href="{{ route('admin.products') }}" >All products</a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="col-2 text-end">
-            <button type="button" class="btn btn-sm btn-primary w-100" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Product</button>
-        </div>
-    </div>
-
-    <!-- Add Modal -->
-    <div class="modal fade" id="ajax-book-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="ajaxBookModel">Add Product</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="javascript:void(0)" id="addEditBookForm" name="addEditBookForm" method="POST" enctype="multipart/form-data">
-                    <span id="message" class="invalid-feedback" role="alert" red></span>
-                    <input type="hidden" name="id" id="id" >
-
-                        <div class="mb-3">
-                            <label class="form-label">Image</label>
-                            <input type="file" id="image" name="image" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input name="name" id="name" type="text" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Product Category</label>
-                            <select name="prodCategory_ID" id="prodCategory_ID" class="form-control">
-                                <option value="" selected>select product category</option>
-                                @foreach ($productCategory as $oneProductCategory)
-                                <option value="{{$oneProductCategory->productCategoryId}}">{{$oneProductCategory->prodCategory}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Size(T*W*H)</label>
-                            <div class="row">
-                                <div class="col-4"><input type="text" name="tall" id="tall" class="form-control" placeholder="Tall" value=""></div>
-                                <div class="col-4"><input type="text" name="width" id="width" class="form-control" placeholder="Width" value=""></div>
-                                <div class="col-4"><input type="text" name="hight" id="hight" class="form-control" placeholder="Hight" value=""></div>
-                            </div>
-                              
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Price</label>
-                            <input type="number" name="priceFull" id="priceFull" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Downpayment</label>
-                            <input type="number" name="priceDp" id="priceDp" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Material</label>
-                            <select name="material_ID" id="material_ID" class="form-control">
-                                <option value="" selected>select Material</option>
-                                @foreach ($Materials as $Material)
-                                <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
-                        
-                        <!-- <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="Status" id="Status" class="form-control">
-                                <option selected value="">Status</option>
-                                <option value="1">Published</option>
-                                <option value="2">unpublished</option>
-
-                            </select>
-                        </div> -->
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea cols="30" rows="10" name="description" id="description" class="form-control" value=""></textarea>
-                        </div>
-                       
-                        <div class="text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <button type="button" class="btn btn-sm btn-primary w-100 Adding" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Product</button>
         </div>
     </div>
 
     <br>
-    @if($Products->isNotEmpty())
-    @foreach ($Products as $Product)
-    <div class="row mb-3">
+    <div class="row mb-2 text-center">
+        <div class="col">
+            <table class="table table-striped m-0 align-bottom border">
+                <thead >
+                    <tr >
+                        <th class="text-center align-middle" scope="col">RECORDED NO</th>
+                        <th class="text-center align-middle" scope="col-4">IMAGE</th>
+                        <th class="text-center align-middle" scope="col">PRODUCT NAME</th>
+                        <th class="text-center align-middle" scope="col">PRICE</th>
+                        <th class="text-center align-middle" scope="col">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if($Products->isNotEmpty())
+                @php $i=0 @endphp
+                @foreach ($Products as $Product)
+                    <tr>
+                        <td class="col text-center align-middle">{{ ++$i }}</th>
+                        <td class="col-4 text-center align-middle">
+                            <img src="{{asset('imgs/products/' . $Product->image)}}" style="width: 150px; height: 110px;">
+                        </td>
+                        <td class="col text-center align-middle">{{ $Product->name}}</td>
+                        <td class="col text-center align-middle">{{ $Product->priceFull}}</td>
+                        <td class="col text-center align-middle">
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 edit" data-id="{{ $Product->id }}">Edit</a>
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $Product->id }}">Delete</a>
+                        </td>
+                    </tr>
+                            @endforeach
+                        
+                        @else
+                            <tr>
+                            <h2>No record found</h2>
+                            </tr>
+                            
+                            
+                        @endif
+                </tbody>
+            </table>
+                 <div style="margin-left: 41%; padding-top: 12px;">
+                         {!! $Products->links() !!}
+                  </div>
+
+        </div>
+    </div>
+   
+    <!-- <div class="row mb-3">
         <div class="col">
             <div class="card">
                 <div class="card-body">
@@ -151,133 +128,122 @@
                 </div>
             </div>
         </div>
-    </div>
-    @endforeach
-                        
-                        @else
-                            <h2>there is No products. add One</h2>
-                        @endif
+    </div> -->
+                         
 </div>
+<!-- Add Modal -->
+<div class="modal fade" id="ajax-book-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ajaxBookModel">Add Product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="javascript:void(0)" id="addEditBookForm" name="addEditBookForm" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="id" >
 
-<!-- <table class="table table-striped m-0 align-middle border">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">IMAGE</th>
-                        <th scope="col">NAME</th>
-                        <th scope="col">CATEGORY</th>
-                        <th scope="col">PRICE</th>
-                        <th scope="col">ACTIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col">1</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/p_stand.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Plywood TV Stand</th>
-                        <td class="col">Table</td>
-                        <td class="col">P7,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">2</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/sofa_bed.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Wooden Sofa Bed</th>
-                        <td class="col">Chair</td>
-                        <td class="col">P10,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">3</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/wooden_bed.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Wooden Bed (with Headboard)</th>
-                        <td class="col">Bed</td>
-                        <td class="col">P15,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">4</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/sala_set.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Wooden Sala Set</th>
-                        <td class="col">Chair</td>
-                        <td class="col">P25,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">5</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/dining_chairs.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Dining Chairs</th>
-                        <td class="col">Chair</td>
-                        <td class="col">P10,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">6</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/shelf.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Bookshelf</th>
-                        <td class="col">Shelf</td>
-                        <td class="col">P8,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col">7</th>
-                        <td class="col">
-                            <img src="{{asset('imgs/products/bench.png')}}" style="width: 100px;">
-                        </td>
-                        <td class="col">Bench</th>
-                        <td class="col">Chair</td>
-                        <td class="col">P4,000</th>
-                        <td class="col">
-                            <button type="button" class="btn btn-sm btn-info rounded-pill px-3">View</button>
-                            <button type="button" class="btn btn-sm btn-warning rounded-pill px-3">Edit</button>
-                            <button type="button" class="btn btn-sm btn-danger rounded-pill px-3">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
-</div>
-</div>
-</div>
+                        <div id="imageDev" class="mb-3">
+                            <label class="form-label">Image</label>
+                            <input type="file" id="image" name="image" class="form-control inputDis"  placeholder="Upload an Image" >
+                            <span class="text-danger error-text image_error errorSpan"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input name="name" id="name" type="text" class="form-control inputDis" value="">
+                            <span class="text-danger error-text name_error errorSpan"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Product Category</label>
+                            <select name="prodCategory_ID" id="prodCategory_ID" class="form-control inputDis">
+                                <option value="" selected>select product category</option>
+                                @foreach ($productCategory as $oneProductCategory)
+                                <option value="{{$oneProductCategory->productCategoryId}}">{{$oneProductCategory->prodCategory}}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger error-text prodCategory_ID_error errorSpan"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Size(T*W*H)</label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <input type="text" name="tall" id="tall" class="form-control inputDis" placeholder="Tall" value="">
+                                    <span class="text-danger error-text tall_error errorSpan"></span>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" name="width" id="width" class="form-control inputDis" placeholder="Width" value="">
+                                    <span class="text-danger error-text width_error errorSpan"></span>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" name="hight" id="hight" class="form-control inputDis" placeholder="Hight" value="">
+                                    <span class="text-danger error-text hight_error errorSpan"></span>
+                                </div>
+                            </div>
+                              
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" name="priceFull" id="priceFull" class="form-control inputDis" value="">
+                            <span class="text-danger error-text priceFull_error errorSpan"></span>
+
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Downpayment</label>
+                            <input type="number" name="priceDp" id="priceDp" class="form-control inputDis" value="">
+                            <span class="text-danger error-text priceDp_error errorSpan"></span>
+
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Material</label>
+                            <select name="material_ID" id="material_ID" class="form-control inputDis">
+                                <option value="" selected>select Material</option>
+                                @foreach ($Materials as $Material)
+                                <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
+                                @endforeach
+
+                            </select>
+                            <span class="text-danger error-text material_ID_error errorSpan"></span>
+                        </div>
+                        
+                        <!-- <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="Status" id="Status" class="form-control">
+                                <option selected value="">Status</option>
+                                <option value="1">Published</option>
+                                <option value="2">unpublished</option>
+
+                            </select>
+                        </div> -->
+                        <div class="mb-3">
+                            <label class="form-label">Description</label><br>
+                            <span class="text-danger error-text description_error errorSpan"></span>
+                            <textarea cols="30" rows="10" name="description" id="description" class="form-control inputDis" value=""></textarea>
+                        </div>
+                       
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 <script type="text/javascript">
- $(document).ready(function($){
+          $('body').on('click', '.Adding', function () {
+            document.getElementById("addEditBookForm").reset();
+
+        var cellsSpan = document.getElementsByClassName("errorSpan"); 
+        for (var i = 0; i < cellsSpan.length; i++) { 
+
+            cellsSpan[i].innerText = span.textContent = '';
+        }
+
+         });
+  $(document).ready(function($){
     $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -291,7 +257,14 @@
  
     $('body').on('click', '.edit', function () {
         var id = $(this).data('id');
-         alert(id);
+       
+
+       
+        var cellsSpan = document.getElementsByClassName("errorSpan"); 
+        for (var i = 0; i < cellsSpan.length; i++) { 
+
+            cellsSpan[i].textContent = '';
+            }
         // ajax
         $.ajax({
             type:"POST",
@@ -299,20 +272,21 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
-              $('#ajaxBookModel').html("Edit material");
+              $('#ajaxBookModel').html("View Product");
               $('#ajax-book-model').modal('show');
               $('#id').val(res.id);
-              $('#image').val(res.image);
               $('#name').val(res.name);
+              $('#prodCategory_ID').val(res.prodCategory_ID);
               $('#tall').val(res.tall);
-              $('#hight').val(res.hight);
               $('#width').val(res.width);
+              $('#hight').val(res.hight);
               $('#priceFull').val(res.priceFull);
               $('#priceDp').val(res.priceDp);
               $('#material_ID').val(res.material_ID);
               $('#description').val(res.description);
+              $('#image').val(res.image);
+            //   console.log(image);
 
-              
            }
               
         });
@@ -345,7 +319,7 @@
                     });
                 Swal.fire(
                 'Deleted!',
-                'YRecord has been deleted.',
+                'Record has been deleted.',
                 'success'
                 )
             }
@@ -358,9 +332,8 @@
             var url = "{{ url('admin/add-update-products') }}";
             let myForm = document.getElementById('addEditBookForm');
             let dataForm = new FormData(myForm);
-          $("#btn-save").html('Please Wait...');
-          $("#btn-save"). attr("disabled", true);
-        //   alert("hello");
+          
+         
         // ajax
        
         $.ajax({
@@ -371,27 +344,31 @@
             processData:false,
             cache: false,
             dataType: 'json',
-            success: function(res){
-            $("#btn-save").html('Submit');
-            $("#btn-save"). attr("disabled", false);
-            window.location.reload();
-            Swal.fire(
-            'Saved',
-            'Product information have been saved successfully',
-            'success'
-            )
+            beforeSend:function(){
+                $(document).find('span.error-text').text('');
+            },
+            success: function(data){
+                if (data.status == 0) {
+                    $.each(data.error, function(prefix,val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+                }
+                else{
+                    window.location.reload();
+                    Swal.fire(
+                    'Saved',
+                    data.msg,
+                    'success'
+                    )
+
+                }
+            // $("#btn-save").html('Submit');
+            // $("#btn-save"). attr("disabled", false);
+            // window.location.reload();
+            
            
            },
-           error: function(res){
-            Swal.fire({
-                icon: 'error',
-                title: 'Save failed',
-                text: 'All fields are required',
-              })   
-              $("#btn-save").html('Save');
-             $("#btn-save"). attr("disabled", false);
-     
-             }
+         
         
         });
       
@@ -399,5 +376,7 @@
     
    
 });
+
+
 </script>
 @endsection

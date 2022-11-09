@@ -55,30 +55,43 @@ else{
    
     public function store(Request $request)
     {
-        $validator= Validator::make($request->all(),[
-            'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
-            'name' => ['required', 'string', 'max:255'],
-            'costPerUnit' => ['required', 'numeric'],
-
-        ]);
        
         if($request->id)
         {
+            $validator= Validator::make($request->all(),[
+                'image' => ['image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:255'],
+                'costPerUnit' => ['required', 'numeric'],
+    
+            ]);
+           
         $Materials  =  Materials::find($request->id);
         }
         else{
+            $validator= Validator::make($request->all(),[
+                'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:255'],
+                'costPerUnit' => ['required', 'numeric'],
+    
+            ]);
+           
         $Materials = new Materials();
         }
         if (!$validator->passes()) {
             return response()->json(['status'=>0,'error'=>$validator->errors()->toArray()]);
         }
         else{
-            $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
-            $request->image->move(public_path('imgs\materials'),$newImgName);
-
+            if ($request->image) {
+                $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
+                $request->image->move(public_path('imgs\materials'),$newImgName);
+                $Materials->image = $newImgName;
+                        }
+           
             $Materials->name = $request->name;
             $Materials->costPerUnit= $request->costPerUnit;
-            $Materials->image = $newImgName;
+            
+            
+           
 
              $Materials->save();
              return response()->json(['status'=>1,'msg'=>'saved successfully']);
