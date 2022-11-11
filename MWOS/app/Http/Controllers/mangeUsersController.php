@@ -19,16 +19,9 @@ class mangeUsersController extends Controller
         $filter = $request->get('filter');
                 if($search!=""){
                     $Users =  DB::table('users')
-                    ->where([
-                        // ['role','1'],
-                        [DB::raw("CONCAT(id,' ',Fname,' ',Lname,' ',email ,' ',phoneNumber)"),'LIKE','%'.$search.'%']
-                    ])
-                    // ->orWhere([
-                    //     ['role','3'],
-                    //     [DB::raw("CONCAT(id,' ',Fname,' ',Lname,' ',email ,' ',phoneNumber)"),'LIKE','%'.$search.'%']
-                    // ])
-                   
-                    ->paginate(4);
+                    ->where( DB::raw("CONCAT(id,' ',Fname,' ',Lname,' ',email )"),'LIKE','%'.$search.'%'
+                    )->paginate(4);
+                    
             $Users->appends(['search' => $search]);
             $count = $Users->total();
             if($count == 0)

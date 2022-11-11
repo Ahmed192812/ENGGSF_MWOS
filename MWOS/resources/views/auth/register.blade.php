@@ -15,7 +15,7 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Register To MOWS') }}</h3>
             
             <div class="form-outline mb-4">
-              <input id="name" type="text" class="form-control @error('Fname') is-invalid @enderror" name="Fname" value="{{ old('Fname') }}" required autocomplete="first name" autofocus />
+              <input id="name" type="text" class="form-control @error('Fname') is-invalid @enderror" name="Fname" value="{{ old('Fname') }}"  autocomplete="first name" autofocus />
                                 @error('Fname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -24,7 +24,7 @@
               <label class="form-label" for="form2Example18">First Name</label>
             </div>
             <div class="form-outline mb-4">
-              <input id="name" type="text" class="form-control @error('Lname') is-invalid @enderror" name="Lname" value="{{ old('Lname') }}" required autocomplete="last name" autofocus />
+              <input id="name" type="text" class="form-control @error('Lname') is-invalid @enderror" name="Lname" value="{{ old('Lname') }}"  autocomplete="last name" autofocus />
                                 @error('Lname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="form-outline mb-4">
-              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
+              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus />
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="form-outline mb-4">
-              <input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" />
+              <input id="password" type="password" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" />
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="form-outline mb-4">
-              <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" />
+              <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password" />
                                
               <label class="form-label" for="form2Example28">confirm password</label>
             </div>
