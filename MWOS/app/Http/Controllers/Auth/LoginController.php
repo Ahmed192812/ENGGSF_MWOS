@@ -63,23 +63,61 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
 
     }
+    
     public function login(Request $request)
     {
-        $this->checkTooManyFailedAttempts();
-
         $input = $request->all();
         $this->validate($request,[
-        'email' => 'required|exists:users',
-        'password' => 'required|',
-       
-    ],
-    [ 'email.exists' => "We could not find your account.",
-    ],
-);
+           
+            'email' => 'required_without:phoneNumber',
+            'phoneNumber' => 'required_without:email',
+            'password' => 'required|',
+           
+        ],
+    );
+        if ($request->email) {
+            $this->checkTooManyFailedAttempts();
 
+            $this->validate($request,[
+           
+            'email' => 'exists:users',
+            'password' => 'required|',
+           
+        ],
+        [ 'email.exists' => "We could not find your account.",
+        ],
+    );
+        }
+        elseif ($request->phoneNumber) {
+            $this->checkTooManyFailedAttempts();
+
+            $this->validate($request,[
+           
+            'phoneNumber' => 'exists:users',
+            'password' => 'required',
+           
+        ],
+        [ 'phoneNumber.exists' => "We could not find your  account.",
+        ],
+    );       
+ }
+       
+        
+       
         if (auth()->attempt(array('email'=>$input['email'],'password'=>$input['password']))) {
            RateLimiter::clear('login.'.$request->ip());
-
+           if(Auth()->user()->role ==1){
+            return redirect()->route('admin.dashboard');
+        }
+        elseif(Auth()->user()->role ==2){
+            return redirect()->route('user.dashboard');
+        }
+        elseif(Auth()->user()->role ==3){
+            return redirect()->route('carpenter.dashboard');
+        }
+        }
+        elseif (auth()->attempt(array('phoneNumber'=>$input['phoneNumber'],'password'=>$input['password']))) {
+            RateLimiter::clear('login.'.$request->ip());
             if(Auth()->user()->role ==1){
                 return redirect()->route('admin.dashboard');
             }
@@ -89,8 +127,8 @@ class LoginController extends Controller
             elseif(Auth()->user()->role ==3){
                 return redirect()->route('carpenter.dashboard');
             }
-           
         }
+
         else{
 
 

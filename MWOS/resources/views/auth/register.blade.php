@@ -15,7 +15,7 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Register To MOWS') }}</h3>
             
             <div class="form-outline mb-4">
-              <input id="name" type="text" class="form-control @error('Fname') is-invalid @enderror" name="Fname" value="{{ old('Fname') }}"  autocomplete="first name" autofocus />
+              <input id="name" type="text" class="form-control @error('Fname') is-invalid @enderror" placeholder="First Name" name="Fname" value="{{ old('Fname') }}"  autocomplete="first name" autofocus />
                                 @error('Fname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -24,7 +24,7 @@
               <label class="form-label" for="form2Example18">First Name</label>
             </div>
             <div class="form-outline mb-4">
-              <input id="name" type="text" class="form-control @error('Lname') is-invalid @enderror" name="Lname" value="{{ old('Lname') }}"  autocomplete="last name" autofocus />
+              <input id="name" type="text" class="form-control @error('Lname') is-invalid @enderror" placeholder="Last Name" name="Lname" value="{{ old('Lname') }}"  autocomplete="last name" autofocus />
                                 @error('Lname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -34,13 +34,22 @@
             </div>
 
             <div class="form-outline mb-4">
-              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus />
+              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" placeholder="email" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus />
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
               <label class="form-label" for="form2Example18">Email address</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input id="phoneNumber" type="tel" class="form-control form-control-lg @error('phoneNumber') is-invalid @enderror" placeholder="Phone Number" name="phoneNumber" value="{{ old('phoneNumber') }}"  autocomplete="phoneNumber" autofocus />
+                                @error('phoneNumber')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+              <label class="form-label" for="form2Example18">phone Number</label>
             </div>
 
             <div class="form-outline mb-4">

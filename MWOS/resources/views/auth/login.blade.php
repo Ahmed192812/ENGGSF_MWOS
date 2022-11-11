@@ -1,6 +1,8 @@
+
 @extends('layouts.app')
 
 @section('content')
+
 <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 <section class="vh-100 ">
   <div class="container-fluid">
@@ -14,21 +16,48 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-
-          <form method="POST" action="{{ route('login') }}" style="width: 23rem;">
-          
+                            
+          <form id="loginForm" method="POST" action="{{ route('login') }}" style="width: 23rem;">
+          <div class="form-check form-check-inline m-2">
+  <input id="showPhone" class="form-check-input" type="radio" name="inlineRadioOptions" onclick="Check();"  value="option1">
+  <label class="form-check-label" for="showPhone">login by phone</label>
+</div>
+<div  class="form-check form-check-inline m-4">
+  <input id="showEmail" class="form-check-input" type="radio" name="inlineRadioOptions" onclick="Check();" checked="checked" value="option2">
+  <label class="form-check-label" for="inlineRadio2">Login by email </label>
+                    </div>
                 @csrf
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Login') }}</h3>
+                    <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{{ __('Login') }}</h3>
 
-            <div class="form-outline mb-4">
-              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
+                    
+                    @error('emailOrPhone')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror 
+
+            <div id="emailDiv" class="form-outline mb-4">
+              <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" placeholder="Email Address" autofocus />
+
                                 @error('email')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                             
                             </br>
               <label class="form-label" for="form2Example18">Email address</label>
+            </div>
+            <div id="phoneDiv" class="form-outline mb-4">
+              <input  id="phoneNumber" type='text' class="form-control form-control-lg " name="phoneNumber" value="{{ old('phone') }}"  autocomplete="phone" placeholder="Phone Number" autofocus />
+
+                                @error('phoneNumber')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </br>
+              <label class="form-label" for="form2Example18">Phone Number</label>
             </div>
 
             <div class="form-outline mb-4">
@@ -132,4 +161,33 @@
         </div>
     </div>
 </div> -->
+
+<script type="text/javascript">
+    function Check() {
+        if (document.getElementById('showEmail').checked) {
+        document.getElementById("emailDiv").style.display = "block";
+        document.getElementById("phoneDiv").style.display = "none";
+        var getValue= document.getElementById("phoneNumber");
+        if (getValue.value !="") {
+            getValue.value = "";
+        }
+    }
+    else if (document.getElementById('showPhone').checked) {
+        document.getElementById("phoneDiv").style.display = "block";
+        document.getElementById("emailDiv").style.display = "none";
+        var getValue= document.getElementById("email");
+        if (getValue.value !="") {
+            getValue.value = "";
+        }
+
+    }
+    
+    }
+    
+    document.getElementById('showEmail').checked
+    document.getElementById("phoneDiv").style.display = "none";
+    
+
+
+</script>
 @endsection

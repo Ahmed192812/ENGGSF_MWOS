@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','verified']);
+                $this->middleware(['auth','verified']);
 
     }
 
@@ -33,7 +33,8 @@ class UserController extends Controller
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'PHnumber' => ['max:15'],
+            'PHnumber'=>['required','integer','digits_between:3,15'], 
+
             'Address' => [ 'max:255',],
         ]);
         $oldEmail = auth()->user()->email;
