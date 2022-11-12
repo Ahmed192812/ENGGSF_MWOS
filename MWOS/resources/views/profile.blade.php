@@ -12,6 +12,8 @@
                 <span>{{ $success }} </span>
             </div>
         @endif
+       
+        
             <div class="p-3 py-5">
             <form method="POST" action="{{ route('update.profile') }}" >
        
@@ -69,6 +71,10 @@
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-dark profile-button" type="submit">Save Profile</button></div>
            </form>
+           <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2"><a href="{{ route('allUsers.changePassword') }}" >change password</a></div>
+           </div>
             </div>
         </div>
       

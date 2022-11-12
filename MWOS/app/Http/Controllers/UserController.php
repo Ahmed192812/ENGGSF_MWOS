@@ -1,8 +1,11 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+
 use App\Http\Controllers\Auth;
 use Illuminate\Validation\Rule;
 class UserController extends Controller
@@ -59,4 +62,34 @@ class UserController extends Controller
         return back()->with('message','Profile Updated');
     }
     
+
+    public function changePssword(Request $request){
+
+        return view('changePassword');
+
+    }  
+    public function UpdatePassword(Request $request){
+
+
+        # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+
+        #Match The Old Password
+        if(!Hash::check($request->old_password, auth()->user()->password)){
+            return back()->with("error", "Old Password Doesn't match!");
+        }
+
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+       
+        return back()->with("status", "Password changed successfully!");
+
+    }  
 }

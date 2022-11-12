@@ -93,7 +93,7 @@ class LoginController extends Controller
 
             $this->validate($request,[
            
-            'phoneNumber' => 'exists:users',
+            'phoneNumber' => 'digits_between:3,15|exists:users',
             'password' => 'required',
            
         ],

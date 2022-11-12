@@ -99,5 +99,8 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
 route::group(['prefix' => 'allUsers','middleware' => ['auth', 'PreventBack']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('allUsers.profile');
     Route::post('update-profile', [UserController::class, 'profileUpdate'])->name('update.profile');
+    Route::get('changePassword', [UserController::class, 'changePssword'])->name('allUsers.changePassword');
+    Route::post('updateChangePassword', [UserController::class, 'UpdatePassword'])->name('allUsers.updateChangePassword');
+
 
 });
