@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaterialsTable extends Migration
+class CreateCustomTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('Custom', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('productCategory_id')->constrained('product_categorys');
             $table->string('image');
-            $table->string('name');
-            $table->string('costPerUnit');
+            $table->string('state');
+            $table->string('fix');
+            $table->integer('price');
+            $table->foreignId('material_id')->constrained('materials');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('Custom');
     }
 }

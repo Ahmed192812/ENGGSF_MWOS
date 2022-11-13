@@ -17,23 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('image');
             $table->string('name');
-            $table->unsignedBigInteger('prodCategory_ID');
-            $table->foreign('prodCategory_ID')->references('id')->on('product_category')->onDelete('cascade');
+            $table->foreignId('prodCategory_id')->constrained('product_categorys');
             $table->integer('tall');
-            $table->integer('hight');
+            $table->integer('height');
             $table->integer('width');
-            $table->string('priceFull');
-            $table->string('priceDp');
-            $table->unsignedBigInteger('material_ID');
-            $table->foreign('material_ID')->references('id')->on('materials')->onDelete('cascade');
+            $table->string('price');
+            $table->foreignId('material_id')->constrained('materials');
             $table->string('description');
-            $table->tinyInteger('rating')->nullable();
             $table->timestamps();
-
-
-
-
-
         });
     }
 

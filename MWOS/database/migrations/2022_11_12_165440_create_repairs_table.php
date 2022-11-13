@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaterialCategoriesTable extends Migration
+class CreateRepairsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMaterialCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('material_categories', function (Blueprint $table) {
+        Schema::create('Repairs', function (Blueprint $table) {
             $table->id();
-            $table->string('matCategory');
+            $table->foreignId('productCategory_id')->constrained('product_categorys');            
             $table->timestamps();
-
         });
     }
 
@@ -28,6 +27,6 @@ class CreateMaterialCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material__categories');
+        Schema::dropIfExists('Repairs');
     }
 }

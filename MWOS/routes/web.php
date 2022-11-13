@@ -25,35 +25,17 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/login', function () {
     return view('login');
 });
-
-
-
-// PRODUCTS CATEGORY ROUTE - LEANDRY
-// Route::get('/productCategory', function () {
-//     return view('productCategory');
-// });
-
-Route::get('/products', function () {
-    return view('products');
-});
-
-// MATERIAL CATEGORY ROUTE - LEANDRY
-// Route::get('/material', function () {
-//     return view('material');
-// });
-
-
-// comment
-
 
 //prevent Back to login after registration
 Route::middleware(['middleware' => 'PreventBack'])->group(function () {
     Auth::routes(['verify'=>true]);
 //    Route::get('auth.login','LoginController@formLogin');
 });
+
 //Routes for Admin
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventBack']], function () {
@@ -82,8 +64,8 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
 });
-//Routes for Carpenter
 
+//Routes for Carpenter
 route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', 'PreventBack']], function () {
     Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
     // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
@@ -92,9 +74,13 @@ route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', '
 
 //Routes for Users(Customers)
 route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBack']], function () {
-    Route::get('dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('home', [UserController::class, 'home'])->name('user.dashboard');
+    Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
+    Route::get('repair', [UserController::class, 'repair'])->name('user.repair');
+    Route::get('custom', [UserController::class, 'custom'])->name('user.custom');
     // Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
 });
+
 //Routes for All System Users 
 route::group(['prefix' => 'allUsers','middleware' => ['auth', 'PreventBack']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('allUsers.profile');
