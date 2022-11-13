@@ -44,6 +44,7 @@
       </a>
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="{{ route('user.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
+        <li class="nav-item"><a href="" class="nav-link text-decoration-none">About</a></li>
         <li class="nav-item btn-group">
           <!-- <a href="{{ route('user.catalog') }}" class="nav-link text-decoration-none">E-Catalog</a> -->
           <a class="nav-link d-block text-decoration-none dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -115,9 +116,40 @@
             </li>
           </ul>
         </li>
+<<<<<<< HEAD
         <li class="nav-item"><a href="{{ route('user.repair') }}" class="nav-link text-decoration-none">Repair</a></li>
         <li class="nav-item"><a href="{{ route('user.custom') }}" class="nav-link text-decoration-none">Custom</a></li>
+        
+          @guest
+         
+            @if (Route::has('login'))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            </li>
+            @endif
+            @if (Route::has('register'))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            </li>
+            @endif
+            @else
+            <li class="nav-item">
+=======
         <li class="nav-item">
+        <li class="nav-item">
+          <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
+          <ul class="dropdown-menu text-small">
+            <li>
+              <a class="dropdown-item" href="{{ route('user.repair')}}">Repair</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('user.custom') }}">Custom</a>
+            </li>
+          </ul>
+        </li>
+        </li>
+        <li class="nav-item">
+>>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
           <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->Fname }}
           </a>
           <ul class="dropdown-menu text-small">
@@ -142,6 +174,7 @@
             </li>
           </ul>
         </li>
+        @endguest
       </ul>
     </header>
   </div>
@@ -159,7 +192,6 @@
         </a>
         <span class="mb-3 mb-md-0 text-muted">© 2022 Mondale Woodworks, Inc</span>
       </div>
-
       <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
         <li class="ms-3">
           <a class="text-muted" href="#">
@@ -170,9 +202,6 @@
     </footer>
   </div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 
 </html>

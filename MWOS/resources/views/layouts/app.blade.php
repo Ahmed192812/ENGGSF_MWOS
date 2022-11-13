@@ -17,158 +17,149 @@
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+  <!-- icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link href="{{ asset('css/bootstrapTheme.css') }}" rel="stylesheet">
+ 
+
+  <style>
+    .dropdown-submenu {
+      position: relative;
+    }
+
+    .dropdown-submenu>.dropdown-menu {
+      left: 100%;
+      /* -6px gives dropdown-menu's padding+border */
+      top: -6px;
+    }
+
+    .dropdown-submenu:hover>.dropdown-menu,
+    .dropdown-submenu>a:focus+.dropdown-menu {
+      /* :focus support is incomplete - pressing Tab sets focus to submenu, but that immediately hides submenu */
+      display: block;
+    }
+  </style> 
 </head>
 
-<body>
+<body class="">
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style=" width: 100%;">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">MOWS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-          <ul class="navbar-nav me-auto">
-            @if(Auth::check() && Auth::user()->role == 1)
-            <li class="nav-item">
-              <a class="nav-link" href="#">Dashboard
-                <span class="visually-hidden">(current)</span>
-              </a>
-            </li>
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3">
+      <a href="{{ route('user.dashboard') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img src="{{ asset('logo/logo.png') }}" alt="Logo" width="35">
+        <span class="fs-5 ms-2 fw-bold">Mondale Woodworks</span>
+      </a>
+      <ul class="nav nav-pills">
+      @if(Auth::check() && Auth::user()->role == 1)
+   
+      <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
+       
+        <li class="nav-item"><a href="{{ route('admin.mangeUsers')}}" class="nav-link text-decoration-none">Mange Users</a></li>
+        <li class="nav-item"><a href="{{ route('admin.material')}}" class="nav-link text-decoration-none">Materials</a></li>
+        <li class="nav-item"><a href="{{ route('admin.productCategory')}}" class="nav-link text-decoration-none">Products Category</a></li>
+        <li class="nav-item"><a href="{{ route('admin.products')}}" class="nav-link text-decoration-none">Products</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-decoration-none">Orders</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-decoration-none">archives</a></li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.mangeUsers')}}">Mange Users</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.productCategory')}}">Product Category</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.material')}}">Materials</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('admin.products')}}">Products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">archives</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">requests</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Orders</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Orders1</a>
-                <a class="dropdown-item" href="#">Orders2</a>
-                <a class="dropdown-item" href="#">Orders3</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
-            </li>
-            @elseif(Auth::check() && Auth::user()->role == 2)
-            <li class="nav-item">
-              <a class="nav-link" href="#">Dashboard
-                <span class="visually-hidden">(current)</span>
-              </a>
-            </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">Products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">My orders</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">something</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">contact us</a>
-            </li>
-            @else
-            <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
-            </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">about us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">glary</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Our services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Our products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Customer evaluation</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">contact us</a>
-            </li>
-            @endif
+        @else
+   
+        <li class="nav-item"><a href="{{ route('user.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-decoration-none">E-Catalog</a></li>
+
+        <li class="nav-item btn-group">
+          <!-- <a href="{{ route('user.catalog') }}" class="nav-link text-decoration-none">E-Catalog</a> -->
+          <a class="nav-link d-block text-decoration-none dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Custom</a></li>
+          <li><a class="dropdown-item" href="#">Repair</a></li>
+
           </ul>
-          <!--right side -->
-          <ul class="navbar-nav ms-auto">
-            <!-- Authentication Links -->
-            @guest
+        </li>
+        <li class="nav-item"><a href="#" class="nav-link text-decoration-none">about</a></li>
+        @endif
+          @guest
+         
             @if (Route::has('login'))
             <li class="nav-item">
               <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
             </li>
             @endif
-
             @if (Route::has('register'))
             <li class="nav-item">
               <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
             </li>
             @endif
             @else
-
-            <li class="nav-item dropdown">
-              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ Auth::user()->Fname }}
+            <li class="nav-item">
+          <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->Fname }}
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li>
+              <a class="dropdown-item" href="{{ route('allUsers.profile')}}">
+                {{ __('Profile') }}
               </a>
-
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('allUsers.profile')}}">
-                  {{ __('profile') }}
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                  @csrf
-                </form>
-              </div>
-
             </li>
-
-            @endguest
+            @if(Auth::check() && Auth::user()->role == 2)
+            <li>
+              <a class="dropdown-item" href="#">Orders</a>
+            </li>
+            @endif
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+              </form>
+            </li>
           </ul>
-        </div>
-      </div>
-    </nav>
+        </li>
+        @endguest
+      </ul>
+    </header>
+  </div>
 
 
     <!--nav org-->
 
 
-    <main class="">
+    <main class="container">
       @yield('content')
     </main>
   </div>
+
+<!-- footer section  -->
+  <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <div class="col-md-4 d-flex align-items-center">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+          <img src="{{ asset('logo/logo.png') }}" alt="Logo" width="30">
+        </a>
+        <span class="mb-3 mb-md-0 text-muted">© 2022 Mondale Woodworks, Inc</span>
+      </div>
+
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3">
+          <a class="text-muted" href="#">
+            <i class="bi bi-facebook fs-4"></i>
+          </a>
+        </li>
+      </ul>
+    </footer>
+  </div>
+
+  
+  <!-- Scripts -->
+  
 </body>
+</html>

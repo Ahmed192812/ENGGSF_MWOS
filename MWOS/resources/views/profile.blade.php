@@ -1,4 +1,8 @@
+
 @extends('layouts.app')
+
+
+
 
 @section('content')
 <link href="{{ asset('css/profile.css') }}" rel="stylesheet">

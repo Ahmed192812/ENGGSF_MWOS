@@ -9,34 +9,7 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <Style>
-    html,
-body,
-.intro {
-  height: 100%;
-}
 
-table td,
-table th {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-thead th,
-tbody th {
-  color: #fff;
-}
-
-tbody td {
-  font-weight: 500;
-  color: rgba(255,255,255,.65);
-}
-
-.card {
-  border-radius: .5rem;
-}
-</Style> -->
 <section class="intro mt-3">
 
     <div class="mask d-flex align-items-center h-100" >
