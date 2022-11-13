@@ -62,8 +62,8 @@ class UserController extends Controller
         $request->validate([
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'PHnumber' => ['required', 'integer', 'digits_between:3,15'],
+            'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users')->ignore($request->id)],
+            'phoneNumber' => ['required','digits_between:3,15','unique:users'],
 
             'Address' => ['max:255',],
         ]);
@@ -73,7 +73,7 @@ class UserController extends Controller
         $user->Fname =  $request->Fname;
         $user->Lname = $request->Lname;
         $user->email = $request->email;
-        $user->phoneNumber =  $request->PHnumber;
+        $user->phoneNumber = $request->phoneNumber;
         $user->Address = $request->Address;
 
 
@@ -105,13 +105,11 @@ class UserController extends Controller
         ]);
 
 
-        #Match The Old Password
         if (!Hash::check($request->old_password, auth()->user()->password)) {
             return back()->with("error", "Old Password Doesn't match!");
         }
 
 
-        #Update the new Password
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
         ]);

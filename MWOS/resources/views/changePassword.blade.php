@@ -48,7 +48,7 @@
                             <div class="row">
                                 <div class="col-1"><button class="btn btn-success">Submit</button></div>
                                 <div class="col-10"></div>
-                                <div class="col-1"><button class="btn btn-light">Back</button></div>
+                                <div class="col-1"><a href="{{route('allUsers.profile')}}" class="btn btn-light">Back</a></div>
 
                             </div>
                         </div>

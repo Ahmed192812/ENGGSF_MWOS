@@ -55,7 +55,7 @@
                 </div>
                     <div class="col-md-12">
                         <label class="labels">Mobile Number</label>
-                        <input name="PHnumber" type="number" class="form-control form-control-lg @error('phoneNumber') is-invalid @enderror" placeholder="enter phone number" value="{{ $user->phoneNumber }}">
+                        <input name="phoneNumber" type="number" class="form-control form-control-lg @error('phoneNumber') is-invalid @enderror" placeholder="enter phone number" value="{{ $user->phoneNumber }}">
                         @error('phoneNumber')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
