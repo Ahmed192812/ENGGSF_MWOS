@@ -288,7 +288,6 @@
             var url = "{{ url('admin/add-update-products') }}";
             let myForm = document.getElementById('addEditBookForm');
             let dataForm = new FormData(myForm);
-        //   console.log('#material_ID'.val);
          
         // ajax
        

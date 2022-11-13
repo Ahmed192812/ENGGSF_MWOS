@@ -39,7 +39,6 @@ class ProductsController extends Controller
             // else
             // return view('admin.flights')->with(['flights' => $flights,'airline' => $airline,'found' => $count.' records founded']);
 
-<<<<<<< HEAD
             
         }
         elseif ($filter!="") {
@@ -75,38 +74,13 @@ class ProductsController extends Controller
         }
 
         
-=======
 
 
-        } elseif ($filter != "") {
 
-            $Products =  DB::table('products')
-                ->where('prodCategory_id', $filter)
-                ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
-                ->join('materials', 'products.material_id', '=', 'materials.id')
-                ->select('products.*', 'materials.name as materialName', 'prodCategory',)
-                ->paginate(4);
-            $count = $Products->total();
-            if ($count == 0) {
-                $Products = DB::table('products')
-                    ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
-                    ->join('materials', 'Products.material_id', '=', 'materials.id')
-                    ->select('products.*', 'materials.name as materialName', 'prodCategory',)
-                    ->paginate(4);
-                return view('admin.Products', compact('productCategory', 'Products', 'Materials'))->with('error', 'this category has no product !');
-            } else {
-                return view('admin.Products', compact('productCategory', 'Products', 'Materials'));
-            }
-        } else {
-            $Products = DB::table('products')
-                ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
-                ->join('materials', 'products.material_id', '=', 'materials.id')
-                ->select('products.*', 'materials.name as materialName', 'prodCategory',)
-                ->paginate(4);
-            return view('admin.Products', compact('productCategory', 'Products', 'Materials'));
-        }
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
-    }
+
+
+       
+  }
 
 
     /**
@@ -124,15 +98,9 @@ class ProductsController extends Controller
             'prodCategory_id' => ['required'],
             'tall' => ['required'],
             'width' => ['required'],
-<<<<<<< HEAD
             'hight' => ['required'],
             'price' => ['required','digits_between:0,5000'],
             'material_ID' => ['required'],
-=======
-            'height' => ['required'],
-            'price' => ['required'],
-            'material_id' => ['required'],
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
             'description' => ['required'],
         ]);
 
@@ -143,15 +111,9 @@ class ProductsController extends Controller
                 'prodCategory_id' => ['required'],
                 'tall' => ['required'],
                 'width' => ['required'],
-<<<<<<< HEAD
                 'hight' => ['required'],
                 'price' => ['required','digits_between:0,5000'],
                 'material_ID' => ['required'],
-=======
-                'height' => ['required'],
-                'price' => ['required'],
-                'material_id' => ['required'],
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
                 'description' => ['required'],
             ]);
             $Products = Products::find($request->id);
@@ -162,15 +124,9 @@ class ProductsController extends Controller
                 'prodCategory_id' => ['required'],
                 'tall' => ['required'],
                 'width' => ['required'],
-<<<<<<< HEAD
                 'hight' => ['required'],
                 'price' => ['required','digits_between:0,5000'],
                 'material_ID' => ['required'],
-=======
-                'height' => ['required'],
-                'price' => ['required'],
-                'material_id' => ['required'],
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
                 'description' => ['required'],
             ]);
             $Products = new Products();
@@ -179,7 +135,7 @@ class ProductsController extends Controller
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             if ($request->image) {
-<<<<<<< HEAD
+
                 $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
                 $request->image->move(public_path('imgs\products'),$newImgName);
                 $Products->image= $newImgName;
@@ -192,11 +148,7 @@ class ProductsController extends Controller
                 $Products->price= $request->price;
                 $Products->material_id= $request->material_ID ;
                 $Products->description= $request->description;
-=======
-                $newImgName = time() . '-' . $request->name . '.' . $request->image->extension();
-                $request->image->move(public_path('imgs\products'), $newImgName);
-                $Products->image = $newImgName;
-            }
+
             $Products->name = $request->name;
             $Products->prodCategory_id = $request->prodCategory_id;
             $Products->tall = $request->tall;
@@ -205,7 +157,8 @@ class ProductsController extends Controller
             $Products->price = $request->price;
             $Products->material_id = $request->material_id;
             $Products->description = $request->description;
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
+
+
 
             $Products->save();
             return response()->json(['status' => 1, 'msg' => 'saved successfully']);

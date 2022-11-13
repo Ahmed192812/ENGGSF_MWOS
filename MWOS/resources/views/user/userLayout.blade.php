@@ -116,25 +116,7 @@
             </li>
           </ul>
         </li>
-<<<<<<< HEAD
-        <li class="nav-item"><a href="{{ route('user.repair') }}" class="nav-link text-decoration-none">Repair</a></li>
-        <li class="nav-item"><a href="{{ route('user.custom') }}" class="nav-link text-decoration-none">Custom</a></li>
-        
-          @guest
-         
-            @if (Route::has('login'))
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-            @endif
-            @if (Route::has('register'))
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-            </li>
-            @endif
-            @else
-            <li class="nav-item">
-=======
+
         <li class="nav-item">
         <li class="nav-item">
           <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
@@ -149,7 +131,19 @@
         </li>
         </li>
         <li class="nav-item">
->>>>>>> d7cac7476dc386cc5f731ba48929e6be60e8972a
+        <li class="nav-item">
+          <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
+          <ul class="dropdown-menu text-small">
+            <li>
+              <a class="dropdown-item" href="{{ route('user.repair')}}">Repair</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('user.custom') }}">Custom</a>
+            </li>
+          </ul>
+        </li>
+        </li>
+        <li class="nav-item">
           <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->Fname }}
           </a>
           <ul class="dropdown-menu text-small">
