@@ -44,6 +44,7 @@
       </a>
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="{{ route('user.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
+        <li class="nav-item"><a href="" class="nav-link text-decoration-none">About</a></li>
         <li class="nav-item btn-group">
           <!-- <a href="{{ route('user.catalog') }}" class="nav-link text-decoration-none">E-Catalog</a> -->
           <a class="nav-link d-block text-decoration-none dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -115,8 +116,19 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item"><a href="{{ route('user.repair') }}" class="nav-link text-decoration-none">Repair</a></li>
-        <li class="nav-item"><a href="{{ route('user.custom') }}" class="nav-link text-decoration-none">Custom</a></li>
+        <li class="nav-item">
+        <li class="nav-item">
+          <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
+          <ul class="dropdown-menu text-small">
+            <li>
+              <a class="dropdown-item" href="{{ route('user.repair')}}">Repair</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('user.custom') }}">Custom</a>
+            </li>
+          </ul>
+        </li>
+        </li>
         <li class="nav-item">
           <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->Fname }}
           </a>
@@ -159,7 +171,6 @@
         </a>
         <span class="mb-3 mb-md-0 text-muted">© 2022 Mondale Woodworks, Inc</span>
       </div>
-
       <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
         <li class="ms-3">
           <a class="text-muted" href="#">
