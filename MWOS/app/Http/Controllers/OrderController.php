@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Products;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -14,7 +16,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        return view('user.Transaction.orderForm', compact('posts'));
     }
 
     /**
@@ -22,9 +29,14 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Products $products)
     {
-        //
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        return view('user.Transaction.orderForm', compact('posts', 'products'));
     }
 
     /**
@@ -35,7 +47,19 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Order::create([
+            'user_id' => $request->input('user_id'),
+            'product_id' => $request->input('product_id'),
+            'custom_id' => $request->input('order'),
+            'quantity' => $request->input('quantity'),
+            'payment_type' => $request->input('payment_type'),
+            'order' => $request->input('order'),
+            'status' => "Pending",
+            'rating' => $request->input('rating'),
+            'review' => $request->input('review'),
+        ]);
+
+        return view('user.View.viewHome');
     }
 
     /**

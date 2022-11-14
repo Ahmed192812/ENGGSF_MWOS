@@ -21,32 +21,50 @@ class UserController extends Controller
     // Navbar
     public function home()
     {
-        return view('user.View.viewHome');
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        return view('user.View.viewHome', compact('posts'));
     }
 
     public function repair()
     {
-        return view('user.Transaction.reqRepair');
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        return view('user.Transaction.reqRepair', compact('posts'));
     }
 
     public function custom()
     {
-        return view('user.Transaction.reqCustom');
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        return view('user.Transaction.reqCustom', compact('posts'));
     }
 
     public function catalog(Request $request)
     {
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
         $search = $request->input('category');
 
-        if ($search == 'Sofa') {
-            $posts = DB::table('products')
-                ->join('product_categorys', 'prodCategory_ID', '=', 'product_categorys.id')
-                ->where('product_Categorys.prodCategory', 'LIKE', 'Sofa')
-                ->select('products.*', 'productS.prodCategory_ID as categ')
-                ->get();
+        $filter = DB::table('products')
+            ->join('product_categorys', 'prodCategory_ID', '=', 'product_categorys.id')
+            ->where('product_Categorys.prodCategory', 'LIKE', $search)
+            ->select('products.*', 'productS.prodCategory_ID as categ')
+            ->get();
 
-            return view('user.Transaction.reqCatalog', compact('posts'));
-        }
+        return view('user.Transaction.reqCatalog', compact('filter','posts'));
     }
 
     public function profile()

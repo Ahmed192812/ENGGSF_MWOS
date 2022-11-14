@@ -44,16 +44,16 @@ class ProductsController extends Controller
         elseif ($filter!="") {
            
                 $Products =  DB::table('Products')
-                ->where('prodCategory_ID',$filter)
-                ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
-                ->join('materials', 'Products.material_ID', '=', 'materials.id')
+                ->where('prodCategory_id',$filter)
+                ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
+                ->join('materials', 'Products.material_id', '=', 'materials.id')
                 ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.height','Products.price','Products.description','materials.name as materialName','prodCategory',)
                 ->paginate(4);
                 $count = $Products->total(); 
                 if ($count == 0) {
                     $Products = DB::table('Products')
-                    ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
-                    ->join('materials', 'Products.material_ID', '=', 'materials.id')
+                    ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
+                    ->join('materials', 'Products.material_id', '=', 'materials.id')
                     ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.height','Products.price','Products.description','materials.name as materialName','prodCategory',)->paginate(4);
                     return view('admin.Products',compact('productCategory','Products','Materials'))->with('error','this category has no product !');
                 }
@@ -67,8 +67,8 @@ class ProductsController extends Controller
         }
         else{
             $Products = DB::table('Products')
-            ->join('product_categorys', 'Products.prodCategory_ID', '=', 'product_categorys.id')
-            ->join('materials', 'Products.material_ID', '=', 'materials.id')
+            ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
+            ->join('materials', 'Products.material_id', '=', 'materials.id')
             ->select('Products.id','Products.name','Products.image','Products.tall','Products.width','Products.height','Products.price','Products.description','materials.name as materialName','prodCategory',)->paginate(4);
             return view('admin.Products',compact('productCategory','Products','Materials'));
         }
@@ -98,9 +98,9 @@ class ProductsController extends Controller
             'prodCategory_id' => ['required'],
             'tall' => ['required'],
             'width' => ['required'],
-            'hight' => ['required'],
+            'height' => ['required'],
             'price' => ['required','digits_between:0,5000'],
-            'material_ID' => ['required'],
+            'material_id' => ['required'],
             'description' => ['required'],
         ]);
 
@@ -111,9 +111,9 @@ class ProductsController extends Controller
                 'prodCategory_id' => ['required'],
                 'tall' => ['required'],
                 'width' => ['required'],
-                'hight' => ['required'],
+                'height' => ['required'],
                 'price' => ['required','digits_between:0,5000'],
-                'material_ID' => ['required'],
+                'material_id' => ['required'],
                 'description' => ['required'],
             ]);
             $Products = Products::find($request->id);
@@ -124,9 +124,9 @@ class ProductsController extends Controller
                 'prodCategory_id' => ['required'],
                 'tall' => ['required'],
                 'width' => ['required'],
-                'hight' => ['required'],
+                'height' => ['required'],
                 'price' => ['required','digits_between:0,5000'],
-                'material_ID' => ['required'],
+                'material_id' => ['required'],
                 'description' => ['required'],
             ]);
             $Products = new Products();
@@ -141,12 +141,12 @@ class ProductsController extends Controller
                 $Products->image= $newImgName;
             }
                 $Products->name= $request->name;
-                $Products->prodCategory_id= $request->prodCategory_ID;
+                $Products->prodCategory_id= $request->prodCategory_id;
                 $Products->tall= $request->tall;
                 $Products->width= $request->width;
-                $Products->height= $request->hight;
+                $Products->height= $request->height;
                 $Products->price= $request->price;
-                $Products->material_id= $request->material_ID ;
+                $Products->material_id= $request->material_id ;
                 $Products->description= $request->description;
 
             $Products->name = $request->name;

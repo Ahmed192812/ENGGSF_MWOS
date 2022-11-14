@@ -15,24 +15,6 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
-  <style>
-    .dropdown-submenu {
-      position: relative;
-    }
-
-    .dropdown-submenu>.dropdown-menu {
-      left: 100%;
-      /* -6px gives dropdown-menu's padding+border */
-      top: -6px;
-    }
-
-    .dropdown-submenu:hover>.dropdown-menu,
-    .dropdown-submenu>a:focus+.dropdown-menu {
-      /* :focus support is incomplete - pressing Tab sets focus to submenu, but that immediately hides submenu */
-      display: block;
-    }
-  </style>
 </head>
 
 <body class="bg-light">
@@ -45,8 +27,7 @@
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="{{ route('user.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
         <li class="nav-item"><a href="" class="nav-link text-decoration-none">About</a></li>
-        <li class="nav-item btn-group">
-          <!-- <a href="{{ route('user.catalog') }}" class="nav-link text-decoration-none">E-Catalog</a> -->
+        <!-- <li class="nav-item btn-group">           
           <a class="nav-link d-block text-decoration-none dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
             E-Catalog
           </a>
@@ -115,22 +96,21 @@
               </ul>
             </li>
           </ul>
-        </li>
-
+        </li>-->
         <li class="nav-item">
-        <li class="nav-item">
-          <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
+          <a href="" class="nav-link text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">E-Catalog</a>
           <ul class="dropdown-menu text-small">
+            @foreach($posts as $category)
             <li>
-              <a class="dropdown-item" href="{{ route('user.repair')}}">Repair</a>
+              <form method="GET" action="{{ route('user.catalog') }}">
+                @csrf
+                <input type="hidden" value="{{ $category->prodCategory }}" name="category">
+                <button class="dropdown-item" type="submit">{{ $category->prodCategory }}</button>
+              </form>
             </li>
-            <li>
-              <a class="dropdown-item" href="{{ route('user.custom') }}">Custom</a>
-            </li>
+            @endforeach
           </ul>
         </li>
-        </li>
-        <li class="nav-item">
         <li class="nav-item">
           <a href="" class="nav-link d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
           <ul class="dropdown-menu text-small">
@@ -168,7 +148,6 @@
             </li>
           </ul>
         </li>
-        @endguest
       </ul>
     </header>
   </div>
@@ -195,7 +174,8 @@
       </ul>
     </footer>
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 
 </html>

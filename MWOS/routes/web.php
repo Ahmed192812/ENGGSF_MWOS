@@ -8,7 +8,7 @@ use App\http\Controllers\mangeUsersController;
 use App\http\Controllers\ProductCategoryController;
 use App\http\Controllers\MaterialsController;
 use App\http\Controllers\ProductsController;
-
+use App\http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -78,6 +78,8 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
     Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
     Route::get('repair', [UserController::class, 'repair'])->name('user.repair');
     Route::get('custom', [UserController::class, 'custom'])->name('user.custom');
+    Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
+    Route::resource('order', OrderController::class);
     // Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
 });
 

@@ -3,16 +3,18 @@
 @section('content')
 <br>
 <div class="row">
-    @foreach($posts as $sc)
+    @foreach($filter as $sc)
     <div class="col-4">
-        <div class="card" style="width: 15rem;">
-            <img src="{{ asset('products/living/sofa1.png') }}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{$sc->name}}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary btn-sm rounded-pill">Add to Cart</a>
+        <a href="{{ URL::to('user/Transaction/orderForm/' . $sc->id . '') }}" class="text-decoration-none text-black">
+            <div class="card" style="width: 15rem;">
+                <img src="{{ asset('products/living/sofa1.png') }}" class="card-img-top" alt="...">
+                <div class="card-body text-center">
+                    <input type="text" name="prod_id" value="{{ $sc->id }}">
+                    <h5 class="card-title">{{ $sc->name }}</h5>
+                    <p class="card-text">₱{{ $sc->price }}</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     @endforeach
 </div>

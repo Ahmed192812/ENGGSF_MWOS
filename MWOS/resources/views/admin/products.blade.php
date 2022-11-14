@@ -119,10 +119,10 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Product Category</label>
-                            <select name="prodCategory_ID" id="prodCategory_ID" class="form-control inputDis">
-                                <option value="" selected>select product category</option>
-                                @foreach ($productCategory as $oneProductCategory)
-                                <option value="{{$oneProductCategory->productCategoryId}}">{{$oneProductCategory->prodCategory}}</option>
+                            <select name="prodCategory_id" id="prodCategory_id" class="form-control inputDis">
+                                <option selected>select product category</option>
+                                @foreach ($productCategory as $Product)
+                                <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger error-text prodCategory_ID_error errorSpan"></span>
@@ -139,7 +139,7 @@
                                     <span class="text-danger error-text width_error errorSpan"></span>
                                 </div>
                                 <div class="col-4">
-                                    <input type="text" name="hight" id="hight" class="form-control inputDis" placeholder="Hight" value="">
+                                    <input type="text" name="height" id="height" class="form-control inputDis" placeholder="Hight" value="">
                                     <span class="text-danger error-text hight_error errorSpan"></span>
                                 </div>
                             </div>
@@ -152,12 +152,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Material</label>
-                            <select name="material_ID" id="material_ID" class="form-control inputDis">
-                                <option value="" selected>select Material</option>
+                            <select name="material_id" id="material_id" class="form-control inputDis">
+                                <option selected>select Material</option>
                                 @foreach ($Materials as $Material)
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                                 @endforeach
-
                             </select>
                             <span class="text-danger error-text material_ID_error errorSpan"></span>
                         </div>
