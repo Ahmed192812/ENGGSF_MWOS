@@ -63,7 +63,7 @@ class UserController extends Controller
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users')->ignore($request->id)],
-            'phoneNumber' => ['required','digits_between:3,15','unique:users'],
+            'phoneNumber' => ['required','digits_between:3,15',],
 
             'Address' => ['max:255',],
         ]);
