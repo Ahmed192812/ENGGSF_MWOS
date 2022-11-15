@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -64,7 +64,23 @@ class UserController extends Controller
             ->select('products.*', 'productS.prodCategory_ID as categ')
             ->get();
 
-        return view('user.Transaction.reqCatalog', compact('filter','posts'));
+        return view('user.Transaction.reqCatalog', compact('filter', 'posts'));
+    }
+
+    public function orders()
+    {
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
+        $pending = DB::table('orders')
+            ->join('products', 'product_id', '=', 'orders.product_id')
+            ->select('*')
+            ->where('user_id', '=', Auth::user()->id)
+            ->get();
+
+        return view('user.View.viewOrder', compact('pending', 'posts'));
     }
 
     public function profile()
@@ -80,8 +96,8 @@ class UserController extends Controller
         $request->validate([
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:255',Rule::unique('users')->ignore($request->id)],
-            'phoneNumber' => ['required','digits_between:3,15',],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
+            'phoneNumber' => ['required', 'digits_between:3,15',],
 
             'Address' => ['max:255',],
         ]);

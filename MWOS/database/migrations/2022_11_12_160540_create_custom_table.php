@@ -13,14 +13,15 @@ class CreateCustomTable extends Migration
      */
     public function up()
     {
-        Schema::create('Custom', function (Blueprint $table) {
+        Schema::create('Customs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('productCategory_id')->constrained('product_categorys');
             $table->string('image');
-            $table->string('state');
-            $table->string('fix');
-            $table->integer('price');
-            $table->foreignId('material_id')->constrained('materials');
+            $table->string('description');
+            $table->integer('price')->nullable();
+            $table->foreignId('material_id')->constrained('materials')->nullable(); // options provided by the store
+            $table->string('desiredMaterial')->nullable(); // optional material. provided by the user
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateCustomTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Custom');
+        Schema::dropIfExists('Customs');
     }
 }

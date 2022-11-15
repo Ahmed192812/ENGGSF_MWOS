@@ -47,19 +47,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
+
         Order::create([
             'user_id' => $request->input('user_id'),
             'product_id' => $request->input('product_id'),
-            'custom_id' => $request->input('order'),
             'quantity' => $request->input('quantity'),
             'payment_type' => $request->input('payment_type'),
-            'order' => $request->input('order'),
             'status' => "Pending",
             'rating' => $request->input('rating'),
             'review' => $request->input('review'),
         ]);
 
-        return view('user.View.viewHome');
+        return view('user.View.viewHome', compact('posts'));
     }
 
     /**

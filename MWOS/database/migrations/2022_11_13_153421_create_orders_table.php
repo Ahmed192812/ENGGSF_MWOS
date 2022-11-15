@@ -17,13 +17,11 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('custom_id')->constrained('custom');
             $table->integer('quantity');
             $table->string('payment_type');
-            $table->string('order');
             $table->string('status');
-            $table->string('rating');
-            $table->string('review');
+            $table->integer('rating')->nullable();
+            $table->string('review')->nullable();
             $table->timestamps();
         });
     }

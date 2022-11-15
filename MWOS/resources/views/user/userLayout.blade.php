@@ -133,7 +133,7 @@
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="#">Orders</a>
+              <a class="dropdown-item" href="{{ route('user.orders') }}">Orders</a>
             </li>
             <li>
               <hr class="dropdown-divider">

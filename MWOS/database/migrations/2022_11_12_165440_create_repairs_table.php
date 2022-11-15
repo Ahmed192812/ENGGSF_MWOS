@@ -15,7 +15,12 @@ class CreateRepairsTable extends Migration
     {
         Schema::create('Repairs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productCategory_id')->constrained('product_categorys');            
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('productCategory_id')->constrained('product_categorys');
+            $table->string('image');
+            $table->string('furnitureState'); // description of the damage of the furniture
+            $table->integer('estimatedPrice')->nullable();
+            $table->integer('actualPrice')->nullable();         
             $table->timestamps();
         });
     }

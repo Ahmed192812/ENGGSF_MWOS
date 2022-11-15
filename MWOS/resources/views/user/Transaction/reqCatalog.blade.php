@@ -9,7 +9,7 @@
             <div class="card" style="width: 15rem;">
                 <img src="{{ asset('products/living/sofa1.png') }}" class="card-img-top" alt="...">
                 <div class="card-body text-center">
-                    <input type="text" name="prod_id" value="{{ $sc->id }}">
+                    <input type="hidden" name="prod_id" value="{{ $sc->id }}">
                     <h5 class="card-title">{{ $sc->name }}</h5>
                     <p class="card-text">₱{{ $sc->price }}</p>
                 </div>
