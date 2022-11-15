@@ -3,6 +3,12 @@
 
 @section('content')
 <div class="container my-4">
+            @if ($verifiedSuccess = Session::get('message'))
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>    
+                        <span>{{ $verifiedSuccess }} </span>
+                    </div>
+                 @endif
     <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-4 border shadow-lg">
         <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
             <h1 class="display-4 fw-bold lh-1">E-CATALOG</h1>

@@ -106,6 +106,7 @@ class LoginController extends Controller
        
         if (auth()->attempt(array('email'=>$input['email'],'password'=>$input['password']))) {
            RateLimiter::clear('login.'.$request->ip());
+         
            if(Auth()->user()->role ==1){
             return redirect()->route('admin.dashboard');
         }

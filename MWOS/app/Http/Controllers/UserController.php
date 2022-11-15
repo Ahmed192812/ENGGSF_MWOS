@@ -9,24 +9,34 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified']);
-    }
+    
+   
+    
 
 
     // Navbar
     public function home()
     {
+        
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
+            return view('auth.verify');
+             }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
+            return view('auth.phoneVerify');
+        }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
+
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
 
         return view('user.View.viewHome', compact('posts'));
+        }
     }
 
     public function repair()
@@ -150,4 +160,27 @@ class UserController extends Controller
 
         return back()->with("status", "Password changed successfully!");
     }
+
+    public function verifyCodeView(Request $request)
+    {
+        return view('auth.phoneVerify');
+    }
+    public function verifyCode(Request $request)
+    {
+        $validator= Validator::make($request->all(),[
+            'code' => ['required'],
+        ]);
+
+        if (Auth::user()->code == $request->code) {
+            $User = User::find(Auth::user()->id);
+            $User->code = 0000;
+             $User->save();
+             return redirect()->route('user.dashboard')->with('message','your account have been verified Successfully');
+        }
+        else{
+            return redirect()->route('allUsers.phoneVerify')->with('message','code is wrong');
+        }
+        
+    }
+
 }

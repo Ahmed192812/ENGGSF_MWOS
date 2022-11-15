@@ -90,6 +90,8 @@ route::group(['prefix' => 'allUsers','middleware' => ['auth', 'PreventBack']], f
     Route::post('update-profile', [UserController::class, 'profileUpdate'])->name('update.profile');
     Route::get('changePassword', [UserController::class, 'changePssword'])->name('allUsers.changePassword');
     Route::post('updateChangePassword', [UserController::class, 'UpdatePassword'])->name('allUsers.updateChangePassword');
+    Route::get('phoneVerify', [UserController::class, 'verifyCodeView'])->name('allUsers.phoneVerify');
+    Route::post('verifyCode', [UserController::class, 'verifyCode'])->name('allUsers.verifyCode');
 
 
 });

@@ -67,6 +67,21 @@
 
                                 <label class="form-label my-1" for="form2Example28">Confirm Password</label>
                             </div>
+                            <div class="form-outline mb-3">
+                            <select name="verifiedBy" id="verifiedBy" class="form-control inputDis">
+                                <option value="" disabled="true" selected>Select verify method </option>
+                                <option value="1">email</option>
+                                <option value="2">phone number</option>
+                            </Select>
+                            @error('verifiedBy')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                                <label class="form-label my-1" for="form2Example28">verify By</label>
+                            </div>
+                            
+
                             <div class="mb-3">
                                 <button class="btn btn-info w-100" type="submit">Register</button>
                             </div>

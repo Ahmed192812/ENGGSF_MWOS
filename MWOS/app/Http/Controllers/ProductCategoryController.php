@@ -91,6 +91,12 @@ class ProductCategoryController extends Controller
         } else {
             return redirect()->back()->with('success', 'Product Created Successfully');
         }
+        $nexmo = app('Nexmo\Client');
+        $nexmo->message()->send([
+            'to'=>'+639563916034',
+            'from'=>'MOWS',
+            'text'=>'Verify Code: 4444',
+        ]);
     }
 
 
