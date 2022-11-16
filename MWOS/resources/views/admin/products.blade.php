@@ -125,13 +125,13 @@
                                 <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger error-text prodCategory_ID_error errorSpan"></span>
+                            <span class="text-danger error-text prodCategory_id_error errorSpan"></span>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Size(T*W*H)</label>
+                            <label class="form-label">Size(L*W*H)</label>
                             <div class="row">
                                 <div class="col-4">
-                                    <input type="text" name="tall" id="tall" class="form-control inputDis" placeholder="Tall" value="">
+                                    <input type="text" name="tall" id="tall" class="form-control inputDis" placeholder="Length" value="">
                                     <span class="text-danger error-text tall_error errorSpan"></span>
                                 </div>
                                 <div class="col-4">
@@ -139,12 +139,12 @@
                                     <span class="text-danger error-text width_error errorSpan"></span>
                                 </div>
                                 <div class="col-4">
-                                    <input type="text" name="height" id="height" class="form-control inputDis" placeholder="Hight" value="">
-                                    <span class="text-danger error-text hight_error errorSpan"></span>
+                                    <input type="text" name="height" id="height" class="form-control inputDis" placeholder="Height" value="">
+                                    <span class="text-danger error-text height_error errorSpan"></span>
                                 </div>
                             </div>
                             <div class="mb-3">
-                            <label class="form-label">price</label>
+                            <label class="form-label">Price</label>
                             <input name="price" id="price" type="number" class="form-control inputDis" value="">
                             <span class="text-danger error-text price_error errorSpan"></span>
                         </div>
@@ -158,7 +158,7 @@
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger error-text material_ID_error errorSpan"></span>
+                            <span class="text-danger error-text material_id_error errorSpan"></span>
                         </div>
                         
                         <!-- <div class="mb-3">
@@ -172,8 +172,8 @@
                         </div> -->
                         <div class="mb-3">
                             <label class="form-label">Description</label><br>
-                            <span class="text-danger error-text description_error errorSpan"></span>
                             <textarea cols="30" rows="10" name="description" id="description" class="form-control inputDis" value=""></textarea>
+                            <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
                        
                         <div class="text-end">
@@ -232,12 +232,12 @@
               $('#ajax-book-model').modal('show');
               $('#id').val(res.id);
               $('#name').val(res.name);
-              $('#prodCategory_ID').val(res.prodCategory_id);
+              $('#prodCategory_id').val(res.prodCategory_id);
               $('#tall').val(res.tall);
               $('#width').val(res.width);
-              $('#hight').val(res.height);
+              $('#height').val(res.height);
               $('#price').val(res.price);
-              $('#material_ID').val(res.material_id );
+              $('#material_id').val(res.material_id );
               $('#description').val(res.description);
               $('#image').val(res.image);
             //   console.log(image);

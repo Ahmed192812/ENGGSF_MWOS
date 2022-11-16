@@ -10,12 +10,28 @@
     <div class="row">
         
         <div class="col-md-12 border-right">
-        @if ($success = Session::get('message'))
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>    
-                <span>{{ $success }} </span>
-            </div>
-        @endif
+        <!-- @if(isset($message))
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <span>{{$message}}</span> 
+                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to send verification email.') }}</button>.
+                    </form>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div> -->
+       
+       
+    @endif
+    @if(isset($Success))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <span>{{$Success}}</span> 
+                    
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+       
+    @endif
+       
+   
        
         
             <div class="p-3 py-5">

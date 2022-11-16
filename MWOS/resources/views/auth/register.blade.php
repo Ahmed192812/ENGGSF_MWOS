@@ -10,7 +10,7 @@
                     <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n2 ">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-                            <h3 class="mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">{{ __('Register To MOWS') }}</h3>
+                            <h3 class="mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">{{ __('Register To MWOS') }}</h3>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-outline mb-3">

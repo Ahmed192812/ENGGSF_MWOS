@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\productCategory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified']);
-    }
-
+  
     /**
      * Display a listing of the resource.
      *
@@ -21,25 +18,35 @@ class ProductCategoryController extends Controller
 
     public function index(Request $request)
     {
-
-        $search = $request->get('search');
-
-        if ($search != "") {
-
-            $product_category =  DB::table('product_categorys')
-                ->where(DB::raw("CONCAT(id,' ',prodCategory)"), 'LIKE', '%' . $search . '%')
-                ->paginate(4);
-            $product_category->appends(['search' => $search]);
-            $count = $product_category->total();
-            if ($count == 0)
-                return view('admin.productCategory')->with(['product_category' => $product_category, 'NoFound' => 'There is no result 😔']);
-            else
-                return view('admin.productCategory')->with(['product_category' => $product_category, 'found' => $count . ' records founded']);
-        } else {
-            $data['product_category'] = ProductCategory::orderBy('id', 'desc')->paginate(4);
-
-            return view('admin.productCategory', $data);
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
+            return view('auth.verify');
+             }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
+            return view('auth.phoneVerify');
         }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
+            $search = $request->get('search');
+
+            if ($search != "") {
+    
+                $product_category =  DB::table('product_categorys')
+                    ->where(DB::raw("CONCAT(id,' ',prodCategory)"), 'LIKE', '%' . $search . '%')
+                    ->paginate(4);
+                $product_category->appends(['search' => $search]);
+                $count = $product_category->total();
+                if ($count == 0)
+                    return view('admin.productCategory')->with(['product_category' => $product_category, 'NoFound' => 'There is no result 😔']);
+                else
+                    return view('admin.productCategory')->with(['product_category' => $product_category, 'found' => $count . ' records founded']);
+            } else {
+                $data['product_category'] = ProductCategory::orderBy('id', 'desc')->paginate(4);
+    
+                return view('admin.productCategory', $data);
+            }
+
+        }
+
+       
     }
 
 
@@ -78,6 +85,7 @@ class ProductCategoryController extends Controller
                 ],
                 [
                     'prodCategory.unique' => "this category is exist !",
+                    'prodCategory.required' => "product category is required",
                 ],
             );
             $ProductCategory = new ProductCategory();

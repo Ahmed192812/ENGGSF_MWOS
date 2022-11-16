@@ -37,14 +37,14 @@
         <ul class="nav nav-pills">
           @if(Auth::check() && Auth::user()->role == 1)
 
-          <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link text-decoration-none">Home</a></li>
+          <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link text-decoration-none">Dashboard</a></li>
 
-          <li class="nav-item"><a href="{{ route('admin.mangeUsers')}}" class="nav-link text-decoration-none">Mange Users</a></li>
+          <li class="nav-item"><a href="{{ route('admin.mangeUsers')}}" class="nav-link text-decoration-none">Manage Users</a></li>
           <li class="nav-item"><a href="{{ route('admin.material')}}" class="nav-link text-decoration-none">Materials</a></li>
           <li class="nav-item"><a href="{{ route('admin.productCategory')}}" class="nav-link text-decoration-none">Products Category</a></li>
           <li class="nav-item"><a href="{{ route('admin.products')}}" class="nav-link text-decoration-none">Products</a></li>
           <li class="nav-item"><a href="#" class="nav-link text-decoration-none">Orders</a></li>
-          <li class="nav-item"><a href="#" class="nav-link text-decoration-none">archives</a></li>
+          <li class="nav-item"><a href="#" class="nav-link text-decoration-none">Archives</a></li>
 
 
 

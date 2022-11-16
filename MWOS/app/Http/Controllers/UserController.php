@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Faker\Provider\bg_BG\PhoneNumber;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -95,9 +96,29 @@ class UserController extends Controller
 
     public function profile()
     {
-        $userId = auth()->user()->id;
-        $user = User::find($userId);
-        return view('profile', compact('user'));
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
+            return view('auth.verify');
+             }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
+            return view('auth.phoneVerify');
+        }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
+            
+                $userId = auth()->user()->id;
+                $user = User::find($userId);
+                if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 2) {
+                return view('profile', compact('user'))->with('message','verify your email');
+            }
+            elseif(Auth::user()->email_verified_at !== null){
+                return view('profile', compact('user'));
+            }
+            
+
+           
+
+        }
+      
+        
     }
     public function profileUpdate(Request $request)
     {
@@ -112,6 +133,8 @@ class UserController extends Controller
             'Address' => ['max:255',],
         ]);
         $oldEmail = auth()->user()->email;
+        $oldPhoneNumber = auth()->user()->phoneNumber;
+
         $user = User::find($request->id);
         // Getting values from the blade template form
         $user->Fname =  $request->Fname;
@@ -120,16 +143,36 @@ class UserController extends Controller
         $user->phoneNumber = $request->phoneNumber;
         $user->Address = $request->Address;
 
-
         $user->save();
+
         if ($oldEmail != $request->email) {
             auth()->user()->update([
                 'email_verified_at' => null
             ]);
             auth()->user()->sendEmailVerificationNotification();
+           
         }
+        if ($oldPhoneNumber != $request->phoneNumber) {
+            $code=rand(1111,9999);
+            $PhoneNumber=Auth::user()->phoneNumber;
+            auth()->user()->update([
+                'code' => $code,
+            ]);
+            //     $nexmo = app('Nexmo\Client');
+            //     $nexmo->message()->send([
+            //      'to'=>'+63'.(int)$PhoneNumber,
+            //      'from'=>'Vonage APIs',
+            //      'text'=>'Verify Code: '.$code,
+            //  ]);
+             return view('auth.phoneVerify');
+            }
+        else{
+            return back()->with('Success', 'Profile Updated');
 
-        return back()->with('message', 'Profile Updated');
+        }
+           
+        
+
     }
 
 
@@ -175,7 +218,12 @@ class UserController extends Controller
             $User = User::find(Auth::user()->id);
             $User->code = 0000;
              $User->save();
-             return redirect()->route('user.dashboard')->with('message','your account have been verified Successfully');
+             if (Auth::user()->role=1) {
+                return redirect()->route('admin.dashboard')->with('message','your account have been verified Successfully');
+             }
+             elseif(Auth::user()->role=2){
+                return redirect()->route('user.dashboard')->with('message','your account have been verified Successfully');
+             }
         }
         else{
             return redirect()->route('allUsers.phoneVerify')->with('message','code is wrong');
