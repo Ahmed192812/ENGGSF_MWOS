@@ -96,27 +96,23 @@ class UserController extends Controller
 
     public function profile()
     {
-        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
-            return view('auth.verify');
-             }
-        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
-            return view('auth.phoneVerify');
-        }
-        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
-            
+    
+        
+        if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 1||Auth::user()->verifiedBy == 2) {
+
                 $userId = auth()->user()->id;
                 $user = User::find($userId);
-                if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 2) {
                 return view('profile', compact('user'))->with('message','verify your email');
             }
             elseif(Auth::user()->email_verified_at !== null){
+                $userId = auth()->user()->id;
+                $user = User::find($userId);
                 return view('profile', compact('user'));
             }
-            
+  
 
-           
-
-        }
+        
+   
       
         
     }
@@ -144,15 +140,22 @@ class UserController extends Controller
         $user->Address = $request->Address;
 
         $user->save();
-
+      
         if ($oldEmail != $request->email) {
+            $user_id=Auth::user()->id;
+            $userNewData = User::all()->where('id', '=', $user_id)->first();  
+    
             auth()->user()->update([
                 'email_verified_at' => null
             ]);
-            auth()->user()->sendEmailVerificationNotification();
+
+            $userNewData->sendEmailVerificationNotification();
+          
+                return view('auth.verify');
+                 
            
         }
-        if ($oldPhoneNumber != $request->phoneNumber) {
+        elseif ($oldPhoneNumber != $request->phoneNumber) {
             $code=rand(1111,9999);
             $PhoneNumber=Auth::user()->phoneNumber;
             auth()->user()->update([
@@ -166,10 +169,13 @@ class UserController extends Controller
             //  ]);
              return view('auth.phoneVerify');
             }
+       
         else{
-            return back()->with('Success', 'Profile Updated');
+            return back()->with(['Success'=> 'Profile Updated']);
 
         }
+        
+       
            
         
 

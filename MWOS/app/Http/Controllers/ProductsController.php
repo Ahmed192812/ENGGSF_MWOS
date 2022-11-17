@@ -107,8 +107,9 @@ class ProductsController extends Controller
                 'description' => ['required'],
             ],
             [  
+                'image.image' => "Image must be in jpeg,png,jpg,gif,svg",
                 'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
-                'name.required' => "Product name is required",
+                'image.required' => "An image is required",
                 'prodCategory_id.required' => "Please Select Product Category",
                 'material_id.required' => "Please Select Material",
                 'tall.required' => "Length is required",
@@ -132,6 +133,7 @@ class ProductsController extends Controller
                 'description' => ['required'],
             ],
             [  
+                'image.image' => "Image must be in jpeg,png,jpg,gif,svg",
                 'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
                 'image.required' => "An image is required",
                 'name.required' => "Product name is required",

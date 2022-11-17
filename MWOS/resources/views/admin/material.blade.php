@@ -38,7 +38,7 @@
     @endif
         </div>
         <div class="col-3 text-end">
-            <button id="addNewBook" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Product Type</button>
+            <button id="addNewBook" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajax-book-model">+ Add Material</button>
         </div>
     </div>
 

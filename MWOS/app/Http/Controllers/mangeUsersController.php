@@ -71,8 +71,11 @@ class mangeUsersController extends Controller
             'fname' => ['required', 'string', 'max:20'],
             'lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phoneNumber'=>['required','digits_between:3,15','unique:users'], 
             'role' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'verifiedBy'=>['required'], 
+
         ],
         ['fname.required' => "First name is required",
           'lname.required' => "Last name is required",
@@ -80,6 +83,8 @@ class mangeUsersController extends Controller
           'role.required' => "Role is required",
           'password.confirmed' => "Please confirm password",
           'password.required' => "Password is required",
+          'verifiedBy.required' => "pleas select verification method",
+
 
     ],
 
@@ -98,12 +103,30 @@ class mangeUsersController extends Controller
 
     public function create(array $data)
     {
+        if ($data['verifiedBy']==2) {
+            $code=rand(1111,9999);
+        //     $nexmo = app('Nexmo\Client');
+        //     $nexmo->message()->send([
+        //      'to'=>'+63'.(int)$data['phoneNumber'],
+        //      'from'=>'Vonage APIs',
+        //      'text'=>'Verify Code: '.$code,
+        //  ]);
+         
+        }
+        else{
+            $code=0;
+        }
+        
       return User::create([
         'Fname' => $data['fname'],
         'Lname' => $data['lname'],
         'email' => $data['email'],
+        'phoneNumber' => $data['phoneNumber'],
+        'code'=>$code,
         'role' => $data['role'],
-        'password' => Hash::make($data['password'])
+        'password' => Hash::make($data['password']),
+        'verifiedBy' => $data['verifiedBy'],
+        
       ]);
     }
     

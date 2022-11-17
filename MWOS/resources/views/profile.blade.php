@@ -10,7 +10,7 @@
     <div class="row">
         
         <div class="col-md-12 border-right">
-        <!-- @if(isset($message))
+        @if(isset($message))
         <div class="alert alert-info alert-dismissible fade show" role="alert">
         <span>{{$message}}</span> 
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
@@ -18,18 +18,26 @@
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to send verification email.') }}</button>.
                     </form>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div> -->
-       
-       
-    @endif
-    @if(isset($Success))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <span>{{$Success}}</span> 
-                    
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
        
     @endif
+    @if (session('Success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <span>{{ session('Success') }}</span> 
+                    
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+@if (session('noNewData'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <span>{{ session('noNewData') }}</span> 
+                    
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+  
+       
        
    
        

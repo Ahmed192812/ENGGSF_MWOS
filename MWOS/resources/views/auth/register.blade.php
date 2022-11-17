@@ -68,7 +68,7 @@
                                 <label class="form-label my-1" for="form2Example28">Confirm Password</label>
                             </div>
                             <div class="form-outline mb-3">
-                            <select name="verifiedBy" id="verifiedBy" class="form-control inputDis">
+                            <select name="verifiedBy" id="verifiedBy" class="form-control inputDis @error('verifiedBy') is-invalid @enderror">
                                 <option value="" disabled="true" selected>Select verify method </option>
                                 <option value="1">email</option>
                                 <option value="2">phone number</option>

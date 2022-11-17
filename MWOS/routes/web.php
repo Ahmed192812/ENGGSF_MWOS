@@ -81,7 +81,6 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
     Route::resource('order', OrderController::class);
-    // Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
 });
 
 //Routes for All System Users 

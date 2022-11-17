@@ -180,6 +180,12 @@
                             <span class="text-danger error-text email_error"></span>
                         </div>
                         <div class="mb-3">
+                                <label class="form-label my-1" for="form2Example18">Phone Number</label>
+                                <input id="phoneNumber" type="tel" class="form-control inputDis" placeholder="092345678" name="phoneNumber" value="" autocomplete="phoneNumber" autofocus />
+                                <span class="text-danger error-text phoneNumber_error"></span>
+                        </div>
+                        
+                        <div class="mb-3">
                             <label class="form-label">role</label>
                             <select name="role" id="role" class="form-control inputDis">
                                 <option value="" disabled="true" selected>Select Employee Role</option>
@@ -189,10 +195,7 @@
                             </Select>
                             <span class="text-danger error-text role_error"></span>
                         </div>
-                        <div class="mb-3" id="phoneDisable">
-                            <label class="form-label">phone Number</label>
-                            <input id="phone" name="phone" type="tel" class="form-control inputDis" value="" >
-                        </div>
+                        
                         <div class="mb-3" id="addressDisable">
                             <label class="form-label">Address</label>
                             <input id="address" name="address" type="text" class="form-control inputDis" value="" >
@@ -208,6 +211,19 @@
                             <input id="ConfirmPassword" name="password_confirmation" type="password" class="form-control inputDis" value="" required>
                             <span class="text-danger error-text Confirm_Password_error"></span>
                         </div>
+                       
+                        <div class="mb-3" id="verifiedByDisable" >
+                        <label class="form-label my-1" for="form2Example28">verify By</label>
+                        <select name="verifiedBy" id="verifiedBy" class="form-control inputDis">
+                                <option value="" disabled="true" selected>Select verify method </option>
+                                <option value="1">email</option>
+                                <option value="2">phone number</option>
+                            </Select>
+                            <span class="text-danger error-text verifiedBy_error"></span>
+
+                            
+                        </div>
+                        
 
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -227,9 +243,9 @@
         }
           document.getElementById("passwordDisable").style.display = "block";
           document.getElementById("ConfirmPasswordDisable").style.display = "block";
+          document.getElementById("verifiedByDisable").style.display = "block";
           document.getElementById("btn-save").style.display = "block";
           document.getElementById("addressDisable").style.display = "none";
-          document.getElementById("phoneDisable").style.display = "none";
           document.getElementById("addEditBookForm").reset();
 
          });
@@ -249,8 +265,8 @@
         var id = $(this).data('id');
         document.getElementById("passwordDisable").style.display = "none";
         document.getElementById("ConfirmPasswordDisable").style.display = "none";
+        document.getElementById("verifiedByDisable").style.display = "none";
         document.getElementById("addressDisable").style.display = "block";
-          document.getElementById("phoneDisable").style.display = "block";
         document.getElementById("btn-save").style.display = "none";
         var cells = document.getElementsByClassName("inputDis"); 
         for (var i = 0; i < cells.length; i++) { 
@@ -274,7 +290,7 @@
               $('#email').val(res.email);
               $('#role').val(res.role);
               $('#address').val(res.Address);
-              $('#phone').val(res.phoneNumber);
+              $('#phoneNumber').val(res.phoneNumber);
               $('#password').val(res.password);
               
              

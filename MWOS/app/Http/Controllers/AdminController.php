@@ -22,7 +22,7 @@ class AdminController extends Controller
 
         }
         else{
-            return view('auth.verify');
+            return view('admin.dashboardAdmin');
         }
        
 
