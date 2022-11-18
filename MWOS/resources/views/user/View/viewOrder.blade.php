@@ -3,19 +3,38 @@
 @section('content')
 
 <div class="container my-4">
-    @foreach($pending as $sc)
+<div class="row rounded-4 p-3 border shadow-lg text-center g-0 m-0 mb-2">
+        <div class="col text-bottom">
+            <b>Product name</b>
+        </div>
+        <div class="col">
+            <b>price</b>
+        </div>
+        <div class="col">
+            <b>quantity</b>
+        </div>
+        <div class="col">
+           <b>Status</b>
+        </div>
+        <div class="col">
+         <b>Action</b>
+        </div>
+    </div>
+    @foreach($orders as $order)
     <div class="row rounded-4 p-3 border shadow-lg text-center g-0 m-0">
         <div class="col text-bottom">
-            <p>{{ $sc->name }}</p>
+            <p>{{ $order->name }}</p>
         </div>
         <div class="col">
-            <p>{{ $sc->price }}</p>
+            <p>{{ $order->price }}</p>
         </div>
         <div class="col">
-            <p>{{ $sc->quantity }}</p>
+            <p>{{ $order->quantity }}</p>
         </div>
         <div class="col">
-            <button class="btn btn-success btn-sm px-3 rounded-pill">{{ $sc->status }}</button>
+            @if($order->status == "Pending")
+            <button class="btn btn-success btn-sm px-3 rounded-pill">{{ $order->status }}</button>
+            @endif
         </div>
         <div class="col">
             <button class="btn btn-outline-info btn-sm px-3 rounded-pill">View</button>

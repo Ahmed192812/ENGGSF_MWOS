@@ -80,18 +80,24 @@ class UserController extends Controller
 
     public function orders()
     {
+        $orders =DB::table('orders')
+        ->join('products', 'orders.product_id', '=', 'products.id')
+        ->select('*')
+        ->where('user_id',Auth::user()->id)->get();
+
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
+            return view('user.View.viewOrder', compact('orders','posts'));
 
-        $pending = DB::table('orders')
-            ->join('products', 'product_id', '=', 'orders.product_id')
-            ->select('*')
-            ->where('user_id', '=', Auth::user()->id)
-            ->get();
+        // $pending = DB::table('orders')
+        //     ->join('products', 'product_id', '=', 'orders.product_id')
+        //     ->select('*')
+        //     ->where('user_id', '=', Auth::user()->id)
+        //     ->get();
 
-        return view('user.View.viewOrder', compact('pending', 'posts'));
+        // return view('user.View.viewOrder', compact('pending', 'posts'));
     }
 
     public function profile()
