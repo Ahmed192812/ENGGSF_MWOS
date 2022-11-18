@@ -21,7 +21,7 @@
         </div>
     </div>
     @foreach($orders as $order)
-    <div class="row rounded-4 p-3 border shadow-lg text-center g-0 m-0">
+    <div class="row rounded-4 p-3 border shadow-lg mb-1 text-center g-0 m-0">
         <div class="col text-bottom">
             <p>{{ $order->name }}</p>
         </div>
