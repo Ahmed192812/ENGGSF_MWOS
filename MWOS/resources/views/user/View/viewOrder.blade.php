@@ -42,5 +42,27 @@
         </div>
     </div>
     @endforeach
+    @foreach($customs as $custom)
+    <div class="row rounded-4 p-3 border shadow-lg mb-1 text-center g-0 m-0">
+        <div class="col text-bottom">
+            <p>{{ $custom->prodCategory }} {{ $custom->name }}</p>
+        </div>
+        <div class="col">
+            <p>@if($custom->price == null) price not yet here  @else{{ $custom->price }} @endif</p>
+        </div>
+        <div class="col">
+            <p>{{ $custom->	description }}</p>
+        </div>
+        <div class="col">
+          
+            <button class="btn btn-info btn-sm px-3 rounded-pill">processing</button>
+
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-info btn-sm px-3 rounded-pill">View</button>
+            <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+        </div>
+    </div>
+    @endforeach
 </div>
 @endsection

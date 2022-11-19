@@ -85,11 +85,18 @@ class UserController extends Controller
         ->select('*')
         ->where('user_id',Auth::user()->id)->get();
 
+        $customs =DB::table('customs')
+        ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        ->join('materials', 'customs.material_id', '=', 'materials.id')
+        ->select('*')
+        ->where('user_id',Auth::user()->id)->get();
+
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
-            return view('user.View.viewOrder', compact('orders','posts'));
+            return view('user.View.viewOrder', compact('orders','posts','customs'));
+
 
         // $pending = DB::table('orders')
         //     ->join('products', 'product_id', '=', 'orders.product_id')
