@@ -1,3 +1,5 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 @extends('user.userLayout')
 
 @section('content')
@@ -14,21 +16,130 @@
             </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label>Email address</label>
+            <form  method="POST" action="{{ route('user.customAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
+            @csrf
+
+            <div class="form-floating mb-3 disInput" >
+                    <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
+                    @error('image')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label >image</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                    </select>
-                    <label>Password</label>
+            <div class="form-floating mb-3 disInput">
+            
+                     <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
+                       <option selected>select product category</option>
+                  @foreach ($productCategory as $category)
+                       <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
+                  @endforeach
+                     </select>
+                     @error('productCategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>Product Category</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Send Inquiry</button>
+                <div class="form-floating mb-3 disInput">
+                        <select name="material_id" id="material_id" class="form-control @error('material_id') is-invalid @enderror">
+                                <option selected>select Material</option>
+                                @foreach ($Materials as $Material)
+                                <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('material_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>material</label>
+                </div>
+                <div class="form-floating mb-3 disInput">
+                       <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
+                       @error('desiredMaterial')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>desired Material</label>
+                </div>
+                <div class="form-floating mb-3 disInput">
+                       <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
+                       @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>description</label>
+                </div>
+                <div class="form-floating mb-3 disInput">
+                       <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
+                       @error('quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>quantity</label>
+                </div>
+                <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
+            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" required>
+                       <option selected>select product category</option>
+                       <option value="1" >cash</option>
+                       <option value="2" >Gcash</option>
+                     </select>
+                     @error('payment_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
+                        <button id="nextBtn" class="w-100 btn btn-lg btn-primary nextBtn" type="button">Next</button>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-4"><button id="backBtn" class="w-100 btn btn-lg btn-secondary backBtn" type="button">Back</button></div>
+
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+        document.getElementById("payment_typeDiv").style.display = "none";
+          document.getElementById("submitBtn").style.display = "none";
+          document.getElementById("backBtn").style.display = "none";
+    $('body').on('click', '.nextBtn', function () {
+        var cells = document.getElementsByClassName("disInput"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].style.display = "none";
+        }
+        document.getElementById("payment_typeDiv").style.display = "block";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "block";
+        document.getElementById("backBtn").style.display = "block";
+
+
+    });
+    $('body').on('click', '.backBtn', function () {
+        var cells = document.getElementsByClassName("disInput"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].style.display = 'block';
+        }
+
+         document.getElementById("payment_typeDiv").style.display = "none";
+        document.getElementById("nextBtn").style.display = "block";
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("backBtn").style.display = "none";
+
+
+    });
+        
+</script>
 @endsection
+

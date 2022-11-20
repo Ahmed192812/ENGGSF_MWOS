@@ -9,6 +9,7 @@ use App\http\Controllers\ProductCategoryController;
 use App\http\Controllers\MaterialsController;
 use App\http\Controllers\ProductsController;
 use App\http\Controllers\OrderController;
+use App\http\Controllers\CustomController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -77,7 +78,9 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
     Route::get('home', [UserController::class, 'home'])->name('user.dashboard');
     Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
     Route::get('repair', [UserController::class, 'repair'])->name('user.repair');
-    Route::get('custom', [UserController::class, 'custom'])->name('user.custom');
+    Route::get('custom', [CustomController::class, 'index'])->name('user.custom');
+    Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
+
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
     Route::resource('order', OrderController::class);

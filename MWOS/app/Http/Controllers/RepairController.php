@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repair;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\productCategory;
+use App\Models\Materials;
+use Illuminate\Support\Facades\Auth;
 
 class RepairController extends Controller
 {

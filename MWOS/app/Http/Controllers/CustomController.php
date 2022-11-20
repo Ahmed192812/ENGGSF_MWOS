@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Custom;
+use App\Models\services;
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\productCategory;
+use App\Models\Materials;
+use Illuminate\Support\Facades\Auth;
 
 class CustomController extends Controller
 {
@@ -14,7 +21,11 @@ class CustomController extends Controller
      */
     public function index()
     {
-        //
+        $posts = DB::table('product_categorys')->select('*')->orderByRaw('prodCategory')->get();
+        $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
+        $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
+        return view('user.Transaction.reqCustom',compact('productCategory','Materials','posts'));
+
     }
 
     /**
@@ -35,8 +46,52 @@ class CustomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+
+        $request->validate( [
+                'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5048'],
+                'productCategory_id' => ['required'],
+                'material_id' => ['required'],
+                'desiredMaterial' => ['required'],
+                'description' => ['required'],
+                'payment_type' => ['required'],
+                'quantity' => ['required'],
+
+
+                
+            ],
+            [  
+                'image.image' => "Image must be in jpeg,png,jpg,gif,svg",
+                'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
+                'image.required' => "An image is required",
+                'productCategory_id.required' => "Please Select Product Category",
+                'material_id.required' => "Please Select Material",
+                'desiredMaterial.required' => "pleas write your desired material ",
+                'description.required' => "pleas  write description",
+           ]
+        );
+            $Custom = new Custom();
+                $newImgName = time() . '-' . 'custom' . '.' .$request->image->extension();
+                $request->image->move(public_path('imgs\products'),$newImgName);
+                $Custom->image= $newImgName;
+                $Custom->productCategory_id= $request->productCategory_id;
+                $Custom->material_id= $request->material_id;
+                $Custom->quantity= $request->quantity;
+                $Custom->payment_type= $request->payment_type;
+                $Custom->user_id= Auth::user()->id;
+                $Custom->desiredMaterial= $request->desiredMaterial;
+                $Custom->description= $request->description;
+
+            $Custom->save();
+           
+            return redirect()->route('user.orders');
+
+
+
+        
     }
+   
+    
 
     /**
      * Display the specified resource.
