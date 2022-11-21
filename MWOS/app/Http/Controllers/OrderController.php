@@ -82,9 +82,15 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Request $request)
     {
-        //
+        $where = array('orders.id' => $request->id);
+        $order  = order::join('products', 'orders.product_id', '=', 'products.id')
+        ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
+
+        ->where($where)->first();
+        
+        return response()->json($order);
     }
 
     /**

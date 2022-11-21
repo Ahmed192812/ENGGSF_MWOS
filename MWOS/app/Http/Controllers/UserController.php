@@ -82,7 +82,7 @@ class UserController extends Controller
     {
         $orders =DB::table('orders')
         ->join('products', 'orders.product_id', '=', 'products.id')
-        ->select('*')
+        ->select('*','orders.id as orderId')
         ->where('user_id',Auth::user()->id)->get();
 
         
@@ -90,11 +90,11 @@ class UserController extends Controller
         $customs =DB::table('customs')
         ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
         ->join('materials', 'customs.material_id', '=', 'materials.id')
-        ->select('*')
+        ->select('*','customs.id as CustomId')
         ->where('user_id',Auth::user()->id)->get();
         $repairs =DB::table('repairs')
         ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-        ->select('*')
+        ->select('*','repairs.id as repairsId')
         ->where('user_id',Auth::user()->id)->get();
         
 

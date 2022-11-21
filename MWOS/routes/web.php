@@ -10,6 +10,8 @@ use App\http\Controllers\MaterialsController;
 use App\http\Controllers\ProductsController;
 use App\http\Controllers\OrderController;
 use App\http\Controllers\CustomController;
+use App\http\Controllers\RepairController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -82,6 +84,11 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
     Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
 
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('user.edit-repairOrder');
+    Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('user.edit-customOrder');
+    Route::post('edit-Orders', [OrderController::class, 'edit'])->name('user.edit-Orders');
+
+
     Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
     Route::resource('order', OrderController::class);
 });

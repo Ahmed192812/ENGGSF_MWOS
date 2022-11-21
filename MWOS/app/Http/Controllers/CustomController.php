@@ -110,9 +110,15 @@ class CustomController extends Controller
      * @param  \App\Models\Custom  $custom
      * @return \Illuminate\Http\Response
      */
-    public function edit(Custom $custom)
+    public function edit(request $request)
     {
-        //
+        $where = array('customs.id' => $request->id);
+        $custom  = custom::select('*','customs.image as customImage')
+        ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        ->join('materials', 'customs.material_id', '=', 'materials.id')
+        ->where($where)->first();
+        
+        return response()->json($custom);
     }
 
     /**

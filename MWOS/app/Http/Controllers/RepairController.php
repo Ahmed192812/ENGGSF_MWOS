@@ -60,9 +60,12 @@ class RepairController extends Controller
      * @param  \App\Models\Repair  $repair
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair $repair)
+    public function edit(request $request)
     {
-        //
+        $where = array('repairs.id' => $request->id);
+        $Repair  = Repair::join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')->where($where)->first();
+        
+        return response()->json($Repair);
     }
 
     /**

@@ -161,8 +161,8 @@
               $('#name').val(res.name);
               $('#costPerUnit').val(res.costPerUnit);
               
-              $('#image').val(res.image);
-            //   console.log(image);
+            //   $('#image').val(res.image);
+              console.log(res.name);
 
            }
               

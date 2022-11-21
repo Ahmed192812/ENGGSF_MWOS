@@ -31,7 +31,7 @@
             <div class="form-floating mb-3 disInput">
             
                      <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
-                       <option selected>select product category</option>
+                       <option value="" selected>select product category</option>
                   @foreach ($productCategory as $category)
                        <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
                   @endforeach
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-floating mb-3 disInput">
                         <select name="material_id" id="material_id" class="form-control @error('material_id') is-invalid @enderror">
-                                <option selected>select Material</option>
+                                <option value="" selected>select Material</option>
                                 @foreach ($Materials as $Material)
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                                 @endforeach
@@ -85,8 +85,8 @@
                     <label>quantity</label>
                 </div>
                 <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
-            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" required>
-                       <option selected>select product category</option>
+            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" >
+                       <option value="" selected>select product category</option>
                        <option value="1" >cash</option>
                        <option value="2" >Gcash</option>
                      </select>
@@ -96,20 +96,17 @@
                                         </span>
                                         @enderror
                 </div>
-                <div class="row">
-                    <div class="col-4">
+                
                         <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
-                        <button id="nextBtn" class="w-100 btn btn-lg btn-primary nextBtn" type="button">Next</button>
-                    </div>
-                    <div class="col-4"></div>
-                    <div class="col-4"><button id="backBtn" class="w-100 btn btn-lg btn-secondary backBtn" type="button">Back</button></div>
-
-                </div>
+                  
             </form>
         </div>
     </div>
 </div>
 
+
+
+<!-- 
 <script type="text/javascript">
         document.getElementById("payment_typeDiv").style.display = "none";
           document.getElementById("submitBtn").style.display = "none";
@@ -140,6 +137,6 @@
 
     });
         
-</script>
+</script> -->
 @endsection
 
