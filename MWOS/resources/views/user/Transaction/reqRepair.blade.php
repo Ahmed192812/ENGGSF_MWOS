@@ -1,3 +1,5 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 @extends('user.userLayout')
 
 @section('content')
@@ -14,18 +16,106 @@
             </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
+            <form  method="POST" action="{{ route('user.repairAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
+            @csrf
+
+            <div class="form-floating mb-3 disInput" >
+                    <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
+                    @error('image')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label >image</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+            <div class="form-floating mb-3 disInput">
+            
+                     <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
+                       <option value="" selected>select product category</option>
+                  @foreach ($productCategory as $category)
+                       <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
+                  @endforeach
+                     </select>
+                     @error('productCategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>Product Category</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Send Inquiry</button>
+                
+                <div class="form-floating mb-3 disInput">
+                       <textarea name="furnitureState" id="furnitureState" class="form-control @error('furnitureState') is-invalid @enderror" cols="30" rows="10"></textarea>
+                       @error('furnitureState')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>furniture State</label>
+                </div>
+                
+                <div class="form-floating mb-3 disInput">
+                       <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
+                       @error('quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                    <label>quantity</label>
+                </div>
+                <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
+            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" >
+                       <option value="" selected>select payment method</option>
+                       <option value="cash" >cash</option>
+                       <option value="Gcash" >Gcash</option>
+                     </select>
+                     @error('payment_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                </div>
+                
+                        <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
+                  
             </form>
         </div>
     </div>
 </div>
+
+
+
+<!-- 
+<script type="text/javascript">
+        document.getElementById("payment_typeDiv").style.display = "none";
+          document.getElementById("submitBtn").style.display = "none";
+          document.getElementById("backBtn").style.display = "none";
+    $('body').on('click', '.nextBtn', function () {
+        var cells = document.getElementsByClassName("disInput"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].style.display = "none";
+        }
+        document.getElementById("payment_typeDiv").style.display = "block";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "block";
+        document.getElementById("backBtn").style.display = "block";
+
+
+    });
+    $('body').on('click', '.backBtn', function () {
+        var cells = document.getElementsByClassName("disInput"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].style.display = 'block';
+        }
+
+         document.getElementById("payment_typeDiv").style.display = "none";
+        document.getElementById("nextBtn").style.display = "block";
+        document.getElementById("submitBtn").style.display = "none";
+        document.getElementById("backBtn").style.display = "none";
+
+
+    });
+        
+</script> -->
 @endsection
+

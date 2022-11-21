@@ -12,6 +12,9 @@ class Repair extends Model
         'user_id',
         'productCategory_id',
         'image',
+        'quantity',
+        'payment_type',
+        'status',
         'furnitureState',
         'estimatedPrice',
         'actualPrice'

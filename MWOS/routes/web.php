@@ -79,9 +79,10 @@ route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', '
 route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBack']], function () {
     Route::get('home', [UserController::class, 'home'])->name('user.dashboard');
     Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
-    Route::get('repair', [UserController::class, 'repair'])->name('user.repair');
+    Route::get('repair', [RepairController::class, 'index'])->name('user.repair');
     Route::get('custom', [CustomController::class, 'index'])->name('user.custom');
     Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
+    Route::post('repairAdd', [RepairController::class, 'store'])->name('user.repairAdd');
 
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
     Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('user.edit-repairOrder');

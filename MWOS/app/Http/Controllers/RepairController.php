@@ -19,7 +19,10 @@ class RepairController extends Controller
      */
     public function index()
     {
-        //
+        $posts = DB::table('product_categorys')->select('*')->orderByRaw('prodCategory')->get();
+        $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
+        return view('user.Transaction.reqRepair',compact('productCategory','posts'));
+
     }
 
     /**
@@ -29,7 +32,7 @@ class RepairController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
@@ -40,7 +43,39 @@ class RepairController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         
+        $request->validate( [
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5048'],
+            'productCategory_id' => ['required'],
+            'quantity' => ['required'],
+            'furnitureState' => ['required','max:255'],
+            'payment_type' => ['required'],
+
+
+            
+        ],
+        [  
+            'image.image' => "Image must be in jpeg,png,jpg,gif,svg",
+            'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
+            'image.required' => "An image is required",
+            'productCategory_id.required' => "Please Select Product Category",
+            'furnitureState.required' => "pleas write your furniture State",
+       ]
+    );
+        $Repair = new Repair();
+            $newImgName = time() . '-' . 'repair' . '.' .$request->image->extension();
+            $request->image->move(public_path('imgs\products'),$newImgName);
+            $Repair->image= $newImgName;
+            $Repair->productCategory_id= $request->productCategory_id;
+            $Repair->quantity= $request->quantity;
+            $Repair->payment_type= $request->payment_type;
+            $Repair->user_id= Auth::user()->id;
+            $Repair->furnitureState= $request->furnitureState;
+
+        $Repair->save();
+       
+        return redirect()->route('user.orders');
+
     }
 
     /**
