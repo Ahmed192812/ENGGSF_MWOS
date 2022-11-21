@@ -17,6 +17,7 @@ class Custom extends Model
         'price',
         'material_id',
         'payment_type',
+        'status',
         'desiredMaterial'
     ];
 }

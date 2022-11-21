@@ -55,12 +55,10 @@
             <p>@if($custom->price == null) price not yet here  @else{{ $custom->price }} @endif</p>
         </div>
         <div class="col">
-            <p>{{ $custom->	description }}</p>
+            <p>{{ $custom->quantity }}</p>
         </div>
         <div class="col">
-          
-            <button class="btn btn-info btn-sm px-3 rounded-pill">processing</button>
-
+            <button class="btn btn-info btn-sm px-3 rounded-pill">Pending</button>
         </div>
         <div class="col">
             <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
@@ -74,14 +72,21 @@
             <p> Repair {{ $repair->prodCategory }} </p>
         </div>
         <div class="col">
-            <p>@if($repair->estimatedPrice == null) price not yet here  @else{{ $repair->estimatedPrice }} @endif</p>
+            <p>
+               @if($repair->estimatedPrice == null && $repair->actualPrice == null) 
+                 price not yet here 
+               @elseif($repair->estimatedPrice !== null && $repair->actualPrice == null )
+                 estimated price({{ $repair->estimatedPrice }}) 
+               @elseif($repair->estimatedPrice !== null && $repair->actualPrice !== null )
+                    {{ $repair->actualPrice }}
+               @else{{ $repair->actualPrice }} @endif</p>
         </div>
         <div class="col">
-            <p>{{ $repair->	furnitureState }}</p>
+            <p>{{ $repair->quantity }}</p>
         </div>
         <div class="col">
-          
-            <button class="btn btn-info btn-sm px-3 rounded-pill">processing</button>
+            <button class="btn btn-info btn-sm px-3 rounded-pill">Pending</button>
+      
 
         </div>
         <div class="col">
@@ -181,8 +186,18 @@
               $('#4thSpan').text('furniture State');
               // change the span value from the data base 
               $('#productname').text('repair a '+ res.prodCategory);
-              $('#1stSpanValue').text(res.estimatedPrice);
-              $('#2edSpanValue').text(res.actualPrice);            
+              if (res.estimatedPrice == null) {
+                $('#1stSpanValue').text('Not determined Yet');
+              }
+              else{
+                $('#1stSpanValue').text(res.estimatedPrice);
+              }
+              if (res.actualPrice == null) {
+                $('#2edSpanValue').text('Not determined Yet');            
+              }
+              else{
+                $('#2edSpanValue').text(res.actualPrice);            
+              }
               $('#3edSpanValue').text(res.prodCategory);
               $('#4thSpanValue').text(res.furnitureState);
 
@@ -224,7 +239,10 @@
              $('#productname').text('custom '+ res.prodCategory);
               $('#1stSpanValue').text(res.description);
               $('#2edSpanValue').text(res.quantity);
-              $('#3edSpanValue').text(res.price);
+              if (res.price == null) {
+                $('#3edSpanValue').text('Not Determined Yet');
+              }else{$('#3edSpanValue').text(res.price);}
+              
               $('#4thSpanValue').text(res.prodCategory);
               $('#5thSpanValue').text(res.name);
               $('#6thSpanValue').text(res.desiredMaterial);
