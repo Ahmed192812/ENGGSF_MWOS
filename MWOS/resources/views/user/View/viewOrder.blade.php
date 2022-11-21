@@ -58,7 +58,11 @@
             <p>{{ $custom->quantity }}</p>
         </div>
         <div class="col">
+          @if($custom->status == "Pending")
             <button class="btn btn-info btn-sm px-3 rounded-pill">Pending</button>
+@else
+<button class="btn btn-warning btn-sm px-3 rounded-pill">other Status</button>
+@endif
         </div>
         <div class="col">
             <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
@@ -73,20 +77,23 @@
         </div>
         <div class="col">
             <p>
-               @if($repair->estimatedPrice == null && $repair->actualPrice == null) 
-                 price not yet here 
+              @if($repair->estimatedPrice == null && $repair->actualPrice == null) 
+               price not yet here 
                @elseif($repair->estimatedPrice !== null && $repair->actualPrice == null )
                  estimated price({{ $repair->estimatedPrice }}) 
-               @elseif($repair->estimatedPrice !== null && $repair->actualPrice !== null )
+                 @elseif($repair->estimatedPrice !== null && $repair->actualPrice !== null )
                     {{ $repair->actualPrice }}
-               @else{{ $repair->actualPrice }} @endif</p>
+                @else{{ $repair->actualPrice }} @endif</p>
         </div>
         <div class="col">
             <p>{{ $repair->quantity }}</p>
         </div>
         <div class="col">
+        @if($repair->status == "Pending")
             <button class="btn btn-info btn-sm px-3 rounded-pill">Pending</button>
-      
+        @else
+        <button class="btn btn-warning btn-sm px-3 rounded-pill">other Status</button>
+        @endif
 
         </div>
         <div class="col">
