@@ -9,6 +9,8 @@ class mangeOrders extends Controller
 {
     public function index()
     {
+        $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
+        $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
         $orders =DB::table('orders')
         ->join('products', 'orders.product_id', '=', 'products.id')
         ->select('*','orders.id as orderId')->get();
@@ -19,6 +21,6 @@ class mangeOrders extends Controller
         $repairs =DB::table('repairs')
         ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
         ->select('*','repairs.id as repairsId')->get();
-        return view('user.Transaction.orderForm', compact('posts'));
+        return view('admin.orders', compact('customs','orders','repairs','productCategory','Materials'));
     }
 }

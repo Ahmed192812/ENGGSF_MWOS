@@ -43,7 +43,7 @@
           <li class="nav-item"><a href="{{ route('admin.material')}}" class="nav-link text-decoration-none">Materials</a></li>
           <li class="nav-item"><a href="{{ route('admin.productCategory')}}" class="nav-link text-decoration-none">Products Category</a></li>
           <li class="nav-item"><a href="{{ route('admin.products')}}" class="nav-link text-decoration-none">Products</a></li>
-          <li class="nav-item"><a href="#" class="nav-link text-decoration-none">Orders</a></li>
+          <li class="nav-item"><a href="{{ route('admin.mangeOrders')}}" class="nav-link text-decoration-none">Orders</a></li>
           <li class="nav-item"><a href="#" class="nav-link text-decoration-none">Archives</a></li>
 
 

@@ -11,6 +11,8 @@ use App\http\Controllers\ProductsController;
 use App\http\Controllers\OrderController;
 use App\http\Controllers\CustomController;
 use App\http\Controllers\RepairController;
+use App\http\Controllers\mangeOrders;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -66,6 +68,14 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('add-update-products', [ProductsController::class, 'store'])->name('admin.add-update-products');
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
+    Route::get('mangeOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
+
+    Route::get('mangeOrders-updateOrder', [mangeOrders::class, 'store'])->name('admin.mangeOrders-updateOrder');
+    Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('admin.edit-repairOrder');
+    Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('admin.edit-customOrder');
+    Route::post('edit-Orders', [OrderController::class, 'edit'])->name('admin.edit-Orders');
+
+
 });
 
 //Routes for Carpenter
