@@ -145,7 +145,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label1" class="form-label">product Name</label>
-                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes" value="">
+                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes customInputDes" value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
 
@@ -153,7 +153,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label2" class="form-label">Product Category</label>
-                            <select name="prodCategory_id" id="prodCategory_id" class="form-control orderInputDes repairInputDes">
+                            <select name="prodCategory_id" id="prodCategory_id" class="form-control orderInputDes repairInputDes customInputDes">
                                 <option selected>select product category</option>
                                 @foreach ($productCategory as $Product)
                                 <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
@@ -167,7 +167,7 @@
                       <div class="row">
                         <div class="col-6">
 
-                        <div class="mb-3">
+                        <div class="mb-3" id="hideSize">
                             <label id="label3" class="form-label">Size(L*W*H)</label>
                                 <div class="col-12">
                                     <input type="text" name="size" id="size" class="form-control orderInputDes" placeholder="Length" value="">
@@ -189,7 +189,7 @@
                         <div class="col-6">
                         <div class="mb-3" id="materialHid">
                             <label id="label5" class="form-label">Material</label>
-                            <select name="material_id" id="material_id" class="form-control orderInputDes">
+                            <select name="material_id" id="material_id" class="form-control orderInputDes customInputDes">
                                 <option selected>select Material</option>
                                 @foreach ($Materials as $Material)
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
@@ -202,7 +202,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label6" class="form-label">payment_type</label>
-                            <input name="payment_type" id="payment_type" type="text" class="form-control orderInputDes repairInputDes" value="">
+                            <input name="payment_type" id="payment_type" type="text" class="form-control orderInputDes repairInputDes customInputDes" value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
                         </div>
@@ -239,9 +239,15 @@
                       </div>       
                       <div class="mb-3">
                             <label id="label9" class="form-label">Description</label><br>
-                            <textarea cols="30" rows="5" name="description" id="description" class="form-control orderInputDes repairInputDes" value=""></textarea>
+                            <textarea cols="30" rows="5" name="description" id="description" class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
                             <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
+                        <div class="mb-3" id="customOnly">
+                            <label id="label10" class="form-label">desired Material</label><br>
+                            <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial" class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
+                            <span class="text-danger error-text description_error errorSpan"></span>
+                        </div>
+                       
                        
                       
                     </form>
@@ -274,8 +280,16 @@
 
  
     $('body').on('click', '.viewRepair', function () {
-        var id = $(this).data('id');
+        var id = $(this).data('id');hideSize
         document.getElementById("materialHid").style.display = "none";
+        document.getElementById("hideSize").style.display = "block";
+
+        document.getElementById("customOnly").style.display = "none";
+        var cells = document.getElementsByClassName("customInputDes"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].disabled = false;
+        }
+
         var cells = document.getElementsByClassName("orderInputDes"); 
         for (var i = 0; i < cells.length; i++) { 
             cells[i].disabled = false;
@@ -339,6 +353,24 @@
     });
     $('body').on('click', '.viewCustom', function () {
         var id = $(this).data('id');
+        
+        var cells = document.getElementsByClassName("orderInputDes"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].disabled = false;
+        }
+        var cells = document.getElementsByClassName("repairInputDes"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].disabled = false;
+        }
+        var cells = document.getElementsByClassName("customInputDes"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].disabled = true;
+        }
+
+        document.getElementById("customOnly").style.display = "block";
+        document.getElementById("hideSize").style.display = "none";
+        document.getElementById("materialHid").style.display = "block";
+
         console.log(id);
         // ajax
         $.ajax({
@@ -348,27 +380,40 @@
             dataType: 'json',
             success: function(res){
               $('#viewOrderModal').modal('show');
-              //product name = type of service + product category
-             //change the span text of the modal
-             $('#1stSpan').text('description');
-              $('#2ndSpan').text('quantity');
-              $('#3edSpan').text('price');
-              $('#4thSpan').text('product Category');
-              $('#5thSpan').text('Material');
-              $('#6thSpan').text('Desired Material');
+              //change the span text of the modal
+              $('#label1').text('Product Name');
+              $('#label2').text('Product Category');
+              // $('#label3').text('Size');
+              $('#label4').text('Price');
+              $('#label5').text('Material');
+              $('#label6').text('Payment Type');
+              $('#label7').text('quantity');
+              $('#label8').text('status');
+              $('#label9').text('Description');
+              $('#label10').text('desired Material');
 
-             
-             // change the span value from the data base 
-             $('#productname').text('custom '+ res.prodCategory);
-              $('#1stSpanValue').text(res.description);
-              $('#2edSpanValue').text(res.quantity);
-              if (res.price == null) {
-                $('#3edSpanValue').text('Not Determined Yet');
-              }else{$('#3edSpanValue').text(res.price);}
+
+              // change the span value from the data base 
+              $('#name').val('a custom'+ res.prodCategory);
               
-              $('#4thSpanValue').text(res.prodCategory);
-              $('#5thSpanValue').text(res.name);
-              $('#6thSpanValue').text(res.desiredMaterial);
+              if (res.price == null) {
+                $('#price').val('Not determined Yet');            
+              }
+              else{
+                $('price').val(res.price);            
+              }
+              $('#prodCategory_id').val(res.productCategory_id);
+              $('#description').val(res.description);
+              if (res.desiredMaterial == null) {
+                document.getElementById("customOnly").style.display = "none";
+              }else{
+                  $('#desiredMaterial').val(res.desiredMaterial);
+              }
+              $('#status').val(res.status);
+              $('#quantity').val(res.quantity);
+              $('#material_id').val(res.material_id);
+
+              $('#payment_type').val(res.payment_type);
               var ImagURL = '{{ URL::asset('/imgs/products/') }}'+'/'+res.customImage;
             console.log(ImagURL);
               $('#image').attr('src', ImagURL);
@@ -382,9 +427,16 @@
     });
 
     $('body').on('click', '.viewOrders', function () {
+
         var id = $(this).data('id');
         console.log(id);
+        document.getElementById("hideSize").style.display = "block";
         document.getElementById("materialHid").style.display = "block";
+        document.getElementById("customOnly").style.display = "none";
+        var cells = document.getElementsByClassName("customInputDes"); 
+        for (var i = 0; i < cells.length; i++) { 
+            cells[i].disabled = false;
+        }
         var cells = document.getElementsByClassName("repairInputDes"); 
         for (var i = 0; i < cells.length; i++) { 
             cells[i].disabled = false;
