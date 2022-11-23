@@ -126,7 +126,7 @@
               <td class="col-3">{{ $custom->prodCategory }}</td>
               <td class="col-3">
                 @if($custom->status == "Pending")
-                <button class="btn btn-success btn-sm px-3 rounded-pill">{{ $order->status }}</button>
+                <button class="btn btn-success btn-sm px-3 rounded-pill">{{ $custom->status }}</button>
                 @endif
               </td>
               <td class="col-3">
