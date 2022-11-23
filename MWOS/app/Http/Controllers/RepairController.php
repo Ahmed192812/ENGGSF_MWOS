@@ -98,7 +98,8 @@ class RepairController extends Controller
     public function edit(request $request)
     {
         $where = array('repairs.id' => $request->id);
-        $Repair  = Repair::join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')->where($where)->first();
+        $Repair  = Repair::select('*','repairs.id as repairsId')
+        ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')->where($where)->first();
         
         return response()->json($Repair);
     }

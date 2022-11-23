@@ -113,7 +113,7 @@ class CustomController extends Controller
     public function edit(request $request)
     {
         $where = array('customs.id' => $request->id);
-        $custom  = custom::select('*','customs.image as customImage')
+        $custom  = custom::select('*','customs.image as customImage','customs.id as CustomId')
         ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
         ->join('materials', 'customs.material_id', '=', 'materials.id')
         ->where($where)->first();

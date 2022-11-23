@@ -118,9 +118,7 @@
   
                          
 </div>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewOrderModal">
-    Open modal
-  </button>
+
 
 <div class="modal" id="viewOrderModal">
   <div class="modal-dialog modal-lg">
@@ -139,7 +137,11 @@
             class="card-img-top" alt="Apple Computer" style="width: 50%; height: 40%; margin-left: 20%; margin-bottom: 5%;"/>
             <h3 class="text-center mb-5">order details</h3>
             <form action="javascript:void(0)" id="addEditBookForm" name="addEditBookForm" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" id="id" >
+                    <input type="hidden" name="repairsId" id="repairsId" >
+                    <input type="hidden" name="CustomId" id="CustomId" >
+                    <input type="hidden" name="orderId" id="orderId" >
+
+
 
                       <div class="row">
                         <div class="col-6">
@@ -170,7 +172,7 @@
                         <div class="mb-3" id="hideSize">
                             <label id="label3" class="form-label">Size(L*W*H)</label>
                                 <div class="col-12">
-                                    <input type="text" name="size" id="size" class="form-control orderInputDes" placeholder="Length" value="">
+                                    <input type="text" name="size" id="size" class="form-control orderInputDes" placeholder="estimated Price" value="">
                                     <span class="text-danger error-text tall_error errorSpan"></span>
                                 </div>
                                
@@ -179,11 +181,14 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label4" class="form-label">Price</label>
-                            <input name="price" id="price" type="text" class="form-control orderInputDes" value="">
+                            <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes" value="">
                             <span class="text-danger error-text price_error errorSpan"></span>
                         </div>
                         
                         </div>
+                        @if(isset($message))
+                        <span class="text-danger">{{$message}}</span>
+                        @endif
                       </div>
                       <div class="row">
                         <div class="col-6">
@@ -212,7 +217,7 @@
                         <div class="mb-3">
                             <label id="label7" class="form-label">quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes" placeholder="Length" value="">
+                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                                
@@ -280,7 +285,7 @@
 
  
     $('body').on('click', '.viewRepair', function () {
-        var id = $(this).data('id');hideSize
+        var id = $(this).data('id');
         document.getElementById("materialHid").style.display = "none";
         document.getElementById("hideSize").style.display = "block";
 
@@ -317,20 +322,16 @@
               $('#label9').text('furniture State');
 
 
-              // change the span value from the data base 
+              // change the INPUT value from the data base 
+             $('#repairsId').val(res.repairsId);
+             $('#orderId').val(0);
+              $('#CustomId').val(0);
               $('#name').val('repair a '+ res.prodCategory);
-              if (res.estimatedPrice == null) {
-                $('#size').val('Not determined Yet');
-              }
-              else{
+              
+          
                 $('#size').val(res.estimatedPrice);
-              }
-              if (res.actualPrice == null) {
-                $('#price').val('Not determined Yet');            
-              }
-              else{
-                $('price').val(res.actualPrice);            
-              }
+                $('#price').val(res.actualPrice);            
+              
               $('#prodCategory_id').val(res.	productCategory_id);
               $('#description').val(res.furnitureState);
               $('#status').val(res.status);
@@ -394,14 +395,13 @@
 
 
               // change the span value from the data base 
+             $('#repairsId').val(0);
+             $('#orderId').val(0);
+              $('#CustomId').val(res.CustomId);
               $('#name').val('a custom'+ res.prodCategory);
               
-              if (res.price == null) {
-                $('#price').val('Not determined Yet');            
-              }
-              else{
-                $('price').val(res.price);            
-              }
+             
+                $('#price').val(res.price);            
               $('#prodCategory_id').val(res.productCategory_id);
               $('#description').val(res.description);
               if (res.desiredMaterial == null) {
@@ -467,7 +467,10 @@
 
               
              // change the span value from the database
-             $('#id').val(res.id);
+             $('#CustomId').val(0);
+             $('#repairsId').val(0);
+             $('#orderId').val(res.orderId);
+
               $('#name').val(res.name);
               $('#prodCategory_id').val(res.prodCategory_id);
               $('#size').val(res.tall+"*"+res.height+"*"+res.width);
@@ -529,6 +532,53 @@
     //         })
 
     // });
+
+    $('body').on('click', '#btn-save', function (e) {
+           e.preventDefault()
+            var url = "{{ url('admin/mangeOrders-updateOrder') }}";
+            let myForm = document.getElementById('addEditBookForm');
+            let dataForm = new FormData(myForm);
+         
+        // ajax
+       
+        $.ajax({
+            type:"POST",
+            url:url,
+            data:dataForm,
+            contentType: false,
+            processData:false,
+            cache: false,
+            dataType: 'json',
+            // beforeSend:function(){
+            //     $(document).find('span.error-text').text('');
+            // },
+            success: function(data){
+                if (data.status == 0) {
+                    $.each(data.error, function(prefix,val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+                }
+                else{
+                    window.location.reload();
+
+                    Swal.fire(
+                    'Saved',
+                    data.msg,
+                    'success'
+                    )
+
+                }
+            // $("#btn-save").html('Submit');
+            // $("#btn-save"). attr("disabled", false);
+            // window.location.reload();
+            
+           
+           },
+         
+        
+        });
+      
+    });
 
     
    
