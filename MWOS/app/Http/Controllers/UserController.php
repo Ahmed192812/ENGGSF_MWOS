@@ -14,29 +14,22 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    
-   
-    
-
-
     // Navbar
     public function home()
     {
-        
-        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
+
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
             return view('auth.verify');
-             }
-        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
+        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
             return view('auth.phoneVerify');
-        }
-        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
+        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
 
-        $posts = DB::table('product_categorys')
-            ->select('*')
-            ->orderByRaw('prodCategory')
-            ->get();
+            $posts = DB::table('product_categorys')
+                ->select('*')
+                ->orderByRaw('prodCategory')
+                ->get();
 
-        return view('user.View.viewHome', compact('posts'));
+            return view('user.View.viewHome', compact('posts'));
         }
     }
 
@@ -78,64 +71,83 @@ class UserController extends Controller
         return view('user.Transaction.reqCatalog', compact('filter', 'posts'));
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders =DB::table('orders')
-        ->join('products', 'orders.product_id', '=', 'products.id')
-        ->select('*','orders.id as orderId')
-        ->where('user_id',Auth::user()->id)->get();
-
-        
-       
-        $customs =DB::table('customs')
-        ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
-        ->join('materials', 'customs.material_id', '=', 'materials.id')
-        ->select('*','customs.id as CustomId')
-        ->where('user_id',Auth::user()->id)->get();
-        $repairs =DB::table('repairs')
-        ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-        ->select('*','repairs.id as repairsId')
-        ->where('user_id',Auth::user()->id)->get();
-        
-
+        $input = $request->input('input');
+        $orders = DB::table('orders')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->select('*', 'orders.id as orderId', 'orders.created_at as date')
+            ->where('user_id', Auth::user()->id)
+            ->orderByRaw('date')
+            ->get();
+        $repairs = DB::table('repairs')
+            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
+            ->where('user_id', Auth::user()->id)
+            ->orderByRaw('date')
+            ->get();
+        $customs = DB::table('customs')
+            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+            ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->select('*', 'customs.id as CustomId', 'customs.created_at as date')
+            ->where('user_id', Auth::user()->id)
+            ->orderByRaw('date')
+            ->get();
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
-          
-            return view('user.View.viewOrder', compact('orders','posts','customs','repairs'));
 
+        if ($input == "Orders") {
+            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
+        } elseif ($input == "Customs") {
+            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
+        } elseif ($input == "Repairs") {
+            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
+        } else {
+            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
+        }
 
+        // $orders = DB::table('orders')
+        //     ->join('products', 'orders.product_id', '=', 'products.id')
+        //     ->select('*', 'orders.id as orderId')
+        //     ->where('user_id', Auth::user()->id)->get();
+        // $customs = DB::table('customs')
+        //     ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        //     ->join('materials', 'customs.material_id', '=', 'materials.id')
+        //     ->select('*', 'customs.id as CustomId')
+        //     ->where('user_id', Auth::user()->id)->get();
+        // $repairs = DB::table('repairs')
+        //     ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+        //     ->select('*', 'repairs.id as repairsId')
+        //     ->where('user_id', Auth::user()->id)->get();
+        // $posts = DB::table('product_categorys')
+        //     ->select('*')
+        //     ->orderByRaw('prodCategory')
+        //     ->get();
+        // return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs'));
         // $pending = DB::table('orders')
         //     ->join('products', 'product_id', '=', 'orders.product_id')
         //     ->select('*')
         //     ->where('user_id', '=', Auth::user()->id)
         //     ->get();
-
         // return view('user.View.viewOrder', compact('pending', 'posts'));
     }
 
     public function profile()
     {
-    
-        
-        if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 1||Auth::user()->verifiedBy == 2) {
 
-                $userId = auth()->user()->id;
-                $user = User::find($userId);
-                return view('profile', compact('user'))->with('message','verify your email');
-            }
-            elseif(Auth::user()->email_verified_at !== null){
-                $userId = auth()->user()->id;
-                $user = User::find($userId);
-                return view('profile', compact('user'));
-            }
-  
 
-        
-   
-      
-        
+        if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 1 || Auth::user()->verifiedBy == 2) {
+
+            $userId = auth()->user()->id;
+            $user = User::find($userId);
+            return view('profile', compact('user'))->with('message', 'verify your email');
+        } elseif (Auth::user()->email_verified_at !== null) {
+            $userId = auth()->user()->id;
+            $user = User::find($userId);
+            return view('profile', compact('user'));
+        }
     }
     public function profileUpdate(Request $request)
     {
@@ -161,24 +173,21 @@ class UserController extends Controller
         $user->Address = $request->Address;
 
         $user->save();
-      
+
         if ($oldEmail != $request->email) {
-            $user_id=Auth::user()->id;
-            $userNewData = User::all()->where('id', '=', $user_id)->first();  
-    
+            $user_id = Auth::user()->id;
+            $userNewData = User::all()->where('id', '=', $user_id)->first();
+
             auth()->user()->update([
                 'email_verified_at' => null
             ]);
 
             $userNewData->sendEmailVerificationNotification();
-          
-                return view('auth.verify');
-                 
-           
-        }
-        elseif ($oldPhoneNumber != $request->phoneNumber) {
-            $code=rand(1111,9999);
-            $PhoneNumber=Auth::user()->phoneNumber;
+
+            return view('auth.verify');
+        } elseif ($oldPhoneNumber != $request->phoneNumber) {
+            $code = rand(1111, 9999);
+            $PhoneNumber = Auth::user()->phoneNumber;
             auth()->user()->update([
                 'code' => $code,
             ]);
@@ -188,18 +197,10 @@ class UserController extends Controller
             //      'from'=>'Vonage APIs',
             //      'text'=>'Verify Code: '.$code,
             //  ]);
-             return view('auth.phoneVerify');
-            }
-       
-        else{
-            return back()->with(['Success'=> 'Profile Updated']);
-
+            return view('auth.phoneVerify');
+        } else {
+            return back()->with(['Success' => 'Profile Updated']);
         }
-        
-       
-           
-        
-
     }
 
 
@@ -237,25 +238,21 @@ class UserController extends Controller
     }
     public function verifyCode(Request $request)
     {
-        $validator= Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'code' => ['required'],
         ]);
 
         if (Auth::user()->code == $request->code) {
             $User = User::find(Auth::user()->id);
             $User->code = 0000;
-             $User->save();
-             if (Auth::user()->role=1) {
-                return redirect()->route('admin.dashboard')->with('message','your account have been verified Successfully');
-             }
-             elseif(Auth::user()->role=2){
-                return redirect()->route('user.dashboard')->with('message','your account have been verified Successfully');
-             }
+            $User->save();
+            if (Auth::user()->role = 1) {
+                return redirect()->route('admin.dashboard')->with('message', 'your account have been verified Successfully');
+            } elseif (Auth::user()->role = 2) {
+                return redirect()->route('user.dashboard')->with('message', 'your account have been verified Successfully');
+            }
+        } else {
+            return redirect()->route('allUsers.phoneVerify')->with('message', 'code is wrong');
         }
-        else{
-            return redirect()->route('allUsers.phoneVerify')->with('message','code is wrong');
-        }
-        
     }
-
 }
