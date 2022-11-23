@@ -86,7 +86,7 @@
                 @endif
               </td>
               <td class="col-3">
-                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $repair->repairsId }}">View</a>
+                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewRepair" data-id="{{ $repair->repairsId }}">View</a>
                 <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
               </td>
             </tr>
@@ -130,7 +130,7 @@
                 @endif
               </td>
               <td class="col-3">
-                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $custom->CustomId }}">View</a>
+                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
                 <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
               </td>
             </tr>
@@ -292,7 +292,7 @@
           $('#3edSpanValue').text(res.prodCategory);
           $('#4thSpanValue').text(res.furnitureState);
 
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //testing
@@ -341,7 +341,7 @@
           $('#4thSpanValue').text(res.prodCategory);
           $('#5thSpanValue').text(res.name);
           $('#6thSpanValue').text(res.desiredMaterial);
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //   console.log(res.furnitureState);
@@ -386,7 +386,7 @@
           $('#6thSpanValue').text(res.tall + "*" + res.height + "*" + res.width);
 
           //   var src = ($(this).attr('src') === );
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
 
