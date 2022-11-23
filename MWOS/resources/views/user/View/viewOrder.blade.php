@@ -130,7 +130,7 @@
                 @endif
               </td>
               <td class="col-3">
-                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $repair->CustomId }}">View</a>
+                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $custom->CustomId }}">View</a>
                 <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
               </td>
             </tr>
