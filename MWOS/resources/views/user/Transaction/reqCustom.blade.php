@@ -16,89 +16,85 @@
             </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form  method="POST" action="{{ route('user.customAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
-            @csrf
-
-            <div class="form-floating mb-3 disInput" >
+            <form method="POST" action="{{ route('user.customAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
+                @csrf
+                <div class=" mb-3 disInput">
+                    <label class="form-label">Image Reference</label>
                     <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
                     @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                    <label >image</label>
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
-            <div class="form-floating mb-3 disInput">
-            
-                     <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
-                       <option value="" selected>select product category</option>
-                  @foreach ($productCategory as $category)
-                       <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
-                  @endforeach
-                     </select>
-                     @error('productCategory_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                <div class="form-floating mb-3 disInput">
+                    <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
+                        <option value="" selected>select product category</option>
+                        @foreach ($productCategory as $category)
+                        <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
+                        @endforeach
+                    </select>
+                    @error('productCategory_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>Product Category</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
-                        <select name="material_id" id="material_id" class="form-control @error('material_id') is-invalid @enderror">
-                                <option value="" selected>select Material</option>
-                                @foreach ($Materials as $Material)
-                                <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('material_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <select name="material_id" id="material_id" class="form-control @error('material_id') is-invalid @enderror">
+                        <option value="" selected>select Material</option>
+                        @foreach ($Materials as $Material)
+                        <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
+                        @endforeach
+                    </select>
+                    @error('material_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>material</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
-                       <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
-                       @error('desiredMaterial')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
+                    @error('desiredMaterial')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>desired Material</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
-                       <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
-                       @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
+                    @error('description')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>description</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
-                       <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
-                       @error('quantity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
+                    @error('quantity')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>quantity</label>
                 </div>
                 <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
-            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" >
-                       <option value="" selected>select product category</option>
-                       <option value="1" >cash</option>
-                       <option value="2" >Gcash</option>
-                     </select>
-                     @error('payment_type')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror">
+                        <option value="" selected>select product category</option>
+                        <option value="1">cash</option>
+                        <option value="2">Gcash</option>
+                    </select>
+                    @error('payment_type')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
-                
-                        <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
-                  
+                <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
             </form>
         </div>
     </div>
@@ -139,4 +135,3 @@
         
 </script> -->
 @endsection
-

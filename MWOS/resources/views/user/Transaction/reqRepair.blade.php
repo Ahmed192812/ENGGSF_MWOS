@@ -16,68 +16,66 @@
             </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form  method="POST" action="{{ route('user.repairAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
-            @csrf
-
-            <div class="form-floating mb-3 disInput" >
+            <form method="POST" action="{{ route('user.repairAdd') }}" enctype="multipart/form-data" class="p-4 p-md-5 border rounded-3 bg-light">
+                @csrf
+                <div class="mb-3 disInput">
+                    <label class="form-label">Image Reference</label>
                     <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" id="image">
                     @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                    <label >image</label>
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror                    
                 </div>
-            <div class="form-floating mb-3 disInput">
-            
-                     <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
-                       <option value="" selected>select product category</option>
-                  @foreach ($productCategory as $category)
-                       <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
-                  @endforeach
-                     </select>
-                     @error('productCategory_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                <div class="form-floating mb-3 disInput">
+                    <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
+                        <option value="" selected>select product category</option>
+                        @foreach ($productCategory as $category)
+                        <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
+                        @endforeach
+                    </select>
+                    @error('productCategory_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>Product Category</label>
                 </div>
-                
+
                 <div class="form-floating mb-3 disInput">
-                       <textarea name="furnitureState" id="furnitureState" class="form-control @error('furnitureState') is-invalid @enderror" cols="30" rows="10"></textarea>
-                       @error('furnitureState')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <textarea name="furnitureState" id="furnitureState" class="form-control @error('furnitureState') is-invalid @enderror" cols="30" rows="10"></textarea>
+                    @error('furnitureState')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>furniture State</label>
                 </div>
-                
+
                 <div class="form-floating mb-3 disInput">
-                       <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
-                       @error('quantity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
+                    @error('quantity')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <label>quantity</label>
                 </div>
                 <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
-            <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror" >
-                       <option value="" selected>select payment method</option>
-                       <option value="cash" >cash</option>
-                       <option value="Gcash" >Gcash</option>
-                     </select>
-                     @error('payment_type')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                    <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror">
+                        <option value="" selected>select payment method</option>
+                        <option value="cash">cash</option>
+                        <option value="Gcash">Gcash</option>
+                    </select>
+                    @error('payment_type')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
-                
-                        <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
-                  
+
+                <button id="submitBtn" class="w-100 btn btn-lg btn-primary submitBtn" type="submit">Order</button>
+
             </form>
         </div>
     </div>
@@ -118,4 +116,3 @@
         
 </script> -->
 @endsection
-

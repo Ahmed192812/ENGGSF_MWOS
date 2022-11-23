@@ -93,8 +93,8 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
     Route::get('custom', [CustomController::class, 'index'])->name('user.custom');
     Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
     Route::post('repairAdd', [RepairController::class, 'store'])->name('user.repairAdd');
-
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
+
     Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('user.edit-repairOrder');
     Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('user.edit-customOrder');
     Route::post('edit-Orders', [OrderController::class, 'edit'])->name('user.edit-Orders');
@@ -102,6 +102,7 @@ route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBac
 
     Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
     Route::resource('order', OrderController::class);
+    Route::resource('user', UserController::class);
 });
 
 //Routes for All System Users 
@@ -112,6 +113,4 @@ route::group(['prefix' => 'allUsers','middleware' => ['auth', 'PreventBack']], f
     Route::post('updateChangePassword', [UserController::class, 'UpdatePassword'])->name('allUsers.updateChangePassword');
     Route::get('phoneVerify', [UserController::class, 'verifyCodeView'])->name('allUsers.phoneVerify');
     Route::post('verifyCode', [UserController::class, 'verifyCode'])->name('allUsers.verifyCode');
-
-
 });
