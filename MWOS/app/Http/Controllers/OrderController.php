@@ -87,7 +87,8 @@ class OrderController extends Controller
     public function edit(Request $request)
     {
         $where = array('orders.id' => $request->id);
-        $order  = order::join('products', 'orders.product_id', '=', 'products.id')
+        $order  = order::select('*','orders.id as orderId')
+        ->join('products', 'orders.product_id', '=', 'products.id')
         ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
 
         ->where($where)->first();
