@@ -201,7 +201,6 @@
 <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-body">
         <section style="background-color: #eee;">
           <div class="container ">
