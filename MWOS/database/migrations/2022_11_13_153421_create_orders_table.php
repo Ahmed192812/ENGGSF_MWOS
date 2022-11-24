@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->integer('rating')->nullable();
             $table->string('review')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -34,5 +35,10 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('Orders');
+        Schema::table('Orders',function(Blueprint $table){
+            $table->softDeletes();
+        });
+
+
     }
 }

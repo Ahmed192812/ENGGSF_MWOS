@@ -113,7 +113,7 @@ class CustomController extends Controller
     public function edit(request $request)
     {
         $where = array('customs.id' => $request->id);
-        $custom  = custom::select('*','customs.image as customImage','customs.id as CustomId')
+        $custom  = custom::withTrashed()->select('*','customs.image as customImage','customs.id as CustomId')
         ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
         ->join('materials', 'customs.material_id', '=', 'materials.id')
         ->where($where)->first();
@@ -139,8 +139,15 @@ class CustomController extends Controller
      * @param  \App\Models\Custom  $custom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Custom $custom)
+    public function destroy(Request $request)
     {
-        //
+        if (Custom::onlyTrashed()->where('customs.id',$request->id)) {
+            $Custom = Custom::onlyTrashed()->where('customs.id',$request->id)->forceDelete();
+
+        }
+        $Custom = Custom::where('customs.id',$request->id)->delete();
+        return response()->json(['success' => true]);
+
+        
     }
 }

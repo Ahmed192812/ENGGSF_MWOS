@@ -98,7 +98,7 @@ class RepairController extends Controller
     public function edit(request $request)
     {
         $where = array('repairs.id' => $request->id);
-        $Repair  = Repair::select('*','repairs.id as repairsId')
+        $Repair  = Repair::withTrashed()->select('*','repairs.id as repairsId')
         ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')->where($where)->first();
         
         return response()->json($Repair);
@@ -122,8 +122,19 @@ class RepairController extends Controller
      * @param  \App\Models\Repair  $repair
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair $repair)
+    public function destroy(Request $request)
     {
-        //
+        if (Repair::onlyTrashed()->where('repairs.id',$request->id)) {
+            $Custom = Repair::onlyTrashed()->where('repairs.id',$request->id)->forceDelete();
+
+        }
+      
+            $Repair = Repair::where('repairs.id',$request->id)->delete();
+            return response()->json(['success' => true]);
+
+        
+       
+
+        
     }
 }

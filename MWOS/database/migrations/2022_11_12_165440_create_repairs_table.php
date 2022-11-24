@@ -22,6 +22,8 @@ class CreateRepairsTable extends Migration
             $table->integer('estimatedPrice')->nullable();
             $table->integer('actualPrice')->nullable();         
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
@@ -33,5 +35,8 @@ class CreateRepairsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('Repairs');
+        Schema::table('Repairs',function(Blueprint $table){
+            $table->softDeletes();
+        });
     }
 }

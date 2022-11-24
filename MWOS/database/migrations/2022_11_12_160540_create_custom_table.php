@@ -23,6 +23,8 @@ class CreateCustomTable extends Migration
             $table->foreignId('material_id')->constrained('materials')->nullable(); // options provided by the store
             $table->string('desiredMaterial')->nullable(); // optional material. provided by the user
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
@@ -34,5 +36,8 @@ class CreateCustomTable extends Migration
     public function down()
     {
         Schema::dropIfExists('Customs');
+        Schema::table('Customs',function(Blueprint $table){
+            $table->softDeletes();
+        });
     }
 }

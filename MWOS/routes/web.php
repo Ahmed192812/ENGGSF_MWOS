@@ -69,11 +69,16 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
     Route::get('mangeOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
+    Route::get('OrdersArchives', [mangeOrders::class, 'archives'])->name('admin.OrdersArchives');
 
     Route::post('mangeOrders-updateOrder', [mangeOrders::class, 'store'])->name('admin.mangeOrders-updateOrder');
     Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('admin.edit-repairOrder');
     Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('admin.edit-customOrder');
     Route::post('edit-Orders', [OrderController::class, 'edit'])->name('admin.edit-Orders');
+    Route::post('delete-repairOrder', [RepairController::class, 'destroy'])->name('admin.delete-repairOrder');
+    Route::post('delete-customOrder', [CustomController::class, 'destroy'])->name('admin.delete-customOrder');
+    Route::post('delete-Orders', [OrderController::class, 'destroy'])->name('admin.delete-Orders');
+
 
 
 });
