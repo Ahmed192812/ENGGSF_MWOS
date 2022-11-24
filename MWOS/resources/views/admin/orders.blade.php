@@ -164,7 +164,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label1" class="form-label">product Name</label>
-                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes customInputDes" value="">
+                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes customInputDes AllDes" value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
 
@@ -172,7 +172,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label2" class="form-label">Product Category</label>
-                            <select name="prodCategory_id" id="prodCategory_id" class="form-control orderInputDes repairInputDes customInputDes">
+                            <select name="prodCategory_id" id="prodCategory_id" class="form-control orderInputDes repairInputDes customInputDes AllDes">
                                 <option selected>select product category</option>
                                 @foreach ($productCategory as $Product)
                                 <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
@@ -189,7 +189,7 @@
                         <div class="mb-3" id="hideSize">
                             <label id="label3" class="form-label">Size(L*W*H)</label>
                                 <div class="col-12">
-                                    <input type="text" name="size" id="size" class="form-control orderInputDes" placeholder="estimated Price" value="">
+                                    <input type="text" name="size" id="size" class="form-control orderInputDes AllDes" placeholder="estimated Price" value="">
                                     <span class="text-danger error-text tall_error errorSpan"></span>
                                 </div>
                                
@@ -198,7 +198,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label4" class="form-label">Price</label>
-                            <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes" value="">
+                            <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes AllDes" value="">
                             <span class="text-danger error-text price_error errorSpan"></span>
                         </div>
                         
@@ -211,7 +211,7 @@
                         <div class="col-6">
                         <div class="mb-3" id="materialHid">
                             <label id="label5" class="form-label">Material</label>
-                            <select name="material_id" id="material_id" class="form-control orderInputDes customInputDes">
+                            <select name="material_id" id="material_id" class="form-control orderInputDes customInputDes AllDes">
                                 <option selected>select Material</option>
                                 @foreach ($Materials as $Material)
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
@@ -224,7 +224,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label6" class="form-label">payment_type</label>
-                            <input name="payment_type" id="payment_type" type="text" class="form-control orderInputDes repairInputDes customInputDes" value="">
+                            <input name="payment_type" id="payment_type" type="text" class="form-control orderInputDes repairInputDes customInputDes AllDes" value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
                         </div>
@@ -234,7 +234,7 @@
                         <div class="mb-3">
                             <label id="label7" class="form-label">quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes" placeholder="quantity" value="">
+                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes AllDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                                
@@ -243,8 +243,8 @@
                         </div>
                         <div class="col-6">
                         <div class="mb-3">
-                            <label id="label8" class="form-label">Status</label>
-                            <select name="status" id="status" class="form-control">
+                            <label id="label8" class="form-label ">Status</label>
+                            <select name="status" id="status" class="form-control AllDes">
                                 <option selected value="">Status</option>
                                 <option value="TBR">To Be Reviewed</option>
                                 <option value="Accepted">Accepted</option>
@@ -260,13 +260,13 @@
                         </div>
                       </div>       
                       <div class="mb-3">
-                            <label id="label9" class="form-label">Description</label><br>
-                            <textarea cols="30" rows="5" name="description" id="description" class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
+                            <label id="label9" class="form-label ">Description</label><br>
+                            <textarea cols="30" rows="5" name="description" id="description" class="form-control orderInputDes repairInputDes customInputDes AllDes" value=""></textarea>
                             <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
                         <div class="mb-3" id="customOnly">
-                            <label id="label10" class="form-label">desired Material</label><br>
-                            <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial" class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
+                            <label id="label10" class="form-label ">desired Material</label><br>
+                            <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial" class="form-control orderInputDes repairInputDes customInputDes AllDes" value=""></textarea>
                             <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
                        
@@ -320,6 +320,7 @@
         for (var i = 0; i < cells.length; i++) { 
             cells[i].disabled = true;
         }
+       
         // ajax
         $.ajax({
             type:"POST",
@@ -327,6 +328,12 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
+                if (res.deleted_at !== null) {
+                    var cells = document.getElementsByClassName("AllDes"); 
+                    for (var i = 0; i < cells.length; i++) { 
+                        cells[i].disabled = true;
+                    }  
+                };
               $('#viewOrderModal').modal('show');
               //change the span text of the modal
               $('#label1').text('order Name');
@@ -349,7 +356,7 @@
                 $('#size').val(res.estimatedPrice);
                 $('#price').val(res.actualPrice);            
               
-              $('#prodCategory_id').val(res.	productCategory_id);
+              $('#prodCategory_id').val(res.productCategory_id);
               $('#description').val(res.furnitureState);
               $('#status').val(res.status);
               $('#quantity').val('not available');
@@ -397,6 +404,12 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
+                if (res.deleted_at !== null) {
+                    var cells = document.getElementsByClassName("AllDes"); 
+                    for (var i = 0; i < cells.length; i++) { 
+                        cells[i].disabled = true;
+                    }  
+                };
               $('#viewOrderModal').modal('show');
               //change the span text of the modal
               $('#label1').text('Product Name');
@@ -469,6 +482,12 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
+                if (res.deleted_at !== null) {
+                    var cells = document.getElementsByClassName("AllDes"); 
+                    for (var i = 0; i < cells.length; i++) { 
+                        cells[i].disabled = true;
+                    }  
+                };
               $('#viewOrderModal').modal('show');
               //product name is type of service + product category
               //change the span text of the modal

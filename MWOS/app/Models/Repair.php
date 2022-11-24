@@ -19,6 +19,7 @@ class Repair extends Model
         'status',
         'furnitureState',
         'estimatedPrice',
-        'actualPrice'
+        'actualPrice',
+        'deleted_at'
     ];
 }
