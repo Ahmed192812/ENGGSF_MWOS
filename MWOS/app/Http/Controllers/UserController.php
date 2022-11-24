@@ -97,7 +97,7 @@ class UserController extends Controller
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
-            
+
         return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
 
         // $orders = DB::table('orders')
@@ -128,19 +128,19 @@ class UserController extends Controller
 
     public function profile()
     {
-
-
         if (Auth::user()->email_verified_at == null && Auth::user()->verifiedBy == 1 || Auth::user()->verifiedBy == 2) {
-
             $userId = auth()->user()->id;
             $user = User::find($userId);
+
             return view('profile', compact('user'))->with('message', 'verify your email');
         } elseif (Auth::user()->email_verified_at !== null) {
             $userId = auth()->user()->id;
             $user = User::find($userId);
+
             return view('profile', compact('user'));
         }
     }
+
     public function profileUpdate(Request $request)
     {
         //validation rules
@@ -195,27 +195,23 @@ class UserController extends Controller
         }
     }
 
-
     public function changePssword(Request $request)
     {
 
         return view('changePassword');
     }
+
     public function UpdatePassword(Request $request)
     {
-
-
         # Validation
         $request->validate([
             'old_password' => 'required',
             'new_password' => 'required|confirmed',
         ]);
 
-
         if (!Hash::check($request->old_password, auth()->user()->password)) {
             return back()->with("error", "Old Password Doesn't match!");
         }
-
 
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
@@ -228,6 +224,7 @@ class UserController extends Controller
     {
         return view('auth.phoneVerify');
     }
+    
     public function verifyCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
