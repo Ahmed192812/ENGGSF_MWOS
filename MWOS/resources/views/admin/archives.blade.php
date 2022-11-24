@@ -36,6 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                @if($orders->isNotEmpty() && $repairs->isNotEmpty() && $customs->isNotEmpty())
                 @foreach ($orders as $order)
                     <tr>
                         <td class="col text-center align-middle">{{ $order->name}}</td>
@@ -58,7 +59,7 @@
                         </td>
 
                         <td class="col text-center align-middle">
-                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">Edit</a>
+                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">View</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteOrders" data-id="{{ $order->orderId }}">Delete</a>
                         </td>
                     </tr>
@@ -85,7 +86,7 @@
                         </td>
 
                         <td class="col text-center align-middle">
-                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">Edit</a>
+                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">View</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Delete</a>
                         </td>
                     </tr>
@@ -120,12 +121,18 @@
                         </td>
 
                         <td class="col text-center align-middle">
-                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
+                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">View</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Delete</a>
                         </td>
                     </tr>
                     @endforeach
-                        
+                        @else
+                            <tr>
+                            <h2>No record found</h2>
+                            </tr>
+                            
+                            
+                        @endif
                 </tbody>
             </table>
                  
@@ -164,7 +171,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label1" class="form-label">product Name</label>
-                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes customInputDes AllDes" value="">
+                            <input name="name" id="name" type="text" class="form-control  orderInputDes repairInputDes customInputDes" readonly value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
 
@@ -172,7 +179,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label2" class="form-label">Product Category</label>
-                            <select name="prodCategory_id" id="prodCategory_id" class="form-control orderInputDes repairInputDes customInputDes AllDes">
+                            <select name="prodCategory_id" id="prodCategory_id"readonly class="form-control orderInputDes repairInputDes customInputDes">
                                 <option selected>select product category</option>
                                 @foreach ($productCategory as $Product)
                                 <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
@@ -189,7 +196,7 @@
                         <div class="mb-3" id="hideSize">
                             <label id="label3" class="form-label">Size(L*W*H)</label>
                                 <div class="col-12">
-                                    <input type="text" name="size" id="size" class="form-control orderInputDes AllDes" placeholder="estimated Price" value="">
+                                    <input type="text" name="size" id="size" class="form-control orderInputDes" readonly placeholder="estimated Price" value="">
                                     <span class="text-danger error-text tall_error errorSpan"></span>
                                 </div>
                                
@@ -198,7 +205,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label4" class="form-label">Price</label>
-                            <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes AllDes" value="">
+                            <input name="price" id="price" type="text" placeholder="Not determined Yet" readonly class="form-control orderInputDes" value="">
                             <span class="text-danger error-text price_error errorSpan"></span>
                         </div>
                         
@@ -211,7 +218,7 @@
                         <div class="col-6">
                         <div class="mb-3" id="materialHid">
                             <label id="label5" class="form-label">Material</label>
-                            <select name="material_id" id="material_id" class="form-control orderInputDes customInputDes AllDes">
+                            <select name="material_id" id="material_id" readonly class="form-control orderInputDes customInputDes">
                                 <option selected>select Material</option>
                                 @foreach ($Materials as $Material)
                                 <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
@@ -224,7 +231,7 @@
                         <div class="col-6">
                         <div class="mb-3">
                             <label id="label6" class="form-label">payment_type</label>
-                            <input name="payment_type" id="payment_type" type="text" class="form-control orderInputDes repairInputDes customInputDes AllDes" value="">
+                            <input name="payment_type" id="payment_type" type="text" readonly class="form-control orderInputDes repairInputDes customInputDes" value="">
                             <span class="text-danger error-text name_error errorSpan"></span>
                         </div>
                         </div>
@@ -234,7 +241,7 @@
                         <div class="mb-3">
                             <label id="label7" class="form-label">quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes AllDes" placeholder="quantity" value="">
+                                    <input type="text" name="quantity" id="quantity" readonly class="form-control repairInputDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                                
@@ -243,8 +250,8 @@
                         </div>
                         <div class="col-6">
                         <div class="mb-3">
-                            <label id="label8" class="form-label ">Status</label>
-                            <select name="status" id="status" class="form-control AllDes">
+                            <label id="label8" class="form-label">Status</label>
+                            <select name="status" id="status" readonly class="form-control">
                                 <option selected value="">Status</option>
                                 <option value="TBR">To Be Reviewed</option>
                                 <option value="Accepted">Accepted</option>
@@ -260,13 +267,13 @@
                         </div>
                       </div>       
                       <div class="mb-3">
-                            <label id="label9" class="form-label ">Description</label><br>
-                            <textarea cols="30" rows="5" name="description" id="description" class="form-control orderInputDes repairInputDes customInputDes AllDes" value=""></textarea>
+                            <label id="label9" class="form-label">Description</label><br>
+                            <textarea cols="30" rows="5" name="description" readonly id="description" class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
                             <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
                         <div class="mb-3" id="customOnly">
-                            <label id="label10" class="form-label ">desired Material</label><br>
-                            <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial" class="form-control orderInputDes repairInputDes customInputDes AllDes" value=""></textarea>
+                            <label id="label10" class="form-label">desired Material</label><br>
+                            <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial"readonly class="form-control orderInputDes repairInputDes customInputDes" value=""></textarea>
                             <span class="text-danger error-text description_error errorSpan"></span>
                         </div>
                        
@@ -278,7 +285,6 @@
       <!-- Modal footer -->
       <div class="modal-footer">
       <div class="text-end">
-                            <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Save changes</button>
                         </div>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
       </div>
@@ -318,9 +324,8 @@
         }
         var cells = document.getElementsByClassName("repairInputDes"); 
         for (var i = 0; i < cells.length; i++) { 
-            cells[i].disabled = true;
+            cells[i].disabled = false;
         }
-       
         // ajax
         $.ajax({
             type:"POST",
@@ -328,12 +333,6 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
-                if (res.deleted_at !== null) {
-                    var cells = document.getElementsByClassName("AllDes"); 
-                    for (var i = 0; i < cells.length; i++) { 
-                        cells[i].disabled = true;
-                    }  
-                };
               $('#viewOrderModal').modal('show');
               //change the span text of the modal
               $('#label1').text('order Name');
@@ -356,7 +355,7 @@
                 $('#size').val(res.estimatedPrice);
                 $('#price').val(res.actualPrice);            
               
-              $('#prodCategory_id').val(res.productCategory_id);
+              $('#prodCategory_id').val(res.	productCategory_id);
               $('#description').val(res.furnitureState);
               $('#status').val(res.status);
               $('#quantity').val('not available');
@@ -389,7 +388,7 @@
         }
         var cells = document.getElementsByClassName("customInputDes"); 
         for (var i = 0; i < cells.length; i++) { 
-            cells[i].disabled = true;
+            cells[i].disabled = false;
         }
 
         document.getElementById("customOnly").style.display = "block";
@@ -404,12 +403,6 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
-                if (res.deleted_at !== null) {
-                    var cells = document.getElementsByClassName("AllDes"); 
-                    for (var i = 0; i < cells.length; i++) { 
-                        cells[i].disabled = true;
-                    }  
-                };
               $('#viewOrderModal').modal('show');
               //change the span text of the modal
               $('#label1').text('Product Name');
@@ -473,7 +466,7 @@
         }
         var cells = document.getElementsByClassName("orderInputDes"); 
         for (var i = 0; i < cells.length; i++) { 
-            cells[i].disabled = true;
+            cells[i].disabled = false;
         }
         // ajax
         $.ajax({
@@ -482,12 +475,6 @@
             data: { id: id },
             dataType: 'json',
             success: function(res){
-                if (res.deleted_at !== null) {
-                    var cells = document.getElementsByClassName("AllDes"); 
-                    for (var i = 0; i < cells.length; i++) { 
-                        cells[i].disabled = true;
-                    }  
-                };
               $('#viewOrderModal').modal('show');
               //product name is type of service + product category
               //change the span text of the modal
@@ -568,73 +555,6 @@
             })
 
     });
-    $('body').on('click', '.deleteCustom', function () {
-
-
-            Swal.fire({
-            title: 'Are you want to move order to Archives?',
-            text: "you sill can restore it again",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-            if (result.isConfirmed) {
-            var id = $(this).data('id');
-            // ajax
-            $.ajax({
-                type:"POST",
-                url: "{{ url('admin/delete-customOrder') }}",
-                data: { id: id },
-                dataType: 'json',
-                success: function(res){
-                window.location.reload();
-                }
-            });
-            Swal.fire(
-            'Deleted!',
-            'order has been moved to Archives.',
-            'success'
-            )
-            }
-         })
-
-       });
-       $('body').on('click', '.deleteRepair', function () {
-
-
-            Swal.fire({
-            title: 'Are you want to move order to Archives?',
-            text: "you sill can restore it again",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-            if (result.isConfirmed) {
-            var id = $(this).data('id');
-            // ajax
-            $.ajax({
-                type:"POST",
-                url: "{{ url('admin/delete-repairOrder') }}",
-                data: { id: id },
-                dataType: 'json',
-                success: function(res){
-                window.location.reload();
-                }
-            });
-            Swal.fire(
-            'Deleted!',
-            'order has been moved to Archives.',
-            'success'
-            )
-            }
-  })
-
-});
-    
 
     $('body').on('click', '#btn-save', function (e) {
            e.preventDefault()

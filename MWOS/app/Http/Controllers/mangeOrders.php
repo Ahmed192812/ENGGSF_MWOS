@@ -15,18 +15,35 @@ class mangeOrders extends Controller
     {
         $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
         $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
-        $orders =DB::table('orders')
+        $orders =Order::select('*','orders.id as orderId')
         ->join('products', 'orders.product_id', '=', 'products.id')
-        ->select('*','orders.id as orderId')->get();
-        $customs =DB::table('customs')
+        ->get();
+        $customs =Custom::select('*','customs.id as CustomId')
         ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
         ->join('materials', 'customs.material_id', '=', 'materials.id')
-        ->select('*','customs.id as CustomId')->get();
-        $repairs =DB::table('repairs')
+        ->get();
+        $repairs =Repair::select('*','repairs.id as repairsId')
         ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-        ->select('*','repairs.id as repairsId')->get();
+        ->get();
         return view('admin.orders', compact('customs','orders','repairs','productCategory','Materials'));
     }
+    public function archives()
+    {
+        $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
+        $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
+        $orders =Order::onlyTrashed()->select('*','orders.id as orderId')
+        ->join('products', 'orders.product_id', '=', 'products.id')
+        ->get();
+        $customs =Custom::onlyTrashed()->select('*','customs.id as CustomId')
+        ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        ->join('materials', 'customs.material_id', '=', 'materials.id')
+        ->get();
+        $repairs =Repair::onlyTrashed()->select('*','repairs.id as repairsId')
+        ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+        ->get();
+        return view('admin.orders', compact('customs','orders','repairs','productCategory','Materials'));
+    }
+    
     public function store(Request $request)
     {
         // dd('repair'.$request->repairsId,'custom'.$request->CustomId,'order'.$request->orderId);
@@ -72,15 +89,12 @@ class mangeOrders extends Controller
 
         $Order->save();
         }
-       
-           
-        
-            return response()->json(['status'=>1,'msg'=>'saved successfully']);
-        
-       
-            
-           
 
+            return response()->json(['status'=>1,'msg'=>'saved successfully']);
+
+    }
+    public function destroy()
+    {
         
     }
 }
