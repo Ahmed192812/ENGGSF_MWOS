@@ -97,16 +97,8 @@ class UserController extends Controller
             ->select('*')
             ->orderByRaw('prodCategory')
             ->get();
-
-        if ($input == "Orders") {
-            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
-        } elseif ($input == "Customs") {
-            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
-        } elseif ($input == "Repairs") {
-            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
-        } else {
-            return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
-        }
+            
+        return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
 
         // $orders = DB::table('orders')
         //     ->join('products', 'orders.product_id', '=', 'products.id')
