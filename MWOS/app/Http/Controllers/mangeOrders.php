@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Custom;
 use App\Models\Order;
 use App\Models\Repair;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -26,6 +28,40 @@ class mangeOrders extends Controller
         ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
         ->get();
         return view('admin.orders', compact('customs','orders','repairs','productCategory','Materials'));
+    }
+    public function viewPdfPage(){
+        return view('admin.orderPdfPage');
+    }
+    public function generatePdfAllOrders(){
+        $sumOrderPrice=Order::join('products', 'orders.product_id', '=', 'products.id')
+        ->where('orders.status','done')
+        ->sum(DB::raw('products.price * orders.quantity'));
+        $sumCustomPrice=Custom::where('status','done')
+        ->sum(DB::raw('customs.price * customs.quantity'));
+        $sumRepairPrice=Repair::where('status','done')
+        ->sum('repairs.actualPrice');
+       
+        $orders =Order::select('*','orders.id as orderId')
+        ->join('products', 'orders.product_id', '=', 'products.id')
+        ->where('status','done')
+        ->get();
+        $customs =Custom::select('*','customs.id as CustomId')
+        ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        ->where('status','done')
+        ->join('materials', 'customs.material_id', '=', 'materials.id')
+        ->get();
+        $repairs =Repair::select('*','repairs.id as repairsId')
+        ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+        ->where('status','done')
+        ->get();
+        
+        view()->share('admin.PDFs.pdfOrders',$repairs,$customs,$orders,$sumOrderPrice,$sumCustomPrice,$sumRepairPrice);
+        $customPaper = array(0,0,567.00,800.80);
+
+        $pdf = PDF::loadView('admin.PDFs.pdfOrders', compact('repairs','customs','orders','sumOrderPrice','sumCustomPrice','sumRepairPrice'))->setPaper($customPaper, 'landscape');
+
+
+        return $pdf->download('MWOSPDF.pdf');
     }
     public function archives()
     {

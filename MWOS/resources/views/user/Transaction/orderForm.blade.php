@@ -17,7 +17,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p class="mb-1">PHP 2,590</p>
+                        <p class="mb-1">PHP {{$products->price}}</p>
                     </div>
                 </div>
                 <hr>

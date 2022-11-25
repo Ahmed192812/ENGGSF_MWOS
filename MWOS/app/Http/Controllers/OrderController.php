@@ -59,7 +59,7 @@ class OrderController extends Controller
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
             'payment_type' => $request->input('payment_type'),
-            'status' => "Pending",
+            
             'rating' => $request->input('rating'),
             'review' => $request->input('review'),
         ]);
