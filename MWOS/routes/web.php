@@ -78,6 +78,9 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('delete-repairOrder', [RepairController::class, 'destroy'])->name('admin.delete-repairOrder');
     Route::post('delete-customOrder', [CustomController::class, 'destroy'])->name('admin.delete-customOrder');
     Route::post('delete-Orders', [OrderController::class, 'destroy'])->name('admin.delete-Orders');
+    Route::post('restore-Orders', [OrderController::class, 'restore'])->name('admin.restore-Orders');
+    Route::post('restore-repairOrder', [RepairController::class, 'restore'])->name('admin.restore-repairOrder');
+    Route::post('restore-customOrder', [CustomController::class, 'restore'])->name('admin.restore-customOrder');
 
 
 

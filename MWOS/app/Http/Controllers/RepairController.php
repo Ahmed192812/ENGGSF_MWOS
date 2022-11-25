@@ -132,8 +132,14 @@ class RepairController extends Controller
             $Repair = Repair::where('repairs.id',$request->id)->delete();
             return response()->json(['success' => true]);
 
+
         
-       
+    }
+    public function restore(Request $request)
+    {
+            $Repair = Repair::where('repairs.id',$request->id)->restore();
+            return redirect()->back();
+
 
         
     }

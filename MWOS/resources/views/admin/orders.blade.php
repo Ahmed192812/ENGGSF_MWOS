@@ -60,6 +60,13 @@
                         <td class="col text-center align-middle">
                         <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">Edit</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteOrders" data-id="{{ $order->orderId }}">Delete</a>
+                            @if($order->deleted_at !== null)
+                            <form class="mt-2"  action="{{ route('admin.restore-Orders')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value=" {{$order->orderId}} ">
+                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                            </form>
+                            @endif
                         </td>
                     </tr>
                             @endforeach
@@ -87,6 +94,13 @@
                         <td class="col text-center align-middle">
                         <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">Edit</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Delete</a>
+                            @if($custom->deleted_at !== null)
+                            <form class="mt-2"  action="{{ route('admin.restore-customOrder')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value=" {{$custom->CustomId}} ">
+                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                            </form>
+                            @endif
                         </td>
                     </tr>
                             @endforeach
@@ -119,9 +133,18 @@
                         @endif
                         </td>
 
-                        <td class="col text-center align-middle">
-                        <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
+                        <td class="col text-center align-middle" style="width: 35%;">
+                        
+                        
+                           <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Delete</a>
+                            @if($repair->deleted_at !== null)
+                            <form class="mt-2" action="{{ route('admin.restore-repairOrder')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$repair->repairsId}}">
+                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                            </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

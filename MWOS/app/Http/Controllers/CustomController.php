@@ -150,4 +150,12 @@ class CustomController extends Controller
 
         
     }
+    public function restore(Request $request)
+    {
+        
+        $Custom = Custom::where('customs.id',$request->id)->restore();
+        return redirect()->back();
+
+        
+    }
 }

@@ -126,4 +126,13 @@ class OrderController extends Controller
 
         
     }
+    public function restore(Request $request)
+    {
+   
+       
+        $Order = Order::where('orders.id',$request->id)->restore();
+        return redirect()->back();
+
+        
+    }
 }
