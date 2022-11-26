@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Products;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -49,6 +50,16 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()) {
+            # code...
+       
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
+            return view('auth.verify');
+        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
+            return view('auth.phoneVerify');
+        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
+
+     
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
@@ -65,6 +76,10 @@ class OrderController extends Controller
         ]);
 
         return view('user.View.viewHome', compact('posts'));
+    }
+}
+    else {
+        return redirect()->back()->with(['login' => 'pleas log in to order']);    }
     }
 
     /**

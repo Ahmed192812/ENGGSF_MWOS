@@ -18,11 +18,6 @@ class UserController extends Controller
     public function home()
     {
 
-        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
-            return view('auth.verify');
-        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
-            return view('auth.phoneVerify');
-        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
 
             $posts = DB::table('product_categorys')
                 ->select('*')
@@ -30,7 +25,7 @@ class UserController extends Controller
                 ->get();
 
             return view('user.View.viewHome', compact('posts'));
-        }
+        
     }
 
     public function repair()
@@ -73,6 +68,12 @@ class UserController extends Controller
 
     public function orders(Request $request)
     {
+        
+        $posts = DB::table('product_categorys')
+        ->select('*')
+        ->orderByRaw('prodCategory')
+        ->get();
+
         $input = $request->input('input');
         $orders = DB::table('orders')
             ->join('products', 'orders.product_id', '=', 'products.id')

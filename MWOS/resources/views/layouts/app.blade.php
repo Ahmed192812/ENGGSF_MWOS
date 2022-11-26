@@ -35,7 +35,7 @@
           <span class="fs-5 ms-2 fw-bold">Mondale Woodworks</span>
         </a>
         <ul class="nav nav-pills">
-          @if(Auth::check() && Auth::user()->role == 1)
+          @if(Auth::check() && Auth::user()->role == 1 || Auth::check() && Auth::user()->role == 3 )
 
           <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link text-decoration-none">Dashboard</a></li>
 

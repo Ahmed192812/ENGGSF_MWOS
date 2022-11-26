@@ -4,6 +4,13 @@
 
 @section('content')
 <div class="container my-4">
+@if (session('login'))
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <span style="text-align:center;">{{ session('login') }}</span> 
+                    
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
     <div class="row align-items-center rounded-4 p-5 border shadow-lg">
         <div class="col-lg-7 text-center text-lg-start">
             <h1 class="display-4 fw-bold lh-1 mb-3">Let’s start working on your idea.</h1>

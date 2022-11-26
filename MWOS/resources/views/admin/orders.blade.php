@@ -11,8 +11,10 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
-        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-sm btn-danger text-light rounded-pill ">PDFs</a>
+        @if(Auth::check() && Auth::user()->role == 1)
 
+            <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-sm btn-danger text-light rounded-pill ">PDFs</a>
+       @endif
         </div>
         <div class="col-4">
     
@@ -55,7 +57,9 @@
                         @elseif($order->status == "processing")
                         <span class="badge bg-dark text-light">{{ $order->status}}</span>
                         @elseif($order->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($order->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
                         </td>
 
@@ -89,7 +93,9 @@
                         @elseif($custom->status == "processing")
                         <span class="badge bg-dark text-light">{{ $custom->status}}</span>
                         @elseif($custom->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($custom->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
                         </td>
 
@@ -131,7 +137,9 @@
                         @elseif($repair->status == "processing")
                         <span class="badge bg-dark text-light">{{ $repair->status}}</span>
                         @elseif($repair->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($repair->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
                         </td>
 
@@ -276,7 +284,8 @@
                                 <option value="Declined">Declined</option>
                                 <option value="Pending">Pending payment/materials</option>
                                 <option value="processing">processing</option>
-                                <option value="done">for delivery/pek up</option>
+                                <option value="FDP">for delivery/pek up</option>
+                                <option value="done">Completed</option>
 
                             </select>
 

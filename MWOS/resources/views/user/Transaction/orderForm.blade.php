@@ -1,7 +1,13 @@
 @extends('user.userLayout')
 
 @section('content')
-
+@if (session('login'))
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <span>{{ session('login') }}</span> 
+                    
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="container my-4">
     <div class="row rounded-4 border shadow-lg">
         <div class="col-6 p-5 pe-lg-2">
@@ -53,7 +59,9 @@
                 <div class="row mt-2">
                     <div class="col">
                         <p><i class="bi bi-box-seam"></i> Delivery: Free shipping</p>
+                        @if(Auth::check()) 
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                         @endif
                         <input type="hidden" name="product_id" value="{{ $products->id }}">
                         <button type="submit" class="btn btn-primary w-100 fw-bold">PRE-ORDER</button>
 

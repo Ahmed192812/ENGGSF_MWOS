@@ -1,5 +1,5 @@
 
-@extends('layouts.app')
+@extends('user.userLayout')
 
 
 
@@ -16,14 +16,7 @@
                         </span>
                         @enderror
                         <form id="loginForm" method="POST" action="{{ route('login') }}">
-                            <div class="form-check form-check-inline">
-                                <input id="showPhone" class="form-check-input" type="radio" name="inlineRadioOptions" onclick="Check();" value="option1">
-                                <label class="form-check-label" for="showPhone">login by phone</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input id="showEmail" class="form-check-input" type="radio" name="inlineRadioOptions" onclick="Check();" checked="checked" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Login by email </label>
-                            </div>
+                           
                             @csrf
                             <h3 class="mb-3 pb-3 fw-bold" style="letter-spacing: 1px;">{{ __('Login') }}</h3>
                             
@@ -37,6 +30,7 @@
                                 @enderror
                                 <label class="form-label my-1" for="form2Example18">Email</label>
                             </div>
+                            <h5 class="mt-2 mb-4 ml-3"><b>Or</b></h5>
                             <div id="phoneDiv" class="form-outline mb-3">
                                 <input id="phoneNumber" type='text' class="form-control" name="phoneNumber" value="{{ old('phone') }}" autocomplete="phone" placeholder="Phone Number" autofocus />
                                 @error('phoneNumber')
@@ -72,28 +66,7 @@
         </div>
     </section>
     <script type="text/javascript">
-        function Check() {
-            if (document.getElementById('showEmail').checked) {
-                document.getElementById("emailDiv").style.display = "block";
-                document.getElementById("phoneDiv").style.display = "none";
-                var getValue = document.getElementById("phoneNumber");
-                if (getValue.value != "") {
-                    getValue.value = "";
-                }
-            } else if (document.getElementById('showPhone').checked) {
-                document.getElementById("phoneDiv").style.display = "block";
-                document.getElementById("emailDiv").style.display = "none";
-                var getValue = document.getElementById("email");
-                if (getValue.value != "") {
-                    getValue.value = "";
-                }
-
-            }
-
-        }
-
-        document.getElementById('showEmail').checked
-        document.getElementById("phoneDiv").style.display = "none";
+      
     </script>
     @endsection
 

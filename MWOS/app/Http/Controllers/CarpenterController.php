@@ -13,7 +13,7 @@ class CarpenterController extends Controller
     }
     public function dashboard()
     {  
-        return view('carpenter.dashboardCarpenter');
+        return view('admin.dashboardAdmin');
 
     }
 }

@@ -123,8 +123,22 @@
           </ul>
         </li>
         </li>
+        @guest
+        @if (Route::has('login'))
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+          </li>
+          @endif
+          @if (Route::has('register'))
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+          </li>
+          @endif
+          @endguest
+
+        @if(Auth::check() && Auth::user()->role == 2)
         <li class="nav-item">
-          <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->Fname }}
+          <a href="" class="nav-link d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> @if(Auth::check()) {{ Auth::user()->Fname }} @endif
           </a>
           <ul class="dropdown-menu text-small">
             <li>
@@ -148,6 +162,8 @@
             </li>
           </ul>
         </li>
+        @endif
+
       </ul>
     </header>
   </div>

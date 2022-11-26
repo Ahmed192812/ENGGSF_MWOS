@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/xampp/htdocs/ENGGSF/ENGGSF_MWOS/MWOS/resources/views/user/View/viewHome.blade.php';
 
     /**
      * The controller namespace for the application.

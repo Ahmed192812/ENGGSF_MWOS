@@ -106,7 +106,7 @@ class RegisterController extends Controller
             return route('user.dashboard');
         }
         elseif(Auth()->user()->role ==3){
-            return route('carpenter.dashboard');
+            return route('admin.dashboard');
         }
     }
 }

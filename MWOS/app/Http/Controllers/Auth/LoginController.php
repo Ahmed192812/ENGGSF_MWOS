@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
+    
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -49,7 +50,7 @@ class LoginController extends Controller
             return route('user.dashboard');
         }
         elseif(Auth()->user()->role ==3){
-            return route('carpenter.dashboard');
+            return route('admin.dashboard');
         }
     }
 
@@ -60,6 +61,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+      
         $this->middleware('guest')->except('logout');
 
     }
@@ -114,7 +116,7 @@ class LoginController extends Controller
             return redirect()->route('user.dashboard');
         }
         elseif(Auth()->user()->role ==3){
-            return redirect()->route('carpenter.dashboard');
+            return redirect()->route('admin.dashboard');
         }
         }
         elseif (auth()->attempt(array('phoneNumber'=>$input['phoneNumber'],'password'=>$input['password']))) {
@@ -126,7 +128,7 @@ class LoginController extends Controller
                 return redirect()->route('user.dashboard');
             }
             elseif(Auth()->user()->role ==3){
-                return redirect()->route('carpenter.dashboard');
+                return redirect()->route('admin.dashboard');
             }
         }
 

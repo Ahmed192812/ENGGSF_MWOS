@@ -27,9 +27,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [UserController::class, 'home'])->name('user.dashboard');
+
 
 Route::get('/login', function () {
     return view('login');
@@ -83,6 +83,7 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('restore-customOrder', [CustomController::class, 'restore'])->name('admin.restore-customOrder');
     Route::get('ordersPdfPage',[mangeOrders::class, 'viewPdfPage'])->name('admin.ordersPdfPage');
     Route::get('ordersPdfPage-Allorders',[mangeOrders::class, 'generatePdfAllOrders'])->name('admin.ordersPdfPage-Allorders');
+    Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('admin.dashboard');
 
 
 
@@ -90,14 +91,14 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
 });
 
 //Routes for Carpenter
-route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', 'PreventBack']], function () {
-    Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
-    // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
+// route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', 'PreventBack']], function () {
+//     Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
+//     // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
 
-});
+// });
 
 //Routes for Users(Customers)
-route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBack']], function () {
+route::group(['prefix' => 'user'], function () {
     Route::get('home', [UserController::class, 'home'])->name('user.dashboard');
     Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
     Route::get('repair', [RepairController::class, 'index'])->name('user.repair');

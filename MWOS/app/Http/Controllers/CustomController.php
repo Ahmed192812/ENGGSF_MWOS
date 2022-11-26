@@ -47,6 +47,17 @@ class CustomController extends Controller
     public function store(Request $request)
     {
         
+        if (Auth::user()) {
+            # code...
+       
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
+            return view('auth.verify');
+        } 
+        elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
+            return view('auth.phoneVerify');
+        } 
+        elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
+        
 
         $request->validate( [
                 'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5048'],
@@ -85,6 +96,10 @@ class CustomController extends Controller
             $Custom->save();
            
             return redirect()->route('user.orders');
+    }
+}else {
+    return redirect()->back()->with(['login' => 'pleas log in to order']);    
+}
 
 
 

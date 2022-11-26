@@ -102,7 +102,9 @@
                         @elseif($repair->status == "processing")
                         <span class="badge bg-dark text-light">{{ $repair->status}}</span>
                         @elseif($repair->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($repair->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
               </td>
               <td class="col-3">
@@ -156,7 +158,9 @@
                         @elseif($custom->status == "processing")
                         <span class="badge bg-dark text-light">{{ $custom->status}}</span>
                         @elseif($custom->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($custom->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
               </td>
               <td class="col-3">
@@ -210,7 +214,9 @@
                         @elseif($order->status == "processing")
                         <span class="badge bg-dark text-light">{{ $order->status}}</span>
                         @elseif($order->status == "done")
-                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($order->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
                         @endif
               </td>
               <td class="col-3">
