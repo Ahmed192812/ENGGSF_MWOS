@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
-        <a href="{{ route('admin.ordersPdfPage')}}" type="button" class="btn btn-sm btn-danger text-light rounded-pill ">PDFs</a>
+        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-sm btn-danger text-light rounded-pill ">PDFs</a>
 
         </div>
         <div class="col-4">
