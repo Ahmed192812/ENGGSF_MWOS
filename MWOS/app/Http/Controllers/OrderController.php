@@ -25,7 +25,7 @@ class OrderController extends Controller
         return view('user.Transaction.orderForm', compact('posts'));
     }
 
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -52,34 +52,45 @@ class OrderController extends Controller
     {
         if (Auth::user()) {
             # code...
-       
-        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
-            return view('auth.verify');
-        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
-            return view('auth.phoneVerify');
-        } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
 
-     
-        $posts = DB::table('product_categorys')
-            ->select('*')
-            ->orderByRaw('prodCategory')
-            ->get();
+            if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null) {
+                return view('auth.verify');
+            } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code != 0) {
+                return view('auth.phoneVerify');
+            } elseif (Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null) {
 
-        Order::create([
-            'user_id' => $request->input('user_id'),
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'payment_type' => $request->input('payment_type'),
-            
-            'rating' => $request->input('rating'),
-            'review' => $request->input('review'),
-        ]);
+                $request->validate(
+                    [
+                        'payment_type' => 'required'
+                    ],
+                    [
+                        //customize Message
+                    ],
+                    [
+                        'payment_type' => 'Payment Type'
+                    ]
+                );
 
-        return view('user.View.viewHome', compact('posts'));
-    }
-}
-    else {
-        return redirect()->back()->with(['login' => 'pleas log in to order']);    }
+                $posts = DB::table('product_categorys')
+                    ->select('*')
+                    ->orderByRaw('prodCategory')
+                    ->get();
+
+                Order::create([
+                    'user_id' => $request->input('user_id'),
+                    'product_id' => $request->input('product_id'),
+                    'quantity' => $request->input('quantity'),
+                    'payment_type' => $request->input('payment_type'),
+
+                    'rating' => $request->input('rating'),
+                    'review' => $request->input('review'),
+                ]);
+
+                return view('user.View.viewHome', compact('posts'));
+            }
+        } else {
+            return redirect()->back()->with(['login' => 'pleas log in to order']);
+        }
     }
 
     /**
@@ -102,12 +113,12 @@ class OrderController extends Controller
     public function edit(Request $request)
     {
         $where = array('orders.id' => $request->id);
-        $order  = order::withTrashed()->select('*','orders.id as orderId')
-        ->join('products', 'orders.product_id', '=', 'products.id')
-        ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
+        $order  = order::withTrashed()->select('*', 'orders.id as orderId')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
 
-        ->where($where)->first();
-        
+            ->where($where)->first();
+
         return response()->json($order);
     }
 
@@ -131,23 +142,18 @@ class OrderController extends Controller
      */
     public function destroy(Request $request)
     {
-   
-        if (Order::onlyTrashed()->where('orders.id',$request->id)) {
-            $Order = Order::onlyTrashed()->where('orders.id',$request->id)->forceDelete();
 
+        if (Order::onlyTrashed()->where('orders.id', $request->id)) {
+            $Order = Order::onlyTrashed()->where('orders.id', $request->id)->forceDelete();
         }
-        $Order = Order::where('orders.id',$request->id)->delete();
+        $Order = Order::where('orders.id', $request->id)->delete();
         return response()->json(['success' => true]);
-
-        
     }
     public function restore(Request $request)
     {
-   
-       
-        $Order = Order::where('orders.id',$request->id)->restore();
-        return redirect()->back();
 
-        
+
+        $Order = Order::where('orders.id', $request->id)->restore();
+        return redirect()->back();
     }
 }

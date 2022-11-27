@@ -1,0 +1,116 @@
+
+@foreach ($customs as $custom)
+                    <tr>
+                        <td class="col text-center align-middle">A Custom {{ $custom->prodCategory}}</td>
+                        <td class="col text-center align-middle">{{ $custom->quantity}}</th>
+                        <td class="col text-center align-middle">@if($custom->price == null) price not yet here @else{{ $custom->price }} @endif</td>
+                        <td class="col text-center align-middle">
+                            @if($custom->status == "Pending")
+                            <span class="badge bg-info text-dark">{{ $custom->status}} Payment/Material</span>
+                            @elseif($custom->status == "TBR")
+                            <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                            @elseif($custom->status == "Accepted")
+                            <span class="badge bg-light text-dark">{{ $custom->status}}</span>
+                            @elseif($custom->status == "Declined")
+                            <span class="badge bg-danger text-dark">{{ $custom->status}}</span>
+                            @elseif($custom->status == "processing")
+                            <span class="badge bg-dark text-light">{{ $custom->status}}</span>
+                            @elseif($custom->status == "done")
+                            <span class="badge bg-success text-light">Completed</span>
+                            @elseif($custom->status == "FDP")
+                            <span class="badge bg-light text-dark">for Delivery /pek up</span>
+                            @endif
+                        </td>
+                        <td class="col text-center align-middle">
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">Edit</a>
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Delete</a>
+                            @if($custom->deleted_at !== null)
+                            <form class="mt-2" action="{{ route('admin.restore-customOrder')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value=" {{$custom->CustomId}} ">
+                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                            </form>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                    @foreach ($repairs as $repair)
+                    <tr>
+                        <td class="col text-center align-middle">repair a {{ $repair->prodCategory}}</td>
+                        <td class="col text-center align-middle">{{ $repair->quantity}}</th>
+                        <td class="col text-center align-middle">
+                            @if($repair->estimatedPrice == null && $repair->actualPrice == null)
+                            price not yet here
+                            @elseif($repair->estimatedPrice !== null && $repair->actualPrice == null )
+                            estimated price({{ $repair->estimatedPrice }})
+                            @elseif($repair->estimatedPrice !== null && $repair->actualPrice !== null )
+                            {{ $repair->actualPrice }}
+                            @else {{ $repair->actualPrice }} @endif
+                        </td>
+                        <td class="col text-center align-middle">
+                            @if($repair->status == "Pending")
+                            <span class="badge bg-info text-dark">{{ $repair->status}} Payment/Material</span>
+                            @elseif($repair->status == "TBR")
+                            <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                            @elseif($repair->status == "Accepted")
+                            <span class="badge bg-light text-dark">{{ $repair->status}}</span>
+                            @elseif($repair->status == "Declined")
+                            <span class="badge bg-danger text-dark">{{ $repair->status}}</span>
+                            @elseif($repair->status == "processing")
+                            <span class="badge bg-dark text-light">{{ $repair->status}}</span>
+                            @elseif($repair->status == "done")
+                            <span class="badge bg-success text-light">Completed</span>
+                            @elseif($repair->status == "FDP")
+                            <span class="badge bg-light text-dark">for Delivery /pek up</span>
+                            @endif
+                        </td>
+                        <td class="col text-center align-middle" style="width: 35%;">
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Delete</a>
+                            @if($repair->deleted_at !== null)
+                            <form class="mt-2" action="{{ route('admin.restore-repairOrder')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$repair->repairsId}}">
+                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                            </form>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+
+                    <form action="{{ route('admin.add-update-productCategory')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$oneProductCategory->id}}">
+                        </form>
+
+                         <td class="col-6">
+                            <div class="d-flex justify-content-center">
+                                <div class="dropdown">
+                                    <a class="btn btn-sm btn-secondary rounded-pill px-3 me-2" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button">Edit</a>
+                                    <ul class="dropdown-menu mx-0 shadow" style="border-radius: 9px;">
+                                        <form action="{{ route('admin.add-update-productCategory') }}" method="POST">
+                                            @csrf
+                                            <li>
+                                                <div class="dropdown-item mb-2">
+                                                    <label class="fw-bold mb-1 ">Category Name</label>
+                                                    <input class="form-control" type="text" name="prodCategory">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li>
+                                                <div class="text-center mx-2">
+                                                    <button class="btn btn-primary btn-sm w-100" type="submit">Submit</button>
+                                                </div>
+                                            </li>
+                                        </form>
+                                        <form action="{{ route('admin.add-update-productCategory')}}" method="POST">
+                                            @csrf
+                                            <input type="text" class="form-control " name="prodCategory" value="{{ $oneProductCategory->prodCategory}}">
+                                            <input type="text" name="id" value="{{$oneProductCategory->id}}">
+                                        </form>
+                                    </ul>
+                                </div>
+                                <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $oneProductCategory->id }}">Delete</a>
+                            </div>

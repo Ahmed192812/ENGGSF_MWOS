@@ -68,7 +68,7 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('add-update-products', [ProductsController::class, 'store'])->name('admin.add-update-products');
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
-    Route::get('mangeOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
+    Route::get('manageOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
     Route::get('OrdersArchives', [mangeOrders::class, 'archives'])->name('admin.OrdersArchives');
 
     Route::post('mangeOrders-updateOrder', [mangeOrders::class, 'store'])->name('admin.mangeOrders-updateOrder');
@@ -84,10 +84,6 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::get('ordersPdfPage',[mangeOrders::class, 'viewPdfPage'])->name('admin.ordersPdfPage');
     Route::get('ordersPdfPage-Allorders',[mangeOrders::class, 'generatePdfAllOrders'])->name('admin.ordersPdfPage-Allorders');
     Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('admin.dashboard');
-
-
-
-
 });
 
 //Routes for Carpenter
@@ -106,11 +102,11 @@ route::group(['prefix' => 'user'], function () {
     Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
     Route::post('repairAdd', [RepairController::class, 'store'])->name('user.repairAdd');
     Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('cancelOrder', [UserController::class, 'cancel'])->name('user.cancel');
 
     Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('user.edit-repairOrder');
     Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('user.edit-customOrder');
     Route::post('edit-Orders', [OrderController::class, 'edit'])->name('user.edit-Orders');
-
 
     Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
     Route::resource('order', OrderController::class);

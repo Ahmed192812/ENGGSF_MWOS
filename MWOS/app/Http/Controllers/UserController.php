@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Custom;
+use App\Models\Order;
+use App\Models\Repair;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -14,25 +17,23 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // Navbar
+
     public function home()
     {
+        // Navbar
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByDesc('prodCategory')
+            ->get();
 
-
-            $posts = DB::table('product_categorys')
-                ->select('*')
-                ->orderByRaw('prodCategory')
-                ->get();
-
-            return view('user.View.viewHome', compact('posts'));
-        
+        return view('user.View.viewHome', compact('posts'));
     }
 
     public function repair()
     {
         $posts = DB::table('product_categorys')
             ->select('*')
-            ->orderByRaw('prodCategory')
+            ->orderByDesc('prodCategory')
             ->get();
 
         return view('user.Transaction.reqRepair', compact('posts'));
@@ -42,7 +43,7 @@ class UserController extends Controller
     {
         $posts = DB::table('product_categorys')
             ->select('*')
-            ->orderByRaw('prodCategory')
+            ->orderByDesc('prodCategory')
             ->get();
 
         return view('user.Transaction.reqCustom', compact('posts'));
@@ -52,7 +53,7 @@ class UserController extends Controller
     {
         $posts = DB::table('product_categorys')
             ->select('*')
-            ->orderByRaw('prodCategory')
+            ->orderByDesc('prodCategory')
             ->get();
 
         $search = $request->input('category');
@@ -68,63 +69,59 @@ class UserController extends Controller
 
     public function orders(Request $request)
     {
-        
-        $posts = DB::table('product_categorys')
-        ->select('*')
-        ->orderByRaw('prodCategory')
-        ->get();
-
         $input = $request->input('input');
         $orders = DB::table('orders')
             ->join('products', 'orders.product_id', '=', 'products.id')
             ->select('*', 'orders.id as orderId', 'orders.created_at as date')
             ->where('user_id', Auth::user()->id)
-            ->orderByRaw('date')
+            ->orderByDesc('date')
             ->get();
         $repairs = DB::table('repairs')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
             ->select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
             ->where('user_id', Auth::user()->id)
-            ->orderByRaw('date')
+            ->orderByDesc('date')
             ->get();
         $customs = DB::table('customs')
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
             ->select('*', 'customs.id as CustomId', 'customs.created_at as date')
             ->where('user_id', Auth::user()->id)
-            ->orderByRaw('date')
+            ->orderByDesc('date')
             ->get();
         $posts = DB::table('product_categorys')
             ->select('*')
-            ->orderByRaw('prodCategory')
+            ->orderByDesc('prodCategory')
             ->get();
 
         return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs', 'input'));
+    }
 
-        // $orders = DB::table('orders')
-        //     ->join('products', 'orders.product_id', '=', 'products.id')
-        //     ->select('*', 'orders.id as orderId')
-        //     ->where('user_id', Auth::user()->id)->get();
-        // $customs = DB::table('customs')
-        //     ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
-        //     ->join('materials', 'customs.material_id', '=', 'materials.id')
-        //     ->select('*', 'customs.id as CustomId')
-        //     ->where('user_id', Auth::user()->id)->get();
-        // $repairs = DB::table('repairs')
-        //     ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-        //     ->select('*', 'repairs.id as repairsId')
-        //     ->where('user_id', Auth::user()->id)->get();
-        // $posts = DB::table('product_categorys')
-        //     ->select('*')
-        //     ->orderByRaw('prodCategory')
-        //     ->get();
-        // return view('user.View.viewOrder', compact('orders', 'posts', 'customs', 'repairs'));
-        // $pending = DB::table('orders')
-        //     ->join('products', 'product_id', '=', 'orders.product_id')
-        //     ->select('*')
-        //     ->where('user_id', '=', Auth::user()->id)
-        //     ->get();
-        // return view('user.View.viewOrder', compact('pending', 'posts'));
+    public function cancel(Request $request)
+    {
+        $order = $request->input('order');
+        $repair = $request->input('repair');
+        $custom = $request->input('custom');
+
+        if ($order) {
+            $order = Order::find($order);
+            $order->status = "Declined";
+            $order->save();
+
+            return back()->with(['Success' => 'Order Cancelled']);
+        } elseif ($repair) {
+            $repair = Repair::find($repair);
+            $repair->status = "Declined";
+            $repair->save();
+
+            return back()->with(['Success' => 'Order Cancelled']);
+        } elseif ($custom) {
+            $custom = Custom::find($custom);
+            $custom->status = "Declined";
+            $custom->save();
+
+            return back()->with(['Success' => 'Order Cancelled']);
+        }
     }
 
     public function profile()
@@ -144,8 +141,7 @@ class UserController extends Controller
 
     public function profileUpdate(Request $request)
     {
-        //validation rules
-
+        // Validation rules
         $request->validate([
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
@@ -157,8 +153,8 @@ class UserController extends Controller
         $oldEmail = auth()->user()->email;
         $oldPhoneNumber = auth()->user()->phoneNumber;
 
-        $user = User::find($request->id);
         // Getting values from the blade template form
+        $user = User::find($request->id);
         $user->Fname =  $request->Fname;
         $user->Lname = $request->Lname;
         $user->email = $request->email;
@@ -198,13 +194,12 @@ class UserController extends Controller
 
     public function changePssword(Request $request)
     {
-
         return view('changePassword');
     }
 
     public function UpdatePassword(Request $request)
     {
-        # Validation
+        // Validation
         $request->validate([
             'old_password' => 'required',
             'new_password' => 'required|confirmed',
@@ -225,7 +220,7 @@ class UserController extends Controller
     {
         return view('auth.phoneVerify');
     }
-    
+
     public function verifyCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
