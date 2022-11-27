@@ -51,15 +51,16 @@
                         <h4>Payment Type</h4>
                         <div class="row my-3">
                             <div class="col text-center">
-                                <input type="text" name="payment_type" class="form-control">
+                                <select class="form-select" name="payment_type">
+                                    <option selected value="1">Cash</option>
+                                    <option value="2">GCash</option>
+                                </select>
                             </div>
                             @error('payment_type')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-
-                            <!-- Payment type of what? staggered? shouyld the price be distributed? breakdown fo statement? -->
                         </div>
                     </div>
                 </div>
