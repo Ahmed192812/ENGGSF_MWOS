@@ -19,13 +19,12 @@ class UserController extends Controller
     {
 
 
-            $posts = DB::table('product_categorys')
-                ->select('*')
-                ->orderByRaw('prodCategory')
-                ->get();
+        $posts = DB::table('product_categorys')
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
 
-            return view('user.View.viewHome', compact('posts'));
-        
+        return view('user.View.viewHome', compact('posts'));
     }
 
     public function repair()
@@ -68,11 +67,11 @@ class UserController extends Controller
 
     public function orders(Request $request)
     {
-        
+
         $posts = DB::table('product_categorys')
-        ->select('*')
-        ->orderByRaw('prodCategory')
-        ->get();
+            ->select('*')
+            ->orderByRaw('prodCategory')
+            ->get();
 
         $input = $request->input('input');
         $orders = DB::table('orders')
@@ -225,7 +224,7 @@ class UserController extends Controller
     {
         return view('auth.phoneVerify');
     }
-    
+
     public function verifyCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
