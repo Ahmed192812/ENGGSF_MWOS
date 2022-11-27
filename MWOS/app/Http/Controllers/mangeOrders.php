@@ -20,51 +20,55 @@ class mangeOrders extends Controller
 
         $orders = Order::select('*', 'orders.id as orderId', 'orders.created_at as date')
             ->join('products', 'orders.product_id', '=', 'products.id')
-            ->where('orders.status', "processing")
+            ->where('orders.status',"!=","TBR")
+            ->where('orders.status',"!=","Declined")
             ->orderByDesc('date')
             ->get();
 
         $customs = Custom::select('*', 'customs.id as CustomId', 'customs.created_at as date')
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
-            ->where('customs.status', "processing")
+            ->where('customs.status',"!=","TBR")
+            ->where('customs.status',"!=","Declined")
             ->orderByRaw('date')
             ->get();
 
         $repairs = Repair::select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-            ->where('repairs.status', "processing")
+            ->where('repairs.status',"!=","TBR")
+            ->where('repairs.status',"!=","Declined")
             ->orderByRaw('date')
             ->get();
 
         return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials', 'input'));
     }
 
-    public function requests()
+    public function requests(Request $request)
     {
+        $input = $request->input('input');
         $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
         $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
 
         $orders = Order::select('*', 'orders.id as orderId', 'orders.created_at as date')
             ->join('products', 'orders.product_id', '=', 'products.id')
-            ->where('orders.status', "Pending")
+            ->where('orders.status', "TBR")
             ->orderByDesc('date')
             ->get();
 
         $customs = Custom::select('*', 'customs.id as CustomId', 'customs.created_at as date')
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
-            ->where('customs.status', "Pending")
+            ->where('customs.status', "TBR")
             ->orderByRaw('date')
             ->get();
 
         $repairs = Repair::select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-            ->where('repairs.status', "Pending")
+            ->where('repairs.status', "TBR")
             ->orderByRaw('date')
             ->get();
 
-        return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials'));
+        return view('admin.requests', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials', 'input'));
     }
 
     public function viewPdfPage()
@@ -108,8 +112,9 @@ class mangeOrders extends Controller
         return $pdf->download('MWOSPDF.pdf');
     }
 
-    public function archives()
+    public function archives(Request $request)
     {
+        $input = $request->input('input');
         $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
         $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
         $orders = Order::onlyTrashed()->select('*', 'orders.id as orderId')
@@ -122,7 +127,7 @@ class mangeOrders extends Controller
         $repairs = Repair::onlyTrashed()->select('*', 'repairs.id as repairsId')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
             ->get();
-        return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials'));
+        return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials', 'input'));
     }
 
     public function store(Request $request)

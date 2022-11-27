@@ -2,45 +2,24 @@
 @section('content')
 
 <div class="row">
-    <div class="col d-flex justify-content-end">
-        <form class="d-flex justify-content-end" action="{{ route('admin.productCategorySearch') }}" method="GET">
+    <div class="col">
+        <form action="{{ route('admin.mangeOrders') }}" method="get">
+            @csrf
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Orders' || empty($input)) btn-secondary @else btn-outline-secondary @endif" value="Orders">Orders</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Repairs')btn-secondary @else btn-outline-secondary @endif" value="Repairs">Repairs</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 @if($input == 'Customs') btn-secondary @else btn-outline-secondary @endif" value="Customs">Customs</button>
+        </form>
+    </div>
+    <div class="col text-end">
+        <!-- <form class="d-flex justify-content-end" action="{{ route('admin.productCategorySearch') }}" method="GET">
             <input type="search" name="search" class="form-control me-2" placeholder="Search" style="width: 250px">
             <button class="btn btn-info me-2" type="submit"><i class="bi bi-search"></i></button>
-        </form>
-        <div class="dropdown">
-            <button class="btn btn-info dropdown me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-funnel"></i></button>
-            <ul class="dropdown-menu">
-                <li>
-                    <form action="{{ route('admin.mangeUsersFilter') }}" method="GET">
-                        <input type="hidden" name="filter" value="1">
-                        <button class="dropdown-item" type="submit">Admins</button>
-                    </form>
-                </li>
-                <li>
-                    <form action="{{ route('admin.mangeUsersFilter') }}" method="GET">
-                        <input type="hidden" name="filter" value="2">
-                        <button class="dropdown-item" type="submit">Customers</button>
-                    </form>
-                </li>
-                <li>
-                    <form action="{{ route('admin.mangeUsersFilter') }}" method="GET">
-                        <input type="hidden" name="filter" value="3">
-                        <button class="dropdown-item" type="submit">Carpenters</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+        </form> -->
         @if(Auth::check() && Auth::user()->role == 1)
-        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-info"><i class="bi bi-filetype-pdf"></i></a>
+        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn btn-sm btn-info"><i class="bi bi-filetype-pdf"></i></a>
         @endif
     </div>
 </div>
-
-<br>
-
-<!-- Order -->
-
-<h3>E-Catalog Requests</h3>
 
 <div class="row mt-3">
     <div class="col">
@@ -55,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Order Table -->
+                    @if(empty($input) || $input == "Orders")
                     @foreach ($orders as $order)
                     <tr>
                         <td class="col-3">{!! date('j F Y', strtotime($order->date)) !!}</td>
@@ -90,31 +69,8 @@
                         </td>
                     </tr>
                     @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-<br>
-
-<!-- Repair -->
-
-<h3>Repair Requests</h3>
-
-<div class="row mt-3">
-    <div class="col">
-        <div class="table-responsive">
-            <table class="table table-striped m-0 align-bottom text-center border">
-                <thead>
-                    <tr>
-                        <th class="col-3">Date</th>
-                        <th class="col-3">Product</th>
-                        <th class="col-3">Status</th>
-                        <th class="col-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+                    @elseif($input == "Repairs")
                     @foreach ($repairs as $repair)
                     <tr>
                         <td class="col-3">{!! date('j F Y', strtotime($repair->date)) !!}</td>
@@ -149,31 +105,8 @@
                         </td>
                     </tr>
                     @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-<br>
-
-<!-- Customs -->
-
-<h3>Custom Requests</h3>
-
-<div class="row mt-3">
-    <div class="col">
-        <div class="table-responsive">
-            <table class="table table-striped m-0 align-bottom text-center border">
-                <thead>
-                    <tr>
-                        <th class="col-3">Date</th>
-                        <th class="col-3">Product</th>
-                        <th class="col-3">Status</th>
-                        <th class="col-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+                    @elseif($input == "Customs")
                     @foreach ($customs as $custom)
                     <tr>
                         <td class="col-3">{!! date('j F Y', strtotime($custom->date)) !!}</td>
@@ -208,11 +141,13 @@
                         </td>
                     </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 
 <div class="modal" id="viewOrderModal">
     <div class="modal-dialog modal-lg">
@@ -311,9 +246,8 @@
                                 <select name="status" id="status" class="form-control AllDes">
                                     <option selected value="">Status</option>
                                     <option value="TBR">To Be Reviewed</option>
-                                    <option value="Accepted">Accepted</option>
                                     <option value="Declined">Declined</option>
-                                    <option value="Pending">Pending payment/materials</option>
+                                    <option value="Pending">Pending Payment/materials</option>
                                     <option value="processing">processing</option>
                                     <option value="FDP">for delivery/pek up</option>
                                     <option value="done">Completed</option>
@@ -352,14 +286,11 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('body').on('click', '.viewRepair', function() {
             var id = $(this).data('id');
-
             document.getElementById("materialHid").style.display = "none";
             document.getElementById("hideSize").style.display = "block";
             document.getElementById("customOnly").style.display = "none";
-
             var cells = document.getElementsByClassName("customInputDes");
             for (var i = 0; i < cells.length; i++) {
                 cells[i].disabled = false;
@@ -372,7 +303,6 @@
             for (var i = 0; i < cells.length; i++) {
                 cells[i].disabled = true;
             }
-
             // ajax
             $.ajax({
                 type: "POST",
@@ -410,7 +340,6 @@
                     $('#status').val(res.status);
                     $('#quantity').val('not available');
                     $('#payment_type').val(res.payment_type);
-
                     var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
@@ -421,11 +350,9 @@
                 }
             });
         });
-
         $('body').on('click', '.viewCustom', function() {
             var id = $(this).data('id');
             var cells = document.getElementsByClassName("orderInputDes");
-
             for (var i = 0; i < cells.length; i++) {
                 cells[i].disabled = false;
             }
@@ -437,12 +364,10 @@
             for (var i = 0; i < cells.length; i++) {
                 cells[i].disabled = true;
             }
-
             document.getElementById("customOnly").style.display = "block";
             document.getElementById("hideSize").style.display = "none";
             document.getElementById("materialHid").style.display = "block";
             console.log(id);
-
             // ajax
             $.ajax({
                 type: "POST",
@@ -470,14 +395,11 @@
                     $('#label8').text('Status');
                     $('#label9').text('Description');
                     $('#label10').text('Desired Material');
-
                     // change the span value from the data base 
                     $('#repairsId').val(0);
                     $('#orderId').val(0);
                     $('#CustomId').val(res.CustomId);
                     $('#name').val('a custom' + res.prodCategory);
-
-
                     $('#price').val(res.price);
                     $('#prodCategory_id').val(res.productCategory_id);
                     $('#description').val(res.description);
@@ -489,7 +411,6 @@
                     $('#status').val(res.status);
                     $('#quantity').val(res.quantity);
                     $('#material_id').val(res.material_id);
-
                     $('#payment_type').val(res.payment_type);
                     var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
                     console.log(ImagURL);
@@ -498,9 +419,7 @@
                 }
             });
         });
-
         $('body').on('click', '.viewOrders', function() {
-
             var id = $(this).data('id');
             console.log(id);
             document.getElementById("hideSize").style.display = "block";
@@ -545,7 +464,6 @@
                     $('#label7').text('Quantity');
                     $('#label8').text('Status');
                     $('#label9').text('Description');
-
                     // change the span value from the database
                     $('#CustomId').val(0);
                     $('#repairsId').val(0);
@@ -559,7 +477,6 @@
                     $('#price').val(res.price);
                     $('#quantity').val(res.quantity);
                     $('#payment_type').val(res.payment_type);
-
                     //   var src = ($(this).attr('src') === );
                     var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
                     console.log(ImagURL);
@@ -568,7 +485,6 @@
                 }
             });
         });
-
         $('body').on('click', '.deleteOrders', function() {
             Swal.fire({
                 title: 'Are you want to move order to Archives?',
@@ -601,7 +517,6 @@
                 }
             })
         });
-
         $('body').on('click', '.deleteCustom', function() {
             Swal.fire({
                 title: 'Are you want to move order to Archives?',
@@ -634,7 +549,6 @@
                 }
             })
         });
-
         $('body').on('click', '.deleteRepair', function() {
             Swal.fire({
                 title: 'Are you want to move order to Archives?',
@@ -667,14 +581,11 @@
                 }
             })
         });
-
-
         $('body').on('click', '#btn-save', function(e) {
             e.preventDefault()
             var url = "{{ url('admin/mangeOrders-updateOrder') }}";
             let myForm = document.getElementById('addEditBookForm');
             let dataForm = new FormData(myForm);
-
             // ajax
             $.ajax({
                 type: "POST",

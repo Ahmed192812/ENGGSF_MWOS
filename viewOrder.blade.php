@@ -37,19 +37,19 @@
               <td class="col-3">{!! date('j F Y', strtotime($order->date)) !!}</td>
               <td class="col-3">{{ $order->name }}</td>
               <td class="col-3">
-                @if($order->status == "Pending")
-                <span class="badge bg-info text-dark">{{ $order->status}} Payment/Material</span>
-                @elseif($order->status == "TBR")
-                <span class="badge bg-warning text-dark">To Be Reviewed</span>
-                @elseif($order->status == "Accepted")
-                <span class="badge bg-light text-dark">{{ $order->status}}</span>
-                @elseif($order->status == "Declined")
-                <span class="badge bg-danger text-dark">{{ $order->status}}</span>
-                @elseif($order->status == "processing")
-                <span class="badge bg-dark text-light">{{ $order->status}}</span>
-                @elseif($order->status == "done")
-                <span class="badge bg-success text-light">for Delivery /pek up</span>
-                @endif
+              @if($order->status == "Pending")
+                        <span class="badge bg-info text-dark">{{ $order->status}} Payment/Material</span>
+                        @elseif($order->status == "TBR")
+                        <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                        @elseif($order->status == "Accepted")
+                        <span class="badge bg-light text-dark">{{ $order->status}}</span>
+                        @elseif($order->status == "Declined")
+                        <span class="badge bg-danger text-dark">{{ $order->status}}</span>
+                        @elseif($order->status == "processing")
+                        <span class="badge bg-dark text-light">{{ $order->status}}</span>
+                        @elseif($order->status == "done")
+                        <span class="badge bg-success text-light">for Delivery /pek up</span>
+                        @endif
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $order->orderId }}">View</a>
@@ -91,31 +91,25 @@
               <td class="col-3">{!! date('j F Y', strtotime($repair->date)) !!}</td>
               <td class="col-3">{{ $repair->prodCategory }}</td>
               <td class="col-3">
-                @if($repair->status == "Pending")
-                <span class="badge bg-info text-dark">{{ $repair->status}} Payment/Material</span>
-                @elseif($repair->status == "TBR")
-                <span class="badge bg-warning text-dark">To Be Reviewed</span>
-                @elseif($repair->status == "Accepted")
-                <span class="badge bg-light text-dark">{{ $repair->status}}</span>
-                @elseif($repair->status == "Declined")
-                <span class="badge bg-danger text-dark">{{ $repair->status}}</span>
-                @elseif($repair->status == "processing")
-                <span class="badge bg-dark text-light">{{ $repair->status}}</span>
-                @elseif($repair->status == "done")
-                <span class="badge bg-success text-light">Completed</span>
-                @elseif($repair->status == "FDP")
-                <span class="badge bg-light text-dark">for Delivery /pek up</span>
-                @endif
+              @if($repair->status == "Pending")
+                        <span class="badge bg-info text-dark">{{ $repair->status}} Payment/Material</span>
+                        @elseif($repair->status == "TBR")
+                        <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                        @elseif($repair->status == "Accepted")
+                        <span class="badge bg-light text-dark">{{ $repair->status}}</span>
+                        @elseif($repair->status == "Declined")
+                        <span class="badge bg-danger text-dark">{{ $repair->status}}</span>
+                        @elseif($repair->status == "processing")
+                        <span class="badge bg-dark text-light">{{ $repair->status}}</span>
+                        @elseif($repair->status == "done")
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($repair->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
+                        @endif
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewRepair" data-id="{{ $repair->repairsId }}">View</a>
-                @if($repair->status != "Declined")
-                <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
-                  @csrf
-                  <input type="hidden" name="repair" value="{{ $repair->repairsId }}">
-                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
-                </form>
-                @endif
+                <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
               </td>
             </tr>
             @endforeach
@@ -153,21 +147,21 @@
               <td class="col-3">{!! date('j F Y', strtotime($custom->date)) !!}</td>
               <td class="col-3">{{ $custom->prodCategory }}</td>
               <td class="col-3">
-                @if($custom->status == "Pending")
-                <span class="badge bg-info text-dark">{{ $custom->status}} Payment/Material</span>
-                @elseif($custom->status == "TBR")
-                <span class="badge bg-warning text-dark">To Be Reviewed</span>
-                @elseif($custom->status == "Accepted")
-                <span class="badge bg-light text-dark">{{ $custom->status}}</span>
-                @elseif($custom->status == "Declined")
-                <span class="badge bg-danger text-dark">{{ $custom->status}}</span>
-                @elseif($custom->status == "processing")
-                <span class="badge bg-dark text-light">{{ $custom->status}}</span>
-                @elseif($custom->status == "done")
-                <span class="badge bg-success text-light">Completed</span>
-                @elseif($custom->status == "FDP")
-                <span class="badge bg-light text-dark">for Delivery /pek up</span>
-                @endif
+              @if($custom->status == "Pending")
+                        <span class="badge bg-info text-dark">{{ $custom->status}} Payment/Material</span>
+                        @elseif($custom->status == "TBR")
+                        <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                        @elseif($custom->status == "Accepted")
+                        <span class="badge bg-light text-dark">{{ $custom->status}}</span>
+                        @elseif($custom->status == "Declined")
+                        <span class="badge bg-danger text-dark">{{ $custom->status}}</span>
+                        @elseif($custom->status == "processing")
+                        <span class="badge bg-dark text-light">{{ $custom->status}}</span>
+                        @elseif($custom->status == "done")
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($custom->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
+                        @endif
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
@@ -209,21 +203,21 @@
               <td class="col-3">{!! date('j F Y', strtotime($order->date)) !!}</td>
               <td class="col-3">{{ $order->name }}</td>
               <td class="col-3">
-                @if($order->status == "Pending")
-                <span class="badge bg-info text-dark">{{ $order->status}} Payment/Material</span>
-                @elseif($order->status == "TBR")
-                <span class="badge bg-warning text-dark">To Be Reviewed</span>
-                @elseif($order->status == "Accepted")
-                <span class="badge bg-light text-dark">{{ $order->status}}</span>
-                @elseif($order->status == "Declined")
-                <span class="badge bg-danger text-dark">{{ $order->status}}</span>
-                @elseif($order->status == "processing")
-                <span class="badge bg-dark text-light">{{ $order->status}}</span>
-                @elseif($order->status == "done")
-                <span class="badge bg-success text-light">Completed</span>
-                @elseif($order->status == "FDP")
-                <span class="badge bg-light text-dark">for Delivery /pek up</span>
-                @endif
+              @if($order->status == "Pending")
+                        <span class="badge bg-info text-dark">{{ $order->status}} Payment/Material</span>
+                        @elseif($order->status == "TBR")
+                        <span class="badge bg-warning text-dark">To Be Reviewed</span>
+                        @elseif($order->status == "Accepted")
+                        <span class="badge bg-light text-dark">{{ $order->status}}</span>
+                        @elseif($order->status == "Declined")
+                        <span class="badge bg-danger text-dark">{{ $order->status}}</span>
+                        @elseif($order->status == "processing")
+                        <span class="badge bg-dark text-light">{{ $order->status}}</span>
+                        @elseif($order->status == "done")
+                        <span class="badge bg-success text-light">Completed</span>
+                        @elseif($order->status == "FDP")
+                        <span class="badge bg-light text-dark">for Delivery /pek up</span>
+                        @endif
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $order->orderId }}">View</a>
@@ -344,7 +338,7 @@
           $('#3edSpanValue').text(res.prodCategory);
           $('#4thSpanValue').text(res.furnitureState);
 
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //testing
@@ -393,7 +387,7 @@
           $('#4thSpanValue').text(res.prodCategory);
           $('#5thSpanValue').text(res.name);
           $('#6thSpanValue').text(res.desiredMaterial);
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //   console.log(res.furnitureState);
@@ -438,7 +432,7 @@
           $('#6thSpanValue').text(res.tall + "*" + res.height + "*" + res.width);
 
           //   var src = ($(this).attr('src') === );
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
 
