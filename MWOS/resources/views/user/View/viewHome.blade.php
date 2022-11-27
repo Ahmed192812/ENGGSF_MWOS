@@ -14,7 +14,7 @@
     <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-4 border shadow-lg">
         <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
             <h1 class="display-4 fw-bold lh-1">E-CATALOG</h1>
-            <p class="lead">Browse our wide cvariety of wood furniture ranging from chairs, cabinets, coffee tables to beds crafted with the best materials.</p>
+            <p class="lead">Browse our wide variety of wood furniture ranging from chairs, cabinets, coffee tables to beds crafted with the best materials.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
                 <a href="{{ route('user.catalog') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</a>
             </div>

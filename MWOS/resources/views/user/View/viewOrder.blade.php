@@ -5,7 +5,14 @@
 @extends('user.userLayout')
 
 @section('content')
-<div class="container my-4">
+@if (session('Success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <span>{{ session('Success') }}</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+<div class="container">
 
   <form action="{{ route('user.orders') }}" method="get">
     @csrf
@@ -53,7 +60,13 @@
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $order->orderId }}">View</a>
-                <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                @if($order->status != "Declined")
+                <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
+                  @csrf
+                  <input type="hidden" name="order" value="{{ $order->orderId }}">
+                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                </form>
+                @endif
               </td>
             </tr>
             @endforeach
@@ -171,7 +184,13 @@
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
-                <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                @if($custom->status != "Declined")
+                <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
+                  @csrf
+                  <input type="hidden" name="custom" value="{{ $custom->CustomId }}">
+                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                </form>
+                @endif
               </td>
             </tr>
             @endforeach
@@ -227,7 +246,13 @@
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $order->orderId }}">View</a>
-                <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                @if($order->status != "Declined")
+                <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
+                  @csrf
+                  <input type="hidden" name="order" value="{{ $order->orderId }}">
+                  <button class="btn btn-outline-danger btn-sm px-3 rounded-pill">Cancel</button>
+                </form>
+                @endif
               </td>
             </tr>
             @endforeach
