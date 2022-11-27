@@ -20,21 +20,51 @@ class mangeOrders extends Controller
 
         $orders = Order::select('*', 'orders.id as orderId', 'orders.created_at as date')
             ->join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.status', "processing")
             ->orderByDesc('date')
             ->get();
 
         $customs = Custom::select('*', 'customs.id as CustomId', 'customs.created_at as date')
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->where('customs.status', "processing")
             ->orderByRaw('date')
             ->get();
 
         $repairs = Repair::select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->where('repairs.status', "processing")
             ->orderByRaw('date')
             ->get();
 
         return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials', 'input'));
+    }
+
+    public function requests()
+    {
+        $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
+        $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
+
+        $orders = Order::select('*', 'orders.id as orderId', 'orders.created_at as date')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.status', "Pending")
+            ->orderByDesc('date')
+            ->get();
+
+        $customs = Custom::select('*', 'customs.id as CustomId', 'customs.created_at as date')
+            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+            ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->where('customs.status', "Pending")
+            ->orderByRaw('date')
+            ->get();
+
+        $repairs = Repair::select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
+            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->where('repairs.status', "Pending")
+            ->orderByRaw('date')
+            ->get();
+
+        return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials'));
     }
 
     public function viewPdfPage()

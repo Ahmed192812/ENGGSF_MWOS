@@ -25,8 +25,6 @@ class OrderController extends Controller
         return view('user.Transaction.orderForm', compact('posts'));
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      *

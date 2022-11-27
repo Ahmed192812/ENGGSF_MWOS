@@ -40,6 +40,7 @@
         @if(Auth::check() && Auth::user()->role == 1 || Auth::check() && Auth::user()->role == 3 )
         <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link text-decoration-none">Dashboard</a></li>
         <li class="nav-item"><a href="{{ route('admin.mangeOrders')}}" class="nav-link text-decoration-none">Orders</a></li>
+        <li class="nav-item"><a href="{{ route('admin.requests')}}" class="nav-link text-decoration-none">Requests</a></li>
         <li class="nav-item btn-group">
           <a class="nav-link d-block text-decoration-none dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
             Product

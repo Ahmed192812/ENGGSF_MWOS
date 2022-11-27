@@ -411,7 +411,7 @@
                     $('#quantity').val('not available');
                     $('#payment_type').val(res.payment_type);
 
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //testing
@@ -491,7 +491,7 @@
                     $('#material_id').val(res.material_id);
 
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -561,7 +561,7 @@
                     $('#payment_type').val(res.payment_type);
 
                     //   var src = ($(this).attr('src') === );
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);

@@ -70,6 +70,7 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
     Route::get('manageOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
     Route::get('OrdersArchives', [mangeOrders::class, 'archives'])->name('admin.OrdersArchives');
+    Route::get('requests', [mangeOrders::class, 'requests'])->name('admin.requests');
 
     Route::post('mangeOrders-updateOrder', [mangeOrders::class, 'store'])->name('admin.mangeOrders-updateOrder');
     Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('admin.edit-repairOrder');
