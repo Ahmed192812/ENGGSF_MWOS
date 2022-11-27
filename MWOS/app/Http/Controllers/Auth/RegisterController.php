@@ -71,12 +71,12 @@ class RegisterController extends Controller
     {
         if ($data['verifiedBy']==2) {
             $code=rand(1111,9999);
-        //     $nexmo = app('Nexmo\Client');
-        //     $nexmo->message()->send([
-        //      'to'=>'+63'.(int)$data['phoneNumber'],
-        //      'from'=>'Vonage APIs',
-        //      'text'=>'Verify Code: '.$code,
-        //  ]);
+            $nexmo = app('Nexmo\Client');
+            $nexmo->message()->send([
+             'to'=>'+63'.(int)$data['phoneNumber'],
+             'from'=>'Vonage APIs',
+             'text'=>'Verify Code: '.$code,
+         ]);
          
         }
         else{
