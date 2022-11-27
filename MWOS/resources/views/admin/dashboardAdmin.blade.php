@@ -14,7 +14,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                        Customers</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{$Users}}</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -32,7 +32,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                        Orders</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{$AllOrders}}</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -51,7 +51,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                        Products</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{$Products}}</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -68,7 +68,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                     Materials</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{$Materials}}</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -89,51 +89,43 @@
             <div class="container">
     <div class="row justify-content-center">
         <div class="">
+        <h5 style="text-align: center;">New Orders</h5>
+
             <div class="card">
             <table class="table">
   <thead>
     <tr>
-      <th scope="col">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <th scope="col">Lorem</th>
-      <th scope="col">Ipsum</th>
-      <th scope="col">Dolor</th>
+      
+      <th scope="col">Date</th>
+      <th scope="col">name</th>
+      <th scope="col">Status</th>
     </tr>
   </thead>
   <tbody>
+    @foreach($ordersTable as $orderTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <td>Sit</td>
-      <td>Amet</td>
-      <td>Consectetur</td>
+     
+      <td>{!! date('j F Y', strtotime($orderTable->date)) !!}</td>
+      <td>{{ $orderTable->name}}</td>
+      <td>To Be Reviewed</td>
     </tr>
+    @endforeach
+    @foreach($customsTable as $customTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <td>Adipisicing</td>
-      <td>Elit</td>
-      <td>Sint</td>
+     
+      <td>{!! date('j F Y', strtotime($customTable->date)) !!}</td>
+      <td>A Custom {{ $customTable->prodCategory}}</td>
+      <td>To Be Reviewed</td>
     </tr>
+    @endforeach
+    @foreach($repairsTable as $repairTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-        </div>
-      </th>
-      <td>Hic</td>
-      <td>Fugiat</td>
-      <td>Temporibus</td>
+     
+      <td>{!! date('j F Y', strtotime($repairTable->date)) !!}</td>
+      <td>A Repair {{ $repairTable->prodCategory}}</td>
+      <td>To Be Reviewed</td>
     </tr>
+    @endforeach
   </tbody>
 </table>
             </div>
@@ -155,51 +147,42 @@
             <div class="container">
     <div class="row justify-content-center">
         <div class="">
+          <h5 style="text-align: center;">Completed Orders</h5>
             <div class="card">
             <table class="table">
   <thead>
     <tr>
-      <th scope="col">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <th scope="col">Lorem</th>
-      <th scope="col">Ipsum</th>
-      <th scope="col">Dolor</th>
+      
+      <th scope="col">Date</th>
+      <th scope="col">name</th>
+      <th scope="col">Status</th>
     </tr>
   </thead>
   <tbody>
+    @foreach($ordersTableCom as $orderTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <td>Sit</td>
-      <td>Amet</td>
-      <td>Consectetur</td>
+     
+      <td>{!! date('j F Y', strtotime($orderTable->date)) !!}</td>
+      <td>{{ $orderTable->name}}</td>
+      <td>Completed</td>
     </tr>
+    @endforeach
+    @foreach($customsTableCom as $customTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-        </div>
-      </th>
-      <td>Adipisicing</td>
-      <td>Elit</td>
-      <td>Sint</td>
+     
+      <td>{!! date('j F Y', strtotime($customTable->date)) !!}</td>
+      <td>A Custom {{ $customTable->prodCategory}}</td>
+      <td>Completed</td>
     </tr>
+    @endforeach
+    @foreach($repairsTableCom as $repairTable)
     <tr>
-      <th scope="row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-        </div>
-      </th>
-      <td>Hic</td>
-      <td>Fugiat</td>
-      <td>Temporibus</td>
+     
+      <td>{!! date('j F Y', strtotime($repairTable->date)) !!}</td>
+      <td>A Repair {{ $repairTable->prodCategory}}</td>
+      <td>Completed</td>
     </tr>
+    @endforeach
   </tbody>
 </table>
             </div>

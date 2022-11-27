@@ -38,12 +38,12 @@ $AllOrders = $Order+$Repair+$Custom;
             return view('auth.phoneVerify');
         }
         elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
-
             return view('admin.dashboardAdmin',compact('AllOrders','Products','Materials','Users'));
 
         }
         else{
-            
+           
+            dd($AllOrders);
             return view('admin.dashboardAdmin',compact('AllOrders','Products','Materials','Users'));
         }
        

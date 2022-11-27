@@ -104,7 +104,7 @@
                     <div class="mb-3">
                         <label class="form-label">Product Category</label>
                         <select name="prodCategory_id" id="prodCategory_id" class="form-control inputDis">
-                            <option selected>Select Product Pategory</option>
+                            <option value="" selected>Select Product Pategory</option>
                             @foreach ($productCategory as $Product)
                             <option value="{{$Product->productCategoryId}}">{{$Product->prodCategory}}</option>
                             @endforeach
@@ -136,7 +136,7 @@
                     <div class="mb-3">
                         <label class="form-label">Material</label>
                         <select name="material_id" id="material_id" class="form-control inputDis">
-                            <option selected>Select Material</option>
+                            <option value="" selected>Select Material</option>
                             @foreach ($Materials as $Material)
                             <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                             @endforeach

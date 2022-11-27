@@ -1,8 +1,9 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @extends('user.userLayout')
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 @section('content')
 
@@ -60,8 +61,8 @@
                 @endif
               </td>
               <td class="col-3">
-                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewOrders" data-id="{{ $order->orderId }}">View</a>
-                @if($order->status != "Declined")
+                <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill " data-id="{{ $order->orderId }}">View</a>
+                @if($order->status != "Declined")viewOrders
                 <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
                   @csrf
                   <input type="hidden" name="order" value="{{ $order->orderId }}">
@@ -343,6 +344,7 @@
         },
         dataType: 'json',
         success: function(res) {
+
           $('#viewOrderModal').modal('show');
           //change the span text of the modal
           $('#1stSpan').text('Estimated Price');
@@ -364,7 +366,7 @@
           $('#3edSpanValue').text(res.prodCategory);
           $('#4thSpanValue').text(res.furnitureState);
 
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //testing
@@ -412,7 +414,7 @@
           $('#4thSpanValue').text(res.prodCategory);
           $('#5thSpanValue').text(res.name);
           $('#6thSpanValue').text(res.desiredMaterial);
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //   console.log(res.furnitureState);
@@ -455,7 +457,7 @@
           $('#6thSpanValue').text(res.tall + "*" + res.height + "*" + res.width);
 
           //   var src = ($(this).attr('src') === );
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
 
