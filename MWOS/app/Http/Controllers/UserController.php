@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Custom;
 use App\Models\Order;
 use App\Models\Repair;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Faker\Provider\bg_BG\PhoneNumber;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Auth;
@@ -70,20 +70,17 @@ class UserController extends Controller
     public function orders(Request $request)
     {
         $input = $request->input('input');
-        $orders = DB::table('orders')
-            ->join('products', 'orders.product_id', '=', 'products.id')
+        $orders = Order::join('products', 'orders.product_id', '=', 'products.id')
             ->select('*', 'orders.id as orderId', 'orders.created_at as date')
             ->where('user_id', Auth::user()->id)
             ->orderByDesc('date')
             ->get();
-        $repairs = DB::table('repairs')
-            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+        $repairs = Repair::join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
             ->select('*', 'repairs.id as repairsId', 'repairs.created_at as date')
             ->where('user_id', Auth::user()->id)
             ->orderByDesc('date')
             ->get();
-        $customs = DB::table('customs')
-            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+        $customs = Custom::join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
             ->select('*', 'customs.id as CustomId', 'customs.created_at as date')
             ->where('user_id', Auth::user()->id)
