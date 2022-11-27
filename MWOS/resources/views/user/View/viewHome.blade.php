@@ -16,7 +16,7 @@
             <h1 class="display-4 fw-bold lh-1">E-CATALOG</h1>
             <p class="lead">Browse our wide cvariety of wood furniture ranging from chairs, cabinets, coffee tables to beds crafted with the best materials.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                <button href="{{ route('user.catalog') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</button>
+                <a href="{{ route('user.catalog') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</a>
             </div>
         </div>
         <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden text-center">
@@ -36,7 +36,7 @@
             <h1 class="display-4 fw-bold lh-1">REPAIR</h1>
             <p class="lead">Here at Modale Woodworks, we value furniture with sentimental value to you. No matter how time has damged your furniture, we work to restore it to have its memories and its retention.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4 mb-lg-3">
-                <button href="{{ route('user.repair') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</button>
+                <a href="{{ route('user.repair') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</a>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
             <h1 class="display-4 fw-bold lh-1">CUSTOM</h1>
             <p class="lead">Liven up your home with your custom designed hand crafted furnitures designed and made for your comfort and aesthetics.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                <button href="{{ route('user.custom') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</button>
+                <a href="{{ route('user.custom') }}" type="button" class="btn btn-primary px-4 me-md-2 fw-bold">Learn More</a>
             </div>
         </div>
         <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden text-center">
