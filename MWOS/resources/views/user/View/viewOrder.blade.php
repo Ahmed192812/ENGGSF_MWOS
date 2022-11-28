@@ -369,7 +369,7 @@
           $('#3edSpanValue').text(res.prodCategory);
           $('#4thSpanValue').text(res.furnitureState);
 
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //testing
@@ -418,7 +418,7 @@
           $('#4thSpanValue').text(res.prodCategory);
           $('#5thSpanValue').text(res.name);
           $('#6thSpanValue').text(res.desiredMaterial);
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
           //   console.log(res.furnitureState);
@@ -463,7 +463,7 @@
           $('#6thSpanValue').text(res.tall + "*" + res.height + "*" + res.width);
 
           //   var src = ($(this).attr('src') === );
-          var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+          var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
           console.log(ImagURL);
           $('#image').attr('src', ImagURL);
 

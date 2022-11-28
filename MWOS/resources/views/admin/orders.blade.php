@@ -487,8 +487,8 @@
         });
         $('body').on('click', '.deleteOrders', function() {
             Swal.fire({
-                title: 'Are you want to move order to Archives?',
-                text: "you sill can restore it again",
+                title: 'Are you Sure ?',
+                text: "you are deleting this order",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -519,8 +519,8 @@
         });
         $('body').on('click', '.deleteCustom', function() {
             Swal.fire({
-                title: 'Are you want to move order to Archives?',
-                text: "you sill can restore it again",
+                title: 'Are you Sure ?',
+                text: "you are deleting this order",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -551,8 +551,8 @@
         });
         $('body').on('click', '.deleteRepair', function() {
             Swal.fire({
-                title: 'Are you want to move order to Archives?',
-                text: "you sill can restore it again",
+                title: 'Are you Sure ?',
+                text: "you are deleting this order",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -575,7 +575,7 @@
                     });
                     Swal.fire(
                         'Deleted!',
-                        'order has been moved to Archives.',
+                        'order has been Deleted successfully',
                         'success'
                     )
                 }
