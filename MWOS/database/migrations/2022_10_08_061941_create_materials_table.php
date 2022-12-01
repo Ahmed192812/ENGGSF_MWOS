@@ -17,9 +17,8 @@ class CreateMaterialsTable extends Migration
             $table->id();
             $table->string('image');
             $table->string('name');
-            $table->float('costPerUnit');
+            $table->string('costPerUnit');
             $table->timestamps();
-
         });
     }
 

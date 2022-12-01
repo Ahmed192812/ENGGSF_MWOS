@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\Materials;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class MaterialsController extends Controller
 {
+   
      /**
      * Display a listing of the resource.
      *
@@ -16,28 +18,39 @@ class MaterialsController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        if (Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at == null ) {
+            return view('auth.verify');
+             }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code != 0){
+            return view('auth.phoneVerify');
+        }
+        elseif(Auth::user()->verifiedBy == 2 && Auth::user()->code == 0 || Auth::user()->verifiedBy == 1 && Auth::user()->email_verified_at !== null){
+            $search = $request->get('search');
         
-        if($search!=""){
-            $Materials =  DB::table('Materials')
-            ->where(DB::raw("CONCAT(id,' ',name,' ',costPerUnit)"),'LIKE','%'.$search.'%')
-            ->paginate(4);
-    $Materials->appends(['search' => $search]);
-    $count = $Materials->total();
-    if($count == 0)
-    return view('admin.Material')->with(['Materials' => $Materials, 'NoFound' => 'There is no result 😔']);
-    else
-    return view('admin.Material')->with(['Materials' => $Materials,'found' => $count.' records founded']);
-
-
+            if($search!=""){
+                $Materials =  DB::table('Materials')
+                ->where(DB::raw("CONCAT(id,' ',name,' ',costPerUnit)"),'LIKE','%'.$search.'%')
+                ->paginate(4);
+        $Materials->appends(['search' => $search]);
+        $count = $Materials->total();
+        if($count == 0)
+        return view('admin.Material')->with(['Materials' => $Materials, 'NoFound' => 'There is no result 😔']);
+        else
+        return view('admin.Material')->with(['Materials' => $Materials,'found' => $count.' records founded']);
     
-}
+    
+        
+    }
+    
+    else{
+        $data['Materials'] = Materials::orderBy('id','desc')->paginate(4);
+       
+        return view('Admin.Material',$data);
+    }
 
-else{
-    $data['Materials'] = Materials::orderBy('id','desc')->paginate(4);
-   
-    return view('Admin.Material',$data);
-}
+        }
+
+        
 
     }
     
@@ -51,34 +64,62 @@ else{
    
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'costPerUnit' => ['required', 'numeric'],
-            'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
-
-        ]);
-        $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
-        $request->image->move(public_path('imgs\materials'),$newImgName);
+       
         if($request->id)
         {
+            $validator= Validator::make($request->all(),[
+                'image' => ['image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:50'],
+                'costPerUnit' => ['required', 'numeric'],
+    
+            ],
+            [  
+                'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
+                'name.required' => "Material name is required",
+                'costPerUnit.required' => "Cost per unit is required",
+           ]
+        );
+           
         $Materials  =  Materials::find($request->id);
         }
         else{
+            $validator= Validator::make($request->all(),[
+                'image' => ['required','image','mimes:jpeg,png,jpg,gif,svg','max:5048'],
+                'name' => ['required', 'string', 'max:255'],
+                'costPerUnit' => ['required', 'numeric'],
+    
+            ],
+            [  
+                'image.mimes' => "Image must be in jpeg,png,jpg,gif,svg",
+                'image.required' => "An image is required",
+                'name.required' => "Material name is required",
+                'costPerUnit.required' => "Cost per unit is required",
+           ]
+        );
+           
         $Materials = new Materials();
         }
-       
-               $Materials->name = $request->name;
-               $Materials->costPerUnit= $request->costPerUnit;
-               $Materials->image = $newImgName;
+        if (!$validator->passes()) {
+            return response()->json(['status'=>0,'error'=>$validator->errors()->toArray()]);
+        }
+        else{
+            if ($request->image) {
+                $newImgName = time() . '-' . $request->name . '.' .$request->image->extension();
+                $request->image->move(public_path('imgs\materials'),$newImgName);
+                $Materials->image = $newImgName;
+                        }
+           
+            $Materials->name = $request->name;
+            $Materials->costPerUnit= $request->costPerUnit;
+            
+            
+           
 
-                $Materials->save();
+             $Materials->save();
+             return response()->json(['status'=>1,'msg'=>'saved successfully']);
+        }
+       
                   
-    
-                 return response()->json(['success' => true]);
-                 if ($Materials->fails())
-                    {
-                        return response()->json(['error' => true]);
-                    }
     }
     
     
@@ -92,8 +133,9 @@ else{
     {   
         $where = array('id' => $request->id);
         $Materials  = Materials::where($where)->first();
- 
+        
         return response()->json($Materials);
+        
     }
  
    

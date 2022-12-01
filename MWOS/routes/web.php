@@ -8,6 +8,11 @@ use App\http\Controllers\mangeUsersController;
 use App\http\Controllers\ProductCategoryController;
 use App\http\Controllers\MaterialsController;
 use App\http\Controllers\ProductsController;
+use App\http\Controllers\OrderController;
+use App\http\Controllers\CustomController;
+use App\http\Controllers\RepairController;
+use App\http\Controllers\mangeOrders;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -22,43 +27,31 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [UserController::class, 'home'])->name('user.dashboard');
+
+
 Route::get('/login', function () {
     return view('login');
 });
 
-
-
-// PRODUCTS CATEGORY ROUTE - LEANDRY
-// Route::get('/productCategory', function () {
-//     return view('productCategory');
-// });
-
-Route::get('/products', function () {
-    return view('products');
-});
-
-// MATERIAL CATEGORY ROUTE - LEANDRY
-// Route::get('/material', function () {
-//     return view('material');
-// });
-
-
-// comment
-
-
 //prevent Back to login after registration
 Route::middleware(['middleware' => 'PreventBack'])->group(function () {
-    Auth::routes();
+    Auth::routes(['verify'=>true]);
+//    Route::get('auth.login','LoginController@formLogin');
 });
+
 //Routes for Admin
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventBack']], function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('mangeUsers', [mangeUsersController::class, 'index'])->name('admin.mangeUsers');
     Route::get('mangeUsersSearch', [mangeUsersController::class, 'index'])->name('admin.usersSearch');
+    Route::get('mangeUsersFilter', [mangeUsersController::class, 'index'])->name('admin.mangeUsersFilter');
+    Route::post('add-update-mangeUsers', [mangeUsersController::class, 'store'])->name('admin.add-update-mangeUsers');
+    Route::post('edit-mangeUsers', [mangeUsersController::class, 'edit'])->name('admin.edit-mangeUsers');
+    Route::post('delete-mangeUsers', [mangeUsersController::class, 'destroy'])->name('admin.delete-mangeUsers');
+
     Route::get('productCategory', [ProductCategoryController::class, 'index'])->name('admin.productCategory');
     Route::get('productCategorySearch', [ProductCategoryController::class, 'index'])->name('admin.productCategorySearch');
     Route::post('add-update-productCategory', [ProductCategoryController::class, 'store'])->name('admin.add-update-productCategory');
@@ -71,26 +64,62 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('delete-material', [MaterialsController::class, 'destroy'])->name('admin.delete-material');
     Route::get('products', [ProductsController::class, 'index'])->name('admin.products');
     Route::get('productsSearch', [ProductsController::class, 'index'])->name('admin.productsSearch');
+    Route::get('productsFilter', [ProductsController::class, 'index'])->name('admin.productsFilter');
     Route::post('add-update-products', [ProductsController::class, 'store'])->name('admin.add-update-products');
     Route::post('edit-products', [ProductsController::class, 'edit'])->name('admin.edit-products');
     Route::post('delete-products', [ProductsController::class, 'destroy'])->name('admin.delete-products');
+    Route::get('manageOrders', [mangeOrders::class, 'index'])->name('admin.mangeOrders');
+    Route::get('OrdersArchives', [mangeOrders::class, 'archives'])->name('admin.OrdersArchives');
+    Route::get('requests', [mangeOrders::class, 'requests'])->name('admin.requests');
+
+    Route::post('mangeOrders-updateOrder', [mangeOrders::class, 'store'])->name('admin.mangeOrders-updateOrder');
+    Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('admin.edit-repairOrder');
+    Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('admin.edit-customOrder');
+    Route::post('edit-Orders', [OrderController::class, 'edit'])->name('admin.edit-Orders');
+    Route::post('delete-repairOrder', [RepairController::class, 'destroy'])->name('admin.delete-repairOrder');
+    Route::post('delete-customOrder', [CustomController::class, 'destroy'])->name('admin.delete-customOrder');
+    Route::post('delete-Orders', [OrderController::class, 'destroy'])->name('admin.delete-Orders');
+    Route::post('restore-Orders', [OrderController::class, 'restore'])->name('admin.restore-Orders');
+    Route::post('restore-repairOrder', [RepairController::class, 'restore'])->name('admin.restore-repairOrder');
+    Route::post('restore-customOrder', [CustomController::class, 'restore'])->name('admin.restore-customOrder');
+    Route::get('ordersPdfPage',[mangeOrders::class, 'viewPdfPage'])->name('admin.ordersPdfPage');
+    Route::get('ordersPdfPage-Allorders',[mangeOrders::class, 'generatePdfAllOrders'])->name('admin.ordersPdfPage-Allorders');
+    Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('admin.dashboard');
 });
+
 //Routes for Carpenter
+// route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', 'PreventBack']], function () {
+//     Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
+//     // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
 
-route::group(['prefix' => 'carpenter', 'middleware' => ['isCarpenter', 'auth', 'PreventBack']], function () {
-    Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('carpenter.dashboard');
-    // Route::get('profile', [CarpenterController::class, 'profile'])->name('carpenter.profile');
-
-});
+// });
 
 //Routes for Users(Customers)
-route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBack']], function () {
-    Route::get('dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-    // Route::get('profile', [UserController::class, 'profile'])->name('user.profile');
+route::group(['prefix' => 'user'], function () {
+    Route::get('home', [UserController::class, 'home'])->name('user.dashboard');
+    Route::get('catalog', [UserController::class, 'catalog'])->name('user.catalog');
+    Route::get('repair', [RepairController::class, 'index'])->name('user.repair');
+    Route::get('custom', [CustomController::class, 'index'])->name('user.custom');
+    Route::post('customAdd', [CustomController::class, 'store'])->name('user.customAdd');
+    Route::post('repairAdd', [RepairController::class, 'store'])->name('user.repairAdd');
+    Route::get('orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('cancelOrder', [UserController::class, 'cancel'])->name('user.cancel');
+
+    Route::post('edit-repairOrder', [RepairController::class, 'edit'])->name('user.edit-repairOrder');
+    Route::post('edit-customOrder', [CustomController::class, 'edit'])->name('user.edit-customOrder');
+    Route::post('edit-Orders', [OrderController::class, 'edit'])->name('user.edit-Orders');
+
+    Route::get('Transaction/orderForm/{products}', [OrderController::class, 'create']);
+    Route::resource('order', OrderController::class);
+    Route::resource('user', UserController::class);
 });
+
 //Routes for All System Users 
 route::group(['prefix' => 'allUsers','middleware' => ['auth', 'PreventBack']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('allUsers.profile');
     Route::post('update-profile', [UserController::class, 'profileUpdate'])->name('update.profile');
-
+    Route::get('changePassword', [UserController::class, 'changePssword'])->name('allUsers.changePassword');
+    Route::post('updateChangePassword', [UserController::class, 'UpdatePassword'])->name('allUsers.updateChangePassword');
+    Route::get('phoneVerify', [UserController::class, 'verifyCodeView'])->name('allUsers.phoneVerify');
+    Route::post('verifyCode', [UserController::class, 'verifyCode'])->name('allUsers.verifyCode');
 });

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class RegisterController extends Controller
 {
@@ -53,6 +54,8 @@ class RegisterController extends Controller
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phoneNumber'=>['required','digits_between:3,15','unique:users'], 
+            'verifiedBy'=>['required'], 
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -63,17 +66,39 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
     protected function create(array $data)
     {
+        if ($data['verifiedBy']==2) {
+            $code=rand(1111,9999);
+            $nexmo = app('Nexmo\Client');
+            $nexmo->message()->send([
+             'to'=>'+63'.(int)$data['phoneNumber'],
+             'from'=>'Vonage APIs',
+             'text'=>'Verify Code: '.$code,
+         ]);
+         
+        }
+        else{
+            $code=0;
+        }
+        
+     
         return User::create([
             'Fname' => $data['Fname'],
             'Lname' => $data['Lname'],
             'email' => $data['email'],
+            'phoneNumber' => $data['phoneNumber'],
+            'code'=>$code,
             'role'=>2,
+            'verifiedBy'=>$data['verifiedBy'],
             'password' => Hash::make($data['password']),
         ]);
+      
+      
     }
     protected function redirectTo(){
+        
         if(Auth()->user()->role ==1){
             return route('admin.dashboard');
         }
@@ -81,7 +106,7 @@ class RegisterController extends Controller
             return route('user.dashboard');
         }
         elseif(Auth()->user()->role ==3){
-            return route('carpenter.dashboard');
+            return route('admin.dashboard');
         }
     }
 }

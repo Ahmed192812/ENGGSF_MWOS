@@ -56,7 +56,7 @@
                         </div>
                     @endif
             <h3>Forgot Password </h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+            <p>Please enter your email for user identification.</p>
             <form class="pb-3" method="POST" action="{{ route('password.email') }}">
             @csrf
                <div class="form-group">

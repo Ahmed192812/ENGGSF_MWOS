@@ -11,14 +11,12 @@ class Products extends Model
     protected $fillable = [
         'image',
         'name',
-        'prodCategory_ID',
+        'prodCategory_id',
         'tall',
-        'hight',
+        'height',
         'width',
-        'priceFull',
-        'priceDp',
-        'material_ID',
-        'description',
-        'rating',
+        'price',
+        'material_id',
+        'description'
     ];
 }
