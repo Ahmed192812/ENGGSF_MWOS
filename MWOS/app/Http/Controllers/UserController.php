@@ -101,23 +101,17 @@ class UserController extends Controller
         $custom = $request->input('custom');
 
         if ($order) {
-            $order = Order::find($order);
-            $order->status = "Declined";
-            $order->save();
+            Order::destroy($order);
 
-            return back()->with(['Success' => 'Order Cancelled']);
+            return back()->with(['Success' => 'Order Deleted']);
         } elseif ($repair) {
-            $repair = Repair::find($repair);
-            $repair->status = "Declined";
-            $repair->save();
+            Repair::destroy($repair);
 
-            return back()->with(['Success' => 'Order Cancelled']);
+            return back()->with(['Success' => 'Order Deleted']);
         } elseif ($custom) {
-            $custom = Custom::find($custom);
-            $custom->status = "Declined";
-            $custom->save();
+            Custom::destroy($custom);
 
-            return back()->with(['Success' => 'Order Cancelled']);
+            return back()->with(['Success' => 'Order Deleted']);
         }
     }
 

@@ -3,12 +3,22 @@
 
 <div class="row">
     <div class="col">
+        @if(Request::is('admin/manageOrders'))    
         <form action="{{ route('admin.mangeOrders') }}" method="get">
             @csrf
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Orders' || empty($input)) btn-secondary @else btn-outline-secondary @endif" value="Orders">Orders</button>
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Repairs')btn-secondary @else btn-outline-secondary @endif" value="Repairs">Repairs</button>
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 @if($input == 'Customs') btn-secondary @else btn-outline-secondary @endif" value="Customs">Customs</button>
         </form>
+        @endif
+        @if(Request::is('admin/OrdersArchives'))    
+        <form action="{{ route('admin.OrdersArchives') }}" method="get">
+            @csrf
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Orders' || empty($input)) btn-secondary @else btn-outline-secondary @endif" value="Orders">Orders</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Repairs')btn-secondary @else btn-outline-secondary @endif" value="Repairs">Repairs</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 @if($input == 'Customs') btn-secondary @else btn-outline-secondary @endif" value="Customs">Customs</button>
+        </form>
+        @endif
     </div>
     <div class="col text-end">
         <!-- <form class="d-flex justify-content-end" action="{{ route('admin.productCategorySearch') }}" method="GET">
@@ -16,7 +26,8 @@
             <button class="btn btn-info me-2" type="submit"><i class="bi bi-search"></i></button>
         </form> -->
         @if(Auth::check() && Auth::user()->role == 1)
-        <a href="{{ route('admin.ordersPdfPage')}}" type="button" class="btn btn btn-sm btn-info"><i class="bi bi-filetype-pdf"></i></a>
+
+        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-sm btn-outline-secondary px-3 rounded-pill">Generate PDF</a>
         @endif
     </div>
 </div>
@@ -27,19 +38,23 @@
             <table class="table table-striped m-0 align-bottom text-center border">
                 <thead>
                     <tr>
-                        <th class="col-3">Date</th>
-                        <th class="col-3">Product</th>
-                        <th class="col-3">Status</th>
-                        <th class="col-3">Actions</th>
+                        <th class="col">Date</th>
+                        <th class="col">Product</th>
+                        <th class="col">Customer Name</th>
+                        <th class="col">Customer Mobile</th>
+                        <th class="col">Status</th>
+                        <th class="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if(empty($input) || $input == "Orders")
                     @foreach ($orders as $order)
                     <tr>
-                        <td class="col-3">{!! date('j F Y', strtotime($order->date)) !!}</td>
-                        <td class="col-3">{{ $order->name}}</td>
-                        <td class="col-3">
+                        <td class="col">{!! date('j F Y', strtotime($order->date)) !!}</td>
+                        <td class="col">{{ $order->name}}</td>
+                        <td class="col">{{ $order->fname }} {{ $order->lname }}</td>
+                        <td>{{ $order->mobile}}</td>
+                        <td class="col">
                             @if($order->status == "Pending")
                             <span class="badge bg-info text-dark">{{ $order->status}} Payment/Material</span>
                             @elseif($order->status == "TBR")
@@ -56,9 +71,13 @@
                             <span class="badge bg-light text-dark">for Delivery /pek up</span>
                             @endif
                         </td>
-                        <td class="col-3">
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">View/Edit</a>
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteOrders" data-id="{{ $order->orderId }}">Delete</a>
+                        <td class="col">
+                            @if($order->status != "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">Edit</a>
+                            @endif
+                            @if($order->status == "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteOrders" data-id="{{ $order->orderId }}">Archive</a>
+                            @endif
                             @if($order->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-Orders')}}" method="post">
                                 @csrf
@@ -73,9 +92,11 @@
                     @elseif($input == "Repairs")
                     @foreach ($repairs as $repair)
                     <tr>
-                        <td class="col-3">{!! date('j F Y', strtotime($repair->date)) !!}</td>
-                        <td class="col-3">{{ $repair->prodCategory }}</td>
-                        <td class="col-3">
+                        <td class="col">{!! date('j F Y', strtotime($repair->date)) !!}</td>
+                        <td class="col">{{ $repair->prodCategory }}</td>
+                        <td class="col">{{ $repair->fname }} {{ $repair->lname }}</td>
+                        <td>{{ $repair->mobile}}</td>
+                        <td class="col">
                             @if($repair->status == "Pending")
                             <span class="badge bg-info text-dark">{{ $repair->status}} Payment/Material</span>
                             @elseif($repair->status == "TBR")
@@ -92,14 +113,18 @@
                             <span class="badge bg-light text-dark">for Delivery /pek up</span>
                             @endif
                         </td>
-                        <td class="col-3">
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">View/Edit</a>
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Delete</a>
+                        <td class="col">
+                            @if($repair->status != "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
+                            @endif
+                            @if($repair->status == "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Archive</a>
+                            @endif
                             @if($repair->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-repairOrder')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$repair->repairsId}}">
-                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                                <button type="submit" class="btn btn-sm btn-succes rounded-pill px-3">Restore</a>
                             </form>
                             @endif
                         </td>
@@ -109,9 +134,11 @@
                     @elseif($input == "Customs")
                     @foreach ($customs as $custom)
                     <tr>
-                        <td class="col-3">{!! date('j F Y', strtotime($custom->date)) !!}</td>
-                        <td class="col-3">A Custom {{ $custom->prodCategory}}</td>
-                        <td class="col-3">
+                        <td class="col">{!! date('j F Y', strtotime($custom->date)) !!}</td>
+                        <td class="col">A Custom {{ $custom->prodCategory}}</td>
+                        <td class="col">{{ $custom->fname }} {{ $custom->lname }}</td>
+                        <td>{{ $custom->mobile}}</td>
+                        <td class="col">
                             @if($custom->status == "Pending")
                             <span class="badge bg-info text-dark">{{ $custom->status}} Payment/Material</span>
                             @elseif($custom->status == "TBR")
@@ -129,8 +156,12 @@
                             @endif
                         </td>
                         <td class="col text-center align-middle">
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">View/Edit</a>
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Delete</a>
+                            @if($custom->status != "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">Edit</a>
+                            @endif
+                            @if($custom->status == "done")
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Archive</a>
+                            @endif
                             @if($custom->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-customOrder')}}" method="post">
                                 @csrf
@@ -236,6 +267,8 @@
                                 <label id="label7" class="form-label">Quantity</label>
                                 <div class="col-12">
                                     <input type="text" name="quantity" id="quantity" class="form-control repairInputDes orderInputDes customInputDes AllDes" placeholder="quantity" value="">
+
+                                   
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                             </div>
@@ -273,7 +306,7 @@
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Save changes</button>
                 </div>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -340,7 +373,7 @@
                     $('#status').val(res.status);
                     $('#quantity').val('not available');
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //testing
@@ -412,7 +445,7 @@
                     $('#quantity').val(res.quantity);
                     $('#material_id').val(res.material_id);
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -478,7 +511,7 @@
                     $('#quantity').val(res.quantity);
                     $('#payment_type').val(res.payment_type);
                     //   var src = ($(this).attr('src') === );
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -517,6 +550,7 @@
                 }
             })
         });
+
         $('body').on('click', '.deleteCustom', function() {
             Swal.fire({
                 title: 'Are you Sure ?',

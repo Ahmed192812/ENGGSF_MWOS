@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -54,8 +53,8 @@ class RegisterController extends Controller
             'Fname' => ['required', 'string', 'max:20'],
             'Lname' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phoneNumber'=>['required','digits_between:3,15','unique:users'], 
-            'verifiedBy'=>['required'], 
+            'phoneNumber' => ['required', 'digits_between:3,15', 'unique:users'],
+            'verifiedBy' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -69,43 +68,35 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        if ($data['verifiedBy']==2) {
-            $code=rand(1111,9999);
+        if ($data['verifiedBy'] == 2) {
+            $code = rand(1111, 9999);
             $nexmo = app('Nexmo\Client');
             $nexmo->message()->send([
-             'to'=>'+63'.(int)$data['phoneNumber'],
-             'from'=>'Vonage APIs',
-             'text'=>'Verify Code: '.$code,
-         ]);
-         
+                'to' => '+63' . (int)$data['phoneNumber'],
+                'from' => 'Vonage APIs',
+                'text' => 'Verify Code: ' . $code,
+            ]);
+        } else {
+            $code = 0;
         }
-        else{
-            $code=0;
-        }
-        
-     
         return User::create([
             'Fname' => $data['Fname'],
             'Lname' => $data['Lname'],
             'email' => $data['email'],
             'phoneNumber' => $data['phoneNumber'],
-            'code'=>$code,
-            'role'=>2,
-            'verifiedBy'=>$data['verifiedBy'],
+            'code' => $code,
+            'role' => 2,
+            'verifiedBy' => $data['verifiedBy'],
             'password' => Hash::make($data['password']),
         ]);
-      
-      
     }
-    protected function redirectTo(){
-        
-        if(Auth()->user()->role ==1){
+    protected function redirectTo()
+    {
+        if (Auth()->user()->role == 1) {
             return route('admin.dashboard');
-        }
-        elseif(Auth()->user()->role ==2){
+        } elseif (Auth()->user()->role == 2) {
             return route('user.dashboard');
-        }
-        elseif(Auth()->user()->role ==3){
+        } elseif (Auth()->user()->role == 3) {
             return route('admin.dashboard');
         }
     }

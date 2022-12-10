@@ -30,7 +30,7 @@ class MaterialsController extends Controller
             if($search!=""){
                 $Materials =  DB::table('Materials')
                 ->where(DB::raw("CONCAT(id,' ',name,' ',costPerUnit)"),'LIKE','%'.$search.'%')
-                ->paginate(4);
+                ->paginate(10);
         $Materials->appends(['search' => $search]);
         $count = $Materials->total();
         if($count == 0)
@@ -43,7 +43,7 @@ class MaterialsController extends Controller
     }
     
     else{
-        $data['Materials'] = Materials::orderBy('id','desc')->paginate(4);
+        $data['Materials'] = Materials::orderBy('id','desc')->paginate(10);
        
         return view('Admin.Material',$data);
     }

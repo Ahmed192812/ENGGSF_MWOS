@@ -98,7 +98,7 @@ class CustomController extends Controller
             return redirect()->route('user.orders');
     }
 }else {
-    return redirect()->back()->with(['login' => 'pleas log in to order']);    
+    return redirect()->back()->with(['login' => 'Please Login to Order!']);    
 }
 
 

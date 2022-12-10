@@ -81,8 +81,8 @@
                         <td>{{ $OneUser->email }}</td>
                         <td>{{ $OneUser->phoneNumber }}</td>
                         <td>
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 edit" data-id="{{ $OneUser->id }}">Edit</a>
-                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $OneUser->id }}">Delete</a>
+                            <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 edit" data-id="{{ $OneUser->id }}">View</a>
+                            <!-- <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $OneUser->id }}">Delete</a> -->
                         </td>
                     </tr>
                     @endforeach

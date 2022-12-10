@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="container my-4">
-@if (session('login'))
+    @if (session('login'))
     <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <span>{{ session('login') }}</span> 
-                    
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+        <span>{{ session('login') }}</span>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="row align-items-center rounded-4 p-5 border shadow-lg">
         <div class="col-lg-7 text-center text-lg-start">
             <h1 class="display-4 fw-bold lh-1 mb-3">Let’s start working on your idea.</h1>
@@ -35,8 +35,26 @@
                     @enderror
                 </div>
                 <div class="form-floating mb-3 disInput">
-                    <select name="productCategory_id" id="productCategory_id" class="form-control @error('productCategory_id') is-invalid @enderror">
-                        <option value="" selected>select product category</option>
+                    <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
+                    @error('description')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <label>Description</label>
+                </div>
+                <div class="form-floating mb-3 disInput">
+                    <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
+                    @error('quantity')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <label>Quantity</label>
+                </div>
+                <div class=" mb-3 disInput">
+                    <select name="productCategory_id" id="productCategory_id" class="form-select @error('productCategory_id') is-invalid @enderror">
+                        <option value="" selected>Select Category</option>
                         @foreach ($productCategory as $category)
                         <option value="{{$category->productCategoryId}}">{{$category->prodCategory}}</option>
                         @endforeach
@@ -46,11 +64,10 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                    <label>Product Category</label>
                 </div>
-                <div class="form-floating mb-3 disInput">
-                    <select name="material_id" id="material_id" class="form-control @error('material_id') is-invalid @enderror">
-                        <option value="" selected>select Material</option>
+                <div class=" mb-3 disInput">
+                    <select name="material_id" id="material_id" class="form-select @error('material_id') is-invalid @enderror">
+                        <option value="" selected>Select Material</option>
                         @foreach ($Materials as $Material)
                         <option value="{{$Material->MaterialsId}}">{{$Material->name}}</option>
                         @endforeach
@@ -60,7 +77,6 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                    <label>material</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
                     <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
@@ -69,30 +85,12 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                    <label>desired Material</label>
+                    <label>Preferred Material (Optional)</label>
                 </div>
-                <div class="form-floating mb-3 disInput">
-                    <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
-                    @error('description')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    <label>description</label>
-                </div>
-                <div class="form-floating mb-3 disInput">
-                    <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
-                    @error('quantity')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    <label>quantity</label>
-                </div>
-                <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
-                    <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror">
-                        <option value="" selected>select product category</option>
-                        <option value="1">cash</option>
+                <div id="payment_typeDiv" class="payment_typeDivClass mb-3">
+                    <select name="payment_type" id="payment_type" class="form-select @error('payment_type') is-invalid @enderror">
+                        <option value="" selected>Payment Type</option>
+                        <option value="1">Cash</option>
                         <option value="2">Gcash</option>
                     </select>
                     @error('payment_type')

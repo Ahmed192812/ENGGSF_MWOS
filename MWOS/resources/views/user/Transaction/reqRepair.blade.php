@@ -48,7 +48,6 @@
                     @enderror
                     <label>Product Category</label>
                 </div>
-
                 <div class="form-floating mb-3 disInput">
                     <textarea name="furnitureState" id="furnitureState" class="form-control @error('furnitureState') is-invalid @enderror" cols="30" rows="10"></textarea>
                     @error('furnitureState')
@@ -56,9 +55,8 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                    <label>furniture State</label>
+                    <label>Furniture State</label>
                 </div>
-
                 <div class="form-floating mb-3 disInput">
                     <input name="quantity" id="quantity" type="number" class="form-control @error('quantity') is-invalid @enderror">
                     @error('quantity')
@@ -66,12 +64,12 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                    <label>quantity</label>
+                    <label>Quantity</label>
                 </div>
-                <div id="payment_typeDiv" class="form-floating payment_typeDivClass mb-3">
-                    <select name="payment_type" id="payment_type" class="form-control @error('payment_type') is-invalid @enderror">
-                        <option value="" selected>select payment method</option>
-                        <option value="cash">cash</option>
+                <div id="payment_typeDiv" class="payment_typeDivClass mb-3">
+                    <select name="payment_type" id="payment_type" class="form-select @error('payment_type') is-invalid @enderror">
+                        <option value="" selected>Payment Type</option>
+                        <option value="cash">Cash</option>
                         <option value="Gcash">Gcash</option>
                     </select>
                     @error('payment_type')
