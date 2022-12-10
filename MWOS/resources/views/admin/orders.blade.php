@@ -3,12 +3,22 @@
 
 <div class="row">
     <div class="col">
+        @if(Request::is('admin/manageOrders'))    
         <form action="{{ route('admin.mangeOrders') }}" method="get">
             @csrf
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Orders' || empty($input)) btn-secondary @else btn-outline-secondary @endif" value="Orders">Orders</button>
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Repairs')btn-secondary @else btn-outline-secondary @endif" value="Repairs">Repairs</button>
             <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 @if($input == 'Customs') btn-secondary @else btn-outline-secondary @endif" value="Customs">Customs</button>
         </form>
+        @endif
+        @if(Request::is('admin/OrdersArchives'))    
+        <form action="{{ route('admin.OrdersArchives') }}" method="get">
+            @csrf
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Orders' || empty($input)) btn-secondary @else btn-outline-secondary @endif" value="Orders">Orders</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 me-2 @if($input == 'Repairs')btn-secondary @else btn-outline-secondary @endif" value="Repairs">Repairs</button>
+            <button type="submit" name="input" class="btn btn-sm rounded-pill px-3 @if($input == 'Customs') btn-secondary @else btn-outline-secondary @endif" value="Customs">Customs</button>
+        </form>
+        @endif
     </div>
     <div class="col text-end">
         <!-- <form class="d-flex justify-content-end" action="{{ route('admin.productCategorySearch') }}" method="GET">
@@ -61,8 +71,12 @@
                             @endif
                         </td>
                         <td class="col">
+                            @if($order->status != "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewOrders" data-id="{{ $order->orderId }}">Edit</a>
+                            @endif
+                            @if($order->status == "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteOrders" data-id="{{ $order->orderId }}">Archive</a>
+                            @endif
                             @if($order->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-Orders')}}" method="post">
                                 @csrf
@@ -99,13 +113,17 @@
                             @endif
                         </td>
                         <td class="col">
+                            @if($repair->status != "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewRepair" data-id="{{ $repair->repairsId }}">Edit</a>
+                            @endif
+                            @if($repair->status == "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteRepair" data-id="{{ $repair->repairsId }}">Archive</a>
+                            @endif
                             @if($repair->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-repairOrder')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$repair->repairsId}}">
-                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3">Restore</a>
+                                <button type="submit" class="btn btn-sm btn-succes rounded-pill px-3">Restore</a>
                             </form>
                             @endif
                         </td>
@@ -137,8 +155,12 @@
                             @endif
                         </td>
                         <td class="col text-center align-middle">
+                            @if($custom->status != "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 viewCustom" data-id="{{ $custom->CustomId }}">Edit</a>
+                            @endif
+                            @if($custom->status == "done")
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-warning rounded-pill px-3 deleteCustom" data-id="{{ $custom->CustomId }}">Archive</a>
+                            @endif
                             @if($custom->deleted_at !== null)
                             <form class="mt-2" action="{{ route('admin.restore-customOrder')}}" method="post">
                                 @csrf
@@ -243,7 +265,7 @@
                             <div class="mb-3">
                                 <label id="label7" class="form-label">Quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes AllDes" placeholder="quantity" value="">
+                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes  AllDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                             </div>
@@ -348,7 +370,7 @@
                     $('#status').val(res.status);
                     $('#quantity').val('not available');
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //testing
@@ -420,7 +442,7 @@
                     $('#quantity').val(res.quantity);
                     $('#material_id').val(res.material_id);
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -486,7 +508,7 @@
                     $('#quantity').val(res.quantity);
                     $('#payment_type').val(res.payment_type);
                     //   var src = ($(this).attr('src') === );
-                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -525,6 +547,7 @@
                 }
             })
         });
+
         $('body').on('click', '.deleteCustom', function() {
             Swal.fire({
                 title: 'Are you Sure ?',

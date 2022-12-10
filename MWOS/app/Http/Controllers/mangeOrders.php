@@ -23,7 +23,8 @@ class mangeOrders extends Controller
             ->join('users as us', 'orders.user_id', '=', 'us.id')
             ->select('*', 'orders.id as orderId', 'orders.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->where('orders.status',"!=","TBR")
-            ->where('orders.status',"!=","Declined")            
+            ->where('orders.status',"!=","Declined")  
+            ->where('orders.deleted_at', "=", NULL)          
             ->orderByDesc('date')
             ->get();
 
@@ -34,6 +35,7 @@ class mangeOrders extends Controller
             ->select('*', 'customs.id as CustomId', 'customs.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->where('customs.status',"!=","TBR")
             ->where('customs.status',"!=","Declined")
+            ->where('customs.deleted_at', "=", NULL)  
             ->orderByRaw('date')
             ->get();
 
@@ -43,6 +45,7 @@ class mangeOrders extends Controller
             ->select('*', 'repairs.id as repairsId', 'repairs.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->where('repairs.status',"!=","TBR")
             ->where('repairs.status',"!=","Declined")
+            ->where('repairs.deleted_at', "=", NULL)  
             ->orderByRaw('date')
             ->get();
 
@@ -129,16 +132,24 @@ class mangeOrders extends Controller
         $input = $request->input('input');
         $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
         $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
-        $orders = Order::onlyTrashed()->select('*', 'orders.id as orderId')
+
+        $orders = Order::onlyTrashed()
             ->join('products', 'orders.product_id', '=', 'products.id')
+            ->join('users as us', 'orders.user_id', '=', 'us.id')
+            ->select('*', 'orders.id as orderId', 'orders.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->get();
-        $customs = Custom::onlyTrashed()->select('*', 'customs.id as CustomId')
+        $customs = Custom::onlyTrashed()
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
             ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->join('users as us', 'customs.user_id', '=', 'us.id')
+            ->select('*', 'customs.id as CustomId', 'customs.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->get();
-        $repairs = Repair::onlyTrashed()->select('*', 'repairs.id as repairsId')
+        $repairs = Repair::onlyTrashed()
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->join('users as us', 'repairs.user_id', '=', 'us.id')
+            ->select('*', 'repairs.id as repairsId', 'repairs.created_at as date', 'us.Fname as fname', 'us.Lname as lname', 'us.phoneNumber as mobile')
             ->get();
+
         return view('admin.orders', compact('customs', 'orders', 'repairs', 'productCategory', 'Materials', 'input'));
     }
 
