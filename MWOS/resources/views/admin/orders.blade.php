@@ -16,7 +16,7 @@
             <button class="btn btn-info me-2" type="submit"><i class="bi bi-search"></i></button>
         </form> -->
         @if(Auth::check() && Auth::user()->role == 1)
-        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn btn-sm btn-info"><i class="bi bi-filetype-pdf"></i></a>
+        <a href="{{ route('admin.ordersPdfPage')}}" type="button" class="btn btn btn-sm btn-info"><i class="bi bi-filetype-pdf"></i></a>
         @endif
     </div>
 </div>
@@ -235,7 +235,7 @@
                             <div class="mb-3">
                                 <label id="label7" class="form-label">Quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes AllDes" placeholder="quantity" value="">
+                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes orderInputDes customInputDes AllDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                             </div>

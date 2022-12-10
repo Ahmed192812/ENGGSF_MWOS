@@ -147,8 +147,20 @@ class MaterialsController extends Controller
      */
     public function destroy(Request $request)
     {
+    //    $MaterialsCount = Materials::count();
+    try {
         $Materials = Materials::where('id',$request->id)->delete();
-   
-        return response()->json(['success' => true]);
+
+    } catch (\Exception $th) {
+        return response()->json(['success' => true, 'statuse'=>2]);
+    }
+    return response()->json(['success' => true , 'statuse'=>1]);
+
+        // $Materials= Materials::count();
+        // if ($Materials==$MaterialsCount) {
+        // }
+        // else{
+
+        // }
     }
 }

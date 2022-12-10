@@ -166,15 +166,29 @@
                         },
                         dataType: 'json',
                         success: function(res) {
-                            window.location.reload();
-                        }
-                    });
-                    Swal.fire(
+                            console.log(res.statuse);
+                            if (res.statuse == 1) {
+                                Swal.fire(
                         'Deleted!',
                         'YRecord has been deleted.',
                         'success'
                     )
+                                window.location.reload();
+                           
+                            }
+                            else{
+                                Swal.fire(
+                        'error',
+                        'you cant delete this material.',
+                        'error'
+                    ) 
+                            }
+                           
+                        }
+                    });
+                  
                 }
+               
             })
 
         });
