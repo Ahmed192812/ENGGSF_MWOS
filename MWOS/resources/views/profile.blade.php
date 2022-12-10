@@ -24,13 +24,14 @@
 </div>
 @endif
 
-<div class="card">
-    <div class="card-header">
-        Update Account Details
-    </div>
-    <div class="card-body m-2">
-        <form method="POST" action="{{ route('update.profile') }}">
-            @csrf
+<form method="POST" action="{{ route('update.profile') }}">
+    @csrf
+    <div class="card">
+        <div class="card-header">
+            Update Account Details
+        </div>
+        <div class="card-body m-2">
+
             <input type="text" name="id" value="{{Auth::user()->id}}" hidden>
             <div class="row mt-2">
                 <div class="col-md-6">
@@ -81,11 +82,12 @@
                     @enderror
                 </div>
             </div>
-        </form>        
-        <a class="btn btn-secondary mt-3" href="{{ route('allUsers.changePassword') }}">Change Password</a>
+
+            <a class="btn btn-secondary mt-3" href="{{ route('allUsers.changePassword') }}">Change Password</a>
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-success profile-button" type="submit">Save Changes</button>
+        </div>
     </div>
-    <div class="card-footer text-end">
-        <button class="btn btn-success profile-button" type="submit">Save Changes</button>
-    </div>
-</div>
+</form>
 @endsection

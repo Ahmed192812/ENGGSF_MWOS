@@ -20,7 +20,7 @@ class OrderController extends Controller
         $posts = DB::table('product_categorys')
             ->select('*')
             ->orderByRaw('prodCategory')
-            ->get();
+            ->paginate(10);
 
         return view('user.Transaction.orderForm', compact('posts'));
     }
@@ -87,7 +87,7 @@ class OrderController extends Controller
                 return view('user.View.viewHome', compact('posts'));
             }
         } else {
-            return redirect()->back()->with(['login' => 'pleas log in to order']);
+            return redirect()->back()->with(['login' => 'Please Login to Order!']);
         }
     }
 
@@ -114,7 +114,6 @@ class OrderController extends Controller
         $order  = order::withTrashed()->select('*', 'orders.id as orderId')
             ->join('products', 'orders.product_id', '=', 'products.id')
             ->join('product_categorys', 'products.prodCategory_id', '=', 'product_categorys.id')
-
             ->where($where)->first();
 
         return response()->json($order);

@@ -25,7 +25,7 @@ class mangeUsersController extends Controller
                     if($search!=""){
                         $Users =  DB::table('users')
                         ->where( DB::raw("CONCAT(id,' ',Fname,' ',Lname,' ',email )"),'LIKE','%'.$search.'%'
-                        )->paginate(4);
+                        )->paginate(10);
                         
                 $Users->appends(['search' => $search]);
                 $count = $Users->total();
@@ -40,14 +40,14 @@ class mangeUsersController extends Controller
             elseif ($filter!="") {
                 $Users =  DB::table('users')
                 ->where('role',$filter)
-                ->paginate(4); 
+                ->paginate(10); 
                 return view('admin.mangeUsers',compact('Users'));
             }
             else{
                 $Users =  DB::table('users')
                 // ->where('role','3')
                 // ->orWhere('role','1')
-                ->paginate(4); 
+                ->paginate(10); 
                 return view('admin.mangeUsers',compact('Users'));
             }
 

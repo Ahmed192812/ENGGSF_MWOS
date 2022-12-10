@@ -31,7 +31,7 @@ class ProductCategoryController extends Controller
     
                 $product_category =  DB::table('product_categorys')
                     ->where(DB::raw("CONCAT(id,' ',prodCategory)"), 'LIKE', '%' . $search . '%')
-                    ->paginate(4);
+                    ->paginate(10);
                 $product_category->appends(['search' => $search]);
                 $count = $product_category->total();
                 if ($count == 0)
@@ -39,7 +39,7 @@ class ProductCategoryController extends Controller
                 else
                     return view('admin.productCategory')->with(['product_category' => $product_category, 'found' => $count . ' records founded']);
             } else {
-                $data['product_category'] = ProductCategory::orderBy('id', 'desc')->paginate(4);
+                $data['product_category'] = ProductCategory::orderBy('id', 'desc')->paginate(10);
     
                 return view('admin.productCategory', $data);
             }

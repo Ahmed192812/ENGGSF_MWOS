@@ -33,15 +33,6 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                </div>                
-                <div class="form-floating mb-3 disInput">
-                    <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
-                    @error('desiredMaterial')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    <label>Desired Material</label>
                 </div>
                 <div class="form-floating mb-3 disInput">
                     <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"></textarea>
@@ -86,6 +77,15 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
+                </div>
+                <div class="form-floating mb-3 disInput">
+                    <textarea name="desiredMaterial" id="desiredMaterial" class="form-control @error('desiredMaterial') is-invalid @enderror" cols="30" rows="10"></textarea>
+                    @error('desiredMaterial')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <label>Preferred Material (Optional)</label>
                 </div>
                 <div id="payment_typeDiv" class="payment_typeDivClass mb-3">
                     <select name="payment_type" id="payment_type" class="form-select @error('payment_type') is-invalid @enderror">

@@ -87,7 +87,7 @@ class RepairController extends Controller
         }
      }
      else {
-        return redirect()->back()->with(['login' => 'pleas log in to order']);    
+        return redirect()->back()->with(['login' => 'Please Login to Order!']);    
     }
 
 

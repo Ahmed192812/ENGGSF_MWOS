@@ -37,13 +37,13 @@ class ProductsController extends Controller
                     ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
                     ->join('materials', 'Products.material_id', '=', 'materials.id')
                     ->select('Products.id', 'Products.name', 'Products.image', 'Products.tall', 'Products.width', 'Products.height', 'Products.price', 'Products.description', 'materials.name as materialName', 'prodCategory',)
-                    ->paginate(4);
+                    ->paginate(10);
                 $count = $Products->total();
                 if ($count == 0) {
                     $Products = DB::table('Products')
                         ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
                         ->join('materials', 'Products.material_id', '=', 'materials.id')
-                        ->select('Products.id', 'Products.name', 'Products.image', 'Products.tall', 'Products.width', 'Products.height', 'Products.price', 'Products.description', 'materials.name as materialName', 'prodCategory',)->paginate(4);
+                        ->select('Products.id', 'Products.name', 'Products.image', 'Products.tall', 'Products.width', 'Products.height', 'Products.price', 'Products.description', 'materials.name as materialName', 'prodCategory',)->paginate(10);
                     return view('admin.Products', compact('productCategory', 'Products', 'Materials'))->with('error', 'this category has no product !');
                 } else {
                     return view('admin.Products', compact('productCategory', 'Products', 'Materials'));
@@ -52,7 +52,7 @@ class ProductsController extends Controller
                 $Products = DB::table('Products')
                     ->join('product_categorys', 'Products.prodCategory_id', '=', 'product_categorys.id')
                     ->join('materials', 'Products.material_id', '=', 'materials.id')
-                    ->select('Products.id', 'Products.name', 'Products.image', 'Products.tall', 'Products.width', 'Products.height', 'Products.price', 'Products.description', 'materials.name as materialName', 'prodCategory',)->paginate(4);
+                    ->select('Products.id', 'Products.name', 'Products.image', 'Products.tall', 'Products.width', 'Products.height', 'Products.price', 'Products.description', 'materials.name as materialName', 'prodCategory',)->paginate(10);
                 return view('admin.Products', compact('productCategory', 'Products', 'Materials'));
             }
         }
