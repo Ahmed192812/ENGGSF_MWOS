@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('content')
-
+<div class="row">
+    <div class="col d-flex justify-content-end">
+        <form class="d-flex justify-content-end" action="{{ route('admin.productCategorySearch') }}" method="GET">
+            <input type="search" name="search" class="form-control me-2" placeholder="Search" style="width: 250px">
+            <button class="btn btn-info me-2" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+       
+    </div>
+</div>
 <div class="row">
     <div class="col">
         @if(Request::is('admin/manageOrders'))    

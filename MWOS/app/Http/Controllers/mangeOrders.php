@@ -246,8 +246,7 @@ class mangeOrders extends Controller
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
             ->get();
         }
-       
-
+      
         view()->share('admin.PDFs.pdfOrders', $repairs, $customs, $orders, $sumOrderPrice, $sumCustomPrice, $sumRepairPrice);
         $customPaper = array(0, 0, 567.00, 800.80);
 

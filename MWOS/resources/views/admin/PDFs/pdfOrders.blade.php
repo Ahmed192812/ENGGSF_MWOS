@@ -63,6 +63,7 @@
         <span class="text-black  text-center col-12" ><strong> email: </strong>MWOS@gmail.com</span><br> 
         <span class="text-black  text-center col-12"><strong>phone Number: </strong>+9665938483</span>   
         </td>
+        
     </tr>
    
 </table>
