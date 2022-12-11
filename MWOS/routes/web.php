@@ -83,8 +83,9 @@ route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventB
     Route::post('restore-repairOrder', [RepairController::class, 'restore'])->name('admin.restore-repairOrder');
     Route::post('restore-customOrder', [CustomController::class, 'restore'])->name('admin.restore-customOrder');
     Route::get('ordersPdfPage',[mangeOrders::class, 'viewPdfPage'])->name('admin.ordersPdfPage');
-    Route::get('ordersPdfPage-Allorders',[mangeOrders::class, 'generatePdfAllOrders'])->name('admin.ordersPdfPage-Allorders');
+    Route::post('ordersPdfPage-Allorders',[mangeOrders::class, 'generatePdfAllOrders'])->name('admin.ordersPdfPage-Allorders');
     Route::get('dashboard', [CarpenterController::class, 'dashboard'])->name('admin.dashboard');
+    
 });
 
 //Routes for Carpenter

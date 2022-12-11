@@ -125,10 +125,22 @@
                                     {{$sumOrderPrice}}
                                 </td>
                             </tr>
-                            
-                   
-                        
                 </tbody>
+</table>
+                <br>
+                <br>
+
+                <div class="container-fluid header " style="height: 150px; ">
+<table style="position: absolute; width: 100%; border: 3px; " >
+    <tr >
+        <td style="width: 50%;">
+        <span class="text-black  text-center col-12"><strong>Signature ____________</strong></span>   
+
+        </td>  
+        <td  style="width: 50%; padding-left: 100px;">
+        </td>
+    </tr>
+   
 </table>
 <div class="page-break"></div>
 
@@ -193,13 +205,26 @@
                                 <td>
                                     {{$sumCustomPrice}}
                                 </td>
-                            </tr>
-                          
-
-                   
-                        
+                            </tr>                        
                 </tbody>
+          
 </table>
+<br>
+                <br>
+
+                <div class="container-fluid header " style="height: 150px; ">
+<table style="position: absolute; width: 100%; border: 3px; " >
+    <tr >
+        <td style="width: 50%;">
+        <span class="text-black  text-center col-12"><strong>Signature ____________</strong></span>   
+
+        </td>  
+        <td  style="width: 50%; padding-left: 100px;">
+        </td>
+    </tr>
+   
+</table>
+</div>
 <div class="page-break"></div>
 
 <h3 style="text-align: center;"><span>All Repair Orders</span></h3>
@@ -276,9 +301,25 @@
                    
                         
                 </tbody>
+           
 </table>
 
+<br>
+                <br>
 
+                <div class="container-fluid header " style="height: 150px; ">
+<table style="position: absolute; width: 100%; border: 3px; " >
+    <tr >
+        <td style="width: 50%;">
+        <span class="text-black  text-center col-12"><strong>Signature ____________</strong></span>   
+
+        </td>  
+        <td  style="width: 50%; padding-left: 100px;">
+        </td>
+    </tr>
+   
+</table>
+</div>
 
 </body>
 </html>

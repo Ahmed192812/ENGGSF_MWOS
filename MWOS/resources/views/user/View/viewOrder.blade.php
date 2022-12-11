@@ -52,8 +52,10 @@
                 <span class="badge bg-danger text-dark">{{ $order->status}}</span>
                 @elseif($order->status == "processing")
                 <span class="badge bg-dark text-light">{{ $order->status}}</span>
+                @elseif($order->status == "FDP")
+                <span class="badge bg-light text-dark">for Delivery /pek up</span>
                 @elseif($order->status == "done")
-                <span class="badge bg-success text-light">for Delivery /pek up</span>
+                <span class="badge bg-success text-light">Completed</span>
                 @endif
               </td>
               <td class="col-3">
@@ -93,7 +95,7 @@
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewRepair" data-id="{{ $repair->repairsId }}">View</a>
-                @if($repair->status != "TBR")
+                @if($repair->status == "TBR")
                 <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
                   @csrf
                   <input type="hidden" name="repair" value="{{ $repair->repairsId }}">
@@ -116,7 +118,7 @@
                 <span class="badge bg-warning text-dark">To Be Reviewed</span>
                 @elseif($custom->status == "Accepted")
                 <span class="badge bg-light text-dark">{{ $custom->status}}</span>
-                @elseif($custom->status == "Cancelled")
+                @elseif($custom->status == "Declined")
                 <span class="badge bg-danger text-dark">{{ $custom->status}}</span>
                 @elseif($custom->status == "processing")
                 <span class="badge bg-dark text-light">{{ $custom->status}}</span>
@@ -128,7 +130,7 @@
               </td>
               <td class="col-3">
                 <a href="javascript:void(0)" type="button" class="btn btn-outline-info btn-sm px-3 rounded-pill viewCustom" data-id="{{ $custom->CustomId }}">View</a>
-                @if($custom->status != "TBR")
+                @if($custom->status == "TBR")
                 <form class="g-0 m-0" action="{{ route('user.cancel') }}" method="get">
                   @csrf
                   <input type="hidden" name="custom" value="{{ $custom->CustomId }}">

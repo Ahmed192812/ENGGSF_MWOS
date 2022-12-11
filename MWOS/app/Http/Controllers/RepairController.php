@@ -153,7 +153,7 @@ class RepairController extends Controller
     public function restore(Request $request)
     {
             $Repair = Repair::where('repairs.id',$request->id)->restore();
-            return redirect()->back();
+            return redirect()->back()->with('success','restored Successfully');
 
 
         

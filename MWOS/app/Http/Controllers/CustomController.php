@@ -169,7 +169,7 @@ class CustomController extends Controller
     {
         
         $Custom = Custom::where('customs.id',$request->id)->restore();
-        return redirect()->back();
+        return redirect()->back()->with('success','restored Successfully');
 
         
     }

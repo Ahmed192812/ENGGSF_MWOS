@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Models\Custom;
 use App\Models\Order;
@@ -8,12 +10,12 @@ use App\Models\Repair;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class mangeOrders extends Controller
 {
     public function index(Request $request)
     {
+       
         $input = $request->input('input');
         $productCategory  = DB::table('product_categorys')->select('id as productCategoryId', 'prodCategory')->get();
         $Materials  = DB::table('Materials')->select('id as MaterialsId', 'name')->get();
@@ -88,36 +90,163 @@ class mangeOrders extends Controller
 
     public function viewPdfPage()
     {
+        
         return view('admin.orderPdfPage');
     }
 
-    public function generatePdfAllOrders()
+    public function generatePdfAllOrders(Request $request)
     {
-        $sumOrderPrice = Order::join('products', 'orders.product_id', '=', 'products.id')
-            ->where('orders.status', 'done')
-            ->sum(DB::raw('products.price * orders.quantity'));
+         // $vlidateData = $request->validate(
+        //     [
+        //         'startDate' => 'required',
+        //     ],
+            
+        //     [
+        //         'prodCategory.unique' => "this category is exist !",
+        //     ],
+        //     [
+        //         'prodCategory.!$Selectprodcatecory' => "it is the same category name !",
+        //     ],);
+       
+        // dd($end->format('Y-m-d H:i:s'),$start->format('Y-m-d H:i:s'));
+        // dd($request->startDate , $request->endDate, $request->status );
 
-        $sumCustomPrice = Custom::where('status', 'done')
+        if($request->startDate !==null && $request->endDate !==null && $request->status !==null ){
+            $start = Carbon::parse($request->startDate);
+            $end = Carbon::parse($request->endDate);
+
+            $sumOrderPrice = Order::join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('orders.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->where('orders.status',$request->status)
+            ->sum(DB::raw('products.price * orders.quantity'));
+           
+            // dd($sumOrderPrice);
+
+        $sumCustomPrice = Custom::where('customs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+        ->where('customs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+        ->where('customs.status',$request->status)
             ->sum(DB::raw('customs.price * customs.quantity'));
 
-        $sumRepairPrice = Repair::where('status', 'done')
+        $sumRepairPrice = Repair::where('repairs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+        ->where('repairs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+        ->where('repairs.status',$request->status)
             ->sum('repairs.actualPrice');
 
         $orders = Order::select('*', 'orders.id as orderId')
             ->join('products', 'orders.product_id', '=', 'products.id')
-            ->where('status', 'done')
+            ->where('orders.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('orders.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->where('orders.status',$request->status)
+
             ->get();
+            // dd($orders->count());
 
         $customs = Custom::select('*', 'customs.id as CustomId')
             ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
-            ->where('status', 'done')
+            ->where('customs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('customs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->where('customs.status',$request->status)
             ->join('materials', 'customs.material_id', '=', 'materials.id')
             ->get();
 
         $repairs = Repair::select('*', 'repairs.id as repairsId')
             ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
-            ->where('status', 'done')
+            ->where('repairs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('repairs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->where('repairs.status',$request->status)
             ->get();
+        }
+        elseif($request->startDate !==null && $request->endDate !==null && $request->status ==null ){
+            $start = Carbon::parse($request->startDate);
+            $end = Carbon::parse($request->endDate);
+            $sumOrderPrice = Order::join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('orders.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->sum(DB::raw('products.price * orders.quantity'));
+
+            $sumCustomPrice = Custom::where('customs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('customs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->sum(DB::raw('customs.price * customs.quantity'));
+
+        $sumRepairPrice = Repair::where('repairs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+        ->where('repairs.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->sum('repairs.actualPrice');
+            // dd($sumOrderPrice);
+
+        $orders = Order::select('*', 'orders.id as orderId')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('orders.created_at','<=',$end->format('Y-m-d 23:59:59'))
+            ->get();
+            // dd($orders->count());
+            $customs = Custom::select('*', 'customs.id as CustomId')
+            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+            ->where('customs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('customs.created_at','<=',$end->format('Y-m-d 23:59:59'))           
+             ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->get();
+
+        $repairs = Repair::select('*', 'repairs.id as repairsId')
+            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->where('repairs.created_at','>=',$start->format('Y-m-d 00:00:00'))
+            ->where('repairs.created_at','<=',$end->format('Y-m-d 23:59:59'))  
+            ->get();
+        }
+
+        elseif($request->startDate ==null && $request->endDate ==null && $request->status !==null){
+            
+            $sumOrderPrice = Order::join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.status',$request->status)
+            ->sum(DB::raw('products.price * orders.quantity'));
+
+            $sumCustomPrice = Custom::where('customs.status',$request->status)
+            ->sum(DB::raw('customs.price * customs.quantity'));
+
+             $sumRepairPrice = Repair::where('repairs.status',$request->status)
+            ->sum('repairs.actualPrice');
+            // dd($sumOrderPrice);
+
+           $orders = Order::select('*', 'orders.id as orderId')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            ->where('orders.status',$request->status)
+            ->get();
+            // dd($orders->count());
+            $customs = Custom::select('*', 'customs.id as CustomId')
+            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+            ->where('customs.status',$request->status)
+            ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->get();
+
+           $repairs = Repair::select('*', 'repairs.id as repairsId')
+            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->where('repairs.status',$request->status)
+            ->get();
+        }
+        else{
+            $sumOrderPrice = Order::join('products', 'orders.product_id', '=', 'products.id')
+            ->sum(DB::raw('products.price * orders.quantity'));
+
+            $sumCustomPrice = Custom::sum(DB::raw('customs.price * customs.quantity'));
+
+             $sumRepairPrice = Repair::sum('repairs.actualPrice');
+            // dd($sumOrderPrice);
+
+           $orders = Order::select('*', 'orders.id as orderId')
+            ->join('products', 'orders.product_id', '=', 'products.id')
+            
+            ->get();
+            // dd($orders->count());
+            $customs = Custom::select('*', 'customs.id as CustomId')
+            ->join('product_categorys', 'customs.productCategory_id', '=', 'product_categorys.id')
+            ->join('materials', 'customs.material_id', '=', 'materials.id')
+            ->get();
+
+           $repairs = Repair::select('*', 'repairs.id as repairsId')
+            ->join('product_categorys', 'repairs.productCategory_id', '=', 'product_categorys.id')
+            ->get();
+        }
+       
 
         view()->share('admin.PDFs.pdfOrders', $repairs, $customs, $orders, $sumOrderPrice, $sumCustomPrice, $sumRepairPrice);
         $customPaper = array(0, 0, 567.00, 800.80);

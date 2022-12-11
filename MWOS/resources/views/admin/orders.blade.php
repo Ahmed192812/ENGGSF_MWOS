@@ -25,15 +25,18 @@
             <input type="search" name="search" class="form-control me-2" placeholder="Search" style="width: 250px">
             <button class="btn btn-info me-2" type="submit"><i class="bi bi-search"></i></button>
         </form> -->
-        @if(Auth::check() && Auth::user()->role == 1)
-
-        <a href="{{ route('admin.ordersPdfPage-Allorders')}}" type="button" class="btn btn-sm btn-outline-secondary px-3 rounded-pill">Generate PDF</a>
-        @endif
+      
     </div>
 </div>
-
+@if (session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <span>{{ session('success') }}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="row mt-3">
-    <div class="col">
+    
+    <div class="col-9">
         <div class="table-responsive">
             <table class="table table-striped m-0 align-bottom text-center border">
                 <thead>
@@ -177,6 +180,41 @@
             </table>
         </div>
     </div>
+    @if(Auth::check() && Auth::user()->role == 1)
+    <div class="col-3">
+    <form action="{{ route('admin.ordersPdfPage-Allorders')}}" method="post">
+    @csrf
+<div class="form-group mt-5">
+        <div class="col-12">
+            <label for="startDate">From</label>
+            <input type="date" name="startDate" id="startDate" class="form-control" placeholder="From"> 
+        </div>
+        <div class="col-12">
+        <label for="startDate">To</label>
+
+        <input type="date" name="endDate" id="endDate" class="form-control" placeholder="To"> 
+        </div>
+        
+        <div class="col-12">
+                <label id="label8" class="form-label ">Status</label>
+                <select name="status" id="status" class="form-control AllDes">
+                    <option selected value="">Status</option>
+                    <option value="TBR">To Be Reviewed</option>
+                    <option value="Declined">Declined</option>
+                    <option value="Pending">Pending Payment/materials</option>
+                    <option value="processing">processing</option>
+                    <option value="FDP">for delivery/pek up</option>
+                    <option value="done">Completed</option>
+                </select>
+        </div>
+        <div class="col-5 mt-3">
+            <button type="submit" class="btn btn-danger">Generate PDF</button>
+        </div>
+</div>
+</form>
+    </div>
+    @endif
+
 </div>
 
 
@@ -266,9 +304,8 @@
                             <div class="mb-3">
                                 <label id="label7" class="form-label">Quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes orderInputDes customInputDes AllDes" placeholder="quantity" value="">
-
-                                   
+                                    <input readonly type="text" name="quantity" id="quantity"  class="form-control  AllDes" placeholder="quantity" value="">
+                             
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                             </div>
@@ -373,7 +410,7 @@
                     $('#status').val(res.status);
                     $('#quantity').val('not available');
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //testing
@@ -445,7 +482,7 @@
                     $('#quantity').val(res.quantity);
                     $('#material_id').val(res.material_id);
                     $('#payment_type').val(res.payment_type);
-                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.customImage;
+                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.customImage;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);
@@ -511,7 +548,7 @@
                     $('#quantity').val(res.quantity);
                     $('#payment_type').val(res.payment_type);
                     //   var src = ($(this).attr('src') === );
-                    var ImagURL = '{{ URL::asset(' / imgs / products / ') }}' + '/' + res.image;
+                    var ImagURL = '{{ URL::asset('/imgs/products/') }}' + '/' + res.image;
                     console.log(ImagURL);
                     $('#image').attr('src', ImagURL);
                     //   console.log(res.furnitureState);

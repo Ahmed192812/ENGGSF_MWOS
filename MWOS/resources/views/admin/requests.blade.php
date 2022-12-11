@@ -201,7 +201,7 @@
                             <div class="mb-3" id="hideSize">
                                 <label id="label3" class="form-label">Size(L*W*H)</label>
                                 <div class="col-12">
-                                    <input type="text" name="size" id="size" class="form-control orderInputDes AllDes" placeholder="estimated Price" value="">
+                                    <input type="text" name="size" id="size" class="form-control  repairInputDes customInputDes  orderInputDes AllDes" placeholder="estimated Price" value="">
                                     <span class="text-danger error-text tall_error errorSpan"></span>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label id="label4" class="form-label">Price</label>
-                                <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes AllDes" value="">
+                                <input name="price" id="price" type="text" placeholder="Not determined Yet" class="form-control orderInputDes customInputDes repairInputDes AllDes" value="">
                                 <span class="text-danger error-text price_error errorSpan"></span>
                             </div>
                         </div>
@@ -243,25 +243,12 @@
                             <div class="mb-3">
                                 <label id="label7" class="form-label">Quantity</label>
                                 <div class="col-12">
-                                    <input type="text" name="quantity" id="quantity" class="form-control repairInputDes AllDes" placeholder="quantity" value="">
+                                    <input readonly type="text" name="quantity" id="quantity" class="form-control  AllDes" placeholder="quantity" value="">
                                     <span class="text-danger error-text quantity_error errorSpan"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label id="label8" class="form-label ">Status</label>
-                                <select name="status" id="status" class="form-control AllDes">
-                                    <option selected value="">Status</option>
-                                    <option value="TBR">To Be Reviewed</option>
-                                    <option value="Declined">Declined</option>
-                                    <option value="Pending">Pending Payment/materials</option>
-                                    <option value="processing">processing</option>
-                                    <option value="FDP">for delivery/pek up</option>
-                                    <option value="done">Completed</option>
-                                </select>
-                            </div>
-                        </div>
+                    
                     </div>
                     <div class="mb-3">
                         <label id="label9" class="form-label ">Description</label><br>
@@ -273,16 +260,29 @@
                         <textarea cols="30" rows="5" name="desiredMaterial" id="desiredMaterial" class="form-control orderInputDes repairInputDes customInputDes AllDes" value=""></textarea>
                         <span class="text-danger error-text description_error errorSpan"></span>
                     </div>
-                </form>
+                    <div class="col-12">
+                            <div class="mb-3">
+                                <label id="label8" class="form-label ">Status</label>
+                                <select name="status" id="status" class="form-control AllDes">
+                                    <option selected value="TBR">To Be Reviewed</option>
+                                    <option value="Declined">Declined</option>
+                                    <option value="Accepted">Accepted</option>
+
+                                </select>
+                            </div>
+                        </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
+                <!-- <button data-id="accepted" class="btn ">Accept</button> -->
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Save changes</button>
                 </div>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
+            </form>
+
         </div>
     </div>
 </div>

@@ -82,7 +82,9 @@
                         <td>{{ $OneUser->phoneNumber }}</td>
                         <td>
                             <a href="javascript:void(0)" type="button" class="btn btn-sm btn-secondary rounded-pill px-3 edit" data-id="{{ $OneUser->id }}">View</a>
-                            <!-- <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $OneUser->id }}">Delete</a> -->
+                            @if(Auth::check() && Auth::user()->role == 1)
+                                <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger rounded-pill px-3 delete" data-id="{{ $OneUser->id }}">Delete</a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
